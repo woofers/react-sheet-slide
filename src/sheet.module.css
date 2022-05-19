@@ -1,0 +1,119 @@
+
+.root {
+  --backdrop: rgba(0, 0, 0, 0.6);
+  --background: #fff;
+  --handle: #c9c9c9;
+  --gutter: 0px;
+  --width: auto;
+
+  --modal-offset: 0px;
+  --height: 500px;
+  --bottom-height: 0px;
+}
+
+.stack {
+  z-index: 3;
+  -ms-scroll-chaining: none;
+  overscroll-behavior: none;
+  touch-action: none;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+}
+
+.backdrop {
+  background-color: var(--backdrop);
+  top: 0;
+}
+
+.modal {
+  max-width: var(--width);
+  margin: auto calc(var(--gutter) + env(safe-area-inset-right)) auto calc(var(--gutter) + env(safe-area-inset-left));
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  display: flex;
+  background: var(--background);
+  flex-direction: column;
+  height: var(--height);
+  transform: translate3d(0, var(--modal-offset), 0);
+  will-change: height;
+  width: 100%;
+  left: 50%;
+  right: unset;
+  transform: translate(-50%, 0);
+}
+
+.modal:focus {
+  outline: none;
+}
+
+.modal:after {
+  content: '';
+  pointer-events: none;
+  background: var(--background);
+  height: 1px;
+  transform-origin: bottom;
+  transform: scaleY(0);
+  transform: scaleY(var(--bottom-height, 0));
+  will-change: transform;
+}
+
+.header {
+  z-index: 1;
+  text-align: center;
+  user-select: none;
+  box-shadow: 0 1px 0 rgba(46, 59, 66, 0.125);
+  padding-top: calc(20px + env(safe-area-inset-top));
+  padding-bottom: 8px;
+}
+
+.header:before {
+  position: absolute;
+  content: '';
+  display: block;
+  width: 36px;
+  height: 4px;
+  top: calc(8px + env(safe-area-inset-top));
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 2px;
+  background-color: var(--handle);
+}
+
+.scroll {
+  flex-shrink: 1;
+  flex-grow: 1;
+  -webkit-tap-highlight-color: revert;
+  -webkit-touch-callout: revert;
+  -webkit-user-select: auto;
+  -ms-user-select: auto;
+  user-select: auto;
+  overflow: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.content {
+  overflow: hidden;
+}
+
+.footer {
+  z-index: 1;
+  box-shadow: 0 -1px 0 rgba(46, 59, 66, 0.125), 0 2px 0 var(--background);
+  overflow: hidden;
+  padding-bottom: calc(16px + env(safe-area-inset-bottom));
+}
+
+.header,
+.footer {
+  flex-shrink: 0;
+  cursor: ns-resize;
+  padding: 16px;
+}
