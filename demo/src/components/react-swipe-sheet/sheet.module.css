@@ -5,6 +5,10 @@
   --handle: #c9c9c9;
   --gutter: 0px;
   --width: auto;
+
+  --modal-offset: 0px;
+  --height: 500px;
+  --bottom-height: 0px;
 }
 
 .stack {
@@ -37,8 +41,8 @@
   display: flex;
   background: var(--background);
   flex-direction: column;
-  height: 500px;
-  transform: translate3d(0, 0px, 0);
+  height: var(--height);
+  transform: translate3d(0, var(--modal-offset), 0);
   will-change: height;
   width: 100%;
   left: 50%;
@@ -50,11 +54,22 @@
   outline: none;
 }
 
+.modal:after {
+  content: '';
+  pointer-events: none;
+  background: var(--background);
+  height: 1px;
+  transform-origin: bottom;
+  transform: scaleY(0);
+  transform: scaleY(var(--bottom-height, 0));
+  will-change: transform;
+}
+
 .header {
+  z-index: 1;
   text-align: center;
   user-select: none;
   box-shadow: 0 1px 0 rgba(46, 59, 66, 0.125);
-  z-index: 1;
   padding-top: calc(20px + env(safe-area-inset-top));
   padding-bottom: 8px;
 }
@@ -90,9 +105,9 @@
 }
 
 .footer {
+  z-index: 1;
   box-shadow: 0 -1px 0 rgba(46, 59, 66, 0.125), 0 2px 0 var(--background);
   overflow: hidden;
-  z-index: 1;
   padding-bottom: calc(16px + env(safe-area-inset-bottom));
 }
 
