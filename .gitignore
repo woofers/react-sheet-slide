@@ -25,8 +25,5 @@ lib/react-swipe-sheet.dev.js
 lib/react-swipe-sheet.dev.mjs
 lib/react-swipe-sheet.js
 lib/react-swipe-sheet.mjs
-lib/index.d.ts
-lib/classnames.d.ts
-lib/portal.d.ts
-lib/react-swipe-sheet.css
-lib/react-swipe-sheet.dev.css
+lib/*.d.ts
+lib/*.css
