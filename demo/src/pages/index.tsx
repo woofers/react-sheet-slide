@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { styled } from 'stitches'
+import { Sheet, Portal } from 'components/react-swipe-sheet'
 
 const Text = styled('span', {
   fontFamily: '$title',
@@ -67,6 +68,11 @@ const App = () => {
           </Link>
         </Center>
       </WaveWrapper>
+      <Portal containerRef="#react-swipe-sheet">
+        <Sheet>
+          hi
+        </Sheet>
+      </Portal>
     </Fullscreen>
   )
 }
