@@ -69,9 +69,7 @@ const App = () => {
         </Center>
       </WaveWrapper>
       <Portal containerRef="#react-swipe-sheet">
-        <Sheet>
-          hi
-        </Sheet>
+        <Sheet>hi</Sheet>
       </Portal>
     </Fullscreen>
   )
