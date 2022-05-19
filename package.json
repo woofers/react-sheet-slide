@@ -1,0 +1,38 @@
+{
+  "name": "react-swipe-sheet",
+  "version": "0.1.0",
+  "description": "",
+  "src": "src/index.tsx",
+  "main": "lib/index.js",
+  "module": "lib/index.mjs",
+  "type": "module",
+  "sideEffects": false,
+  "repository": "https://github.com/woofers/react-swipe-sheet",
+  "author": "Jaxson Van Doorn",
+  "license": "MIT",
+  "files": [
+    "lib",
+    "LICENSE",
+    "package.json",
+    "README.md"
+  ],
+  "scripts": {
+    "build:module": "microbundle --no-pkg-main --no-sourcemap --jsx React.createElement --define __isDev__=false -i src/index.tsx -o lib/react-swipe-sheet.mjs -f es",
+    "build:modern": "microbundle --no-pkg-main --no-sourcemap --jsx React.createElement --define __isDev__=false -i src/index.tsx -o lib/react-swipe-sheet.js -f umd",
+    "build:dev:module": "microbundle --no-pkg-main --no-sourcemap --jsx React.createElement --define __isDev__=true -i src/index.tsx -o lib/react-swipe-sheet.dev.mjs -f es",
+    "build:dev:modern": "microbundle --no-pkg-main --no-sourcemap --jsx React.createElement --define __isDev__=true -i src/index.tsx -o lib/react-swipe-sheet.dev.js -f umd",
+    "clean": "rimraf lib/react-swipe-sheet.mjs lib/react-swipe-sheet.js lib/react-swipe-sheet.module.dev.js lib/react-swipe-sheet.mjs",
+    "build": "yarn build:dev:module && yarn build:dev:modern && yarn build:module && yarn build:modern",
+    "test": "echo \"No tests \" && exit 0"
+  },
+  "peerDependencies": {
+    "react": "^0.13.0 || ^0.14.0 || >=15"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.9",
+    "@types/react-dom": "^18.0.4",
+    "microbundle": "^0.15.0",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.6.4"
+  }
+}
