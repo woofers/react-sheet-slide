@@ -1,0 +1,29 @@
+{
+  "name": "react-swipe-demo",
+  "homepage": "http://woofers.github.io/react-swipe-sheet",
+  "version": "0.1.0",
+  "author": "Jaxson Van Doorn <jaxson.vandoorn@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build && next export",
+    "start": "next start",
+    "lint": "next lint",
+    "test": "echo 'No tests'",
+    "format": "prettier --write \"{tests,src}/**/*.{js,mjs,ts,tsx}\""
+  },
+  "dependencies": {
+    "@stitches/react": "^1.2.8",
+    "next": "^12.1.6",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0"
+  },
+  "devDependencies": {
+    "@svgr/webpack": "^6.2.1",
+    "eslint": "^8.15.0",
+    "eslint-config-next": "^12.1.6",
+    "eslint-webpack-plugin": "^3.1.1",
+    "file-loader": "^6.2.0",
+    "prettier": "^2.6.2"
+  }
+}
