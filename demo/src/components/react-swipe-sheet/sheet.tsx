@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import { rubberbandIfOutOfBounds, useDrag } from 'react-use-gesture'
-import { useSnapPoints, useReady, useOverscrollLock, useScrollLock } from './hooks'
+import { useReady, useOverscrollLock, useScrollLock } from './hooks'
 import TrapFocus from './trap-focus'
 import classes from './classnames'
 import styles from './sheet.module.css'
@@ -26,15 +26,6 @@ const Sheet: React.FC<SheetProps> = ({ children, expandOnContentDrag }) => {
   const minSnapRef = useRef<number>(200)
   const maxSnapRef = useRef<number>(400)
   const resizeSourceRef = useRef<ResizeSource>()
-  const { minSnap, maxSnap, maxHeight, findSnap } = useSnapPoints({
-    contentRef,
-    footerRef,
-    headerRef,
-    heightRef,
-    ready,
-    registerReady,
-    resizeSourceRef
-  })
   const set = (...args: any) => console.log(...args)
   const handleDrag = ({
     args: [{ closeOnTap = false, isContentDragging = false } = {}] = [],
