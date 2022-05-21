@@ -71,7 +71,7 @@ const Sheet: React.FC<SheetProps> = ({ children, expandOnContentDrag }) => {
       maxSnap: maxSnapRef.current,
       // Using defaultSnapRef instead of minSnapRef to avoid animating `height` on open
       minSnap: minSnapRef.current,
-      immediate: true
+      immediate: false
     })
   }, [set])
   const handleDrag = ({
