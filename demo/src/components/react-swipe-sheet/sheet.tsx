@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from 'react'
-import { animated } from '@react-spring/web'
+import React, { useCallback, useState, useEffect, useRef } from 'react'
+import { animated, config } from '@react-spring/web'
 import { rubberbandIfOutOfBounds, useDrag } from 'react-use-gesture'
 import {
   useSpring,
@@ -14,13 +14,18 @@ import styles from './sheet.module.css'
 const cx = classes.bind(styles)
 
 type SheetProps = {
+  open?: boolean
   children?: React.ReactNode
   expandOnContentDrag?: boolean
+  onDismiss?: () => void
+  onClose?: () => void
 }
+
+const { tension, friction } = config.default
 
 // type ResizeSource = 'window' | 'maxheightprop' | 'element'
 
-const Sheet: React.FC<SheetProps> = ({ children, expandOnContentDrag }) => {
+const Sheet: React.FC<SheetProps> = ({ open, children, expandOnContentDrag, onDismiss, onClose }) => {
   const scroll = useOverscrollLock({ enabled: expandOnContentDrag })
   useScrollLock({ enabled: true, targetRef: scroll })
   const contentRef = useRef<HTMLDivElement | null>(null)
@@ -33,20 +38,66 @@ const Sheet: React.FC<SheetProps> = ({ children, expandOnContentDrag }) => {
   //const resizeSourceRef = useRef<ResizeSource>()
   const [spring, set] = useSpring()
   const interpolations = useSpringInterpolations({ spring })
+  const asyncSet = useCallback<typeof set>(
+    // @ts-expect-error
+    ({ onRest, config: { velocity = 1, ...config } = {}, ...opts }) =>
+      new Promise((resolve) =>
+        set({
+          ...opts,
+          config: {
+            velocity,
+            ...config,
+            // @see https://springs.pomb.us
+            mass: 1,
+            // "stiffness"
+            tension,
+            // "damping"
+            friction: Math.max(
+              friction,
+              friction + (friction - friction * velocity)
+            ),
+          },
+          onRest: (...args) => {
+            resolve(...args)
+          },
+        })
+      ),
+    [set]
+  )
   useEffect(() => {
-    set({
-      y: 500,
-      ready: 1,
-      maxHeight: maxHeightRef.current,
-      maxSnap: maxSnapRef.current,
-      // Using defaultSnapRef instead of minSnapRef to avoid animating `height` on open
-      minSnap: minSnapRef.current,
-      immediate: false
-    })
-  }, [set])
+    if (open) {
+      set({
+        y: 500,
+        ready: 1,
+        maxHeight: maxHeightRef.current,
+        maxSnap: maxSnapRef.current,
+        // Using defaultSnapRef instead of minSnapRef to avoid animating `height` on open
+        minSnap: minSnapRef.current,
+        immediate: false
+      })
+    } else {
+      const close = async () => {
+        asyncSet({
+          minSnap: heightRef.current,
+          immediate: true,
+        })
+
+        heightRef.current = 0
+
+        await asyncSet({
+          y: 0,
+          maxHeight: maxHeightRef.current,
+          maxSnap: maxSnapRef.current,
+          immediate: false
+        })
+        await asyncSet({ ready: 0, immediate: true })
+      }
+      close().then(() => onClose())
+    }
+  }, [set, open])
   const handleDrag = ({
-    args: [{ /*closeOnTap = false,*/ isContentDragging = false } = {}] = [],
-    //cancel,
+    args: [{ closeOnTap = false, isContentDragging = false } = {}] = [],
+    cancel,
     //direction: [, direction],
     down,
     first,
@@ -56,6 +107,12 @@ const Sheet: React.FC<SheetProps> = ({ children, expandOnContentDrag }) => {
     tap,
     velocity
   }: any) => {
+
+    if (onDismiss && closeOnTap && tap) {
+      cancel()
+      setTimeout(() => onDismiss(), 0)
+      return memo
+    }
     if (tap) return memo
     const my = _my * -1
     const rawY = memo + my
@@ -156,12 +213,28 @@ const Sheet: React.FC<SheetProps> = ({ children, expandOnContentDrag }) => {
   )
 }
 
-const SheetWrapper: React.FC<SheetProps & { open: boolean }> = ({
-  open,
+const noop = () => {}
+
+const SheetWrapper: React.FC<SheetProps> = ({
+  open: propOpen,
+  onDismiss: onDismissInitial,
+  onClose: onCloseInitial = noop,
   ...rest
 }) => {
+  const [open, setOpen] = useState(propOpen)
+  useEffect(() => {
+    if (!propOpen) return
+    setOpen(propOpen)
+  }, [propOpen])
+  const onDismiss = () => {
+    onDismissInitial()
+  }
+  const onClose = () => {
+    setOpen(false)
+    onCloseInitial()
+  }
   if (!open) return null
-  return <Sheet {...rest} />
+  return <Sheet open={propOpen} onDismiss={onDismiss} onClose={onClose} {...rest} />
 }
 
 export default SheetWrapper

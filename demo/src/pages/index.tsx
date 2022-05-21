@@ -73,7 +73,7 @@ const App = () => {
         Open sheet
       </button>
       <Portal containerRef="#react-swipe-sheet">
-        <Sheet open={open} expandOnContentDrag>
+        <Sheet open={open} expandOnContentDrag onDismiss={() => setOpen(false)}>
           <button type="button" onClick={() => setOpen(false)}>
             Close
           </button>
