@@ -1,5 +1,5 @@
-import React, { useRef } from 'react'
-import { animated } from '@react-spring/web'
+import React, { useEffect, useCallback, useRef } from 'react'
+import { animated, config } from '@react-spring/web'
 import { rubberbandIfOutOfBounds, useDrag } from 'react-use-gesture'
 import {
   useSpring,
@@ -11,6 +11,8 @@ import {
 import TrapFocus from './trap-focus'
 import classes from './classnames'
 import styles from './sheet.module.css'
+
+const { tension, friction } = config.default
 
 const cx = classes.bind(styles)
 
@@ -35,6 +37,43 @@ const Sheet: React.FC<SheetProps> = ({ children, expandOnContentDrag }) => {
   const resizeSourceRef = useRef<ResizeSource>()
   const [spring, set] = useSpring()
   const interpolations = useSpringInterpolations({ spring })
+  const asyncSet = useCallback<typeof set>(
+    // @ts-expect-error
+    ({ onRest, config: { velocity = 1, ...config } = {}, ...opts }) =>
+      new Promise((resolve) =>
+        set({
+          ...opts,
+          config: {
+            velocity,
+            ...config,
+            // @see https://springs.pomb.us
+            mass: 1,
+            // "stiffness"
+            tension,
+            // "damping"
+            friction: Math.max(
+              friction,
+              friction + (friction - friction * velocity)
+            ),
+          },
+          onRest: (...args) => {
+            resolve(...args)
+          },
+        })
+      ),
+    [set]
+  )
+  useEffect(() => {
+    set({
+      y: 500,
+      ready: 1,
+      maxHeight: maxHeightRef.current,
+      maxSnap: maxSnapRef.current,
+      // Using defaultSnapRef instead of minSnapRef to avoid animating `height` on open
+      minSnap: minSnapRef.current,
+      immediate: true,
+    })
+  }, [set])
   const handleDrag = ({
     args: [{ closeOnTap = false, isContentDragging = false } = {}] = [],
     cancel,
@@ -90,13 +129,15 @@ const Sheet: React.FC<SheetProps> = ({ children, expandOnContentDrag }) => {
     }
 
     if (last) {
+      const snap = newY
+      heightRef.current = snap
       set({
         ready: 1,
         maxHeight: maxHeightRef.current,
         maxSnap: maxSnapRef.current,
         minSnap: minSnapRef.current,
         immediate: false,
-        y: newY,
+        y: snap,
         config: { velocity: velocity > 0.05 ? velocity : 1 }
       })
       return memo
