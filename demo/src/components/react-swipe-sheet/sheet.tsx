@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useEffect, useRef } from 'react'
-import { animated, config } from '@react-spring/web'
+import { animated } from '@react-spring/web'
 import { rubberbandIfOutOfBounds, useDrag } from 'react-use-gesture'
 import {
   useSpring,
@@ -7,6 +7,7 @@ import {
   useOverscrollLock,
   useScrollLock
 } from './hooks'
+import { config } from './utils'
 import TrapFocus from './trap-focus'
 import classes from './classnames'
 import styles from './sheet.module.css'
@@ -25,7 +26,13 @@ const { tension, friction } = config.default
 
 // type ResizeSource = 'window' | 'maxheightprop' | 'element'
 
-const Sheet: React.FC<SheetProps> = ({ open, children, expandOnContentDrag, onDismiss, onClose }) => {
+const Sheet: React.FC<SheetProps> = ({
+  open,
+  children,
+  expandOnContentDrag,
+  onDismiss,
+  onClose
+}) => {
   const scroll = useOverscrollLock({ enabled: expandOnContentDrag })
   useScrollLock({ enabled: true, targetRef: scroll })
   const contentRef = useRef<HTMLDivElement | null>(null)
@@ -41,7 +48,7 @@ const Sheet: React.FC<SheetProps> = ({ open, children, expandOnContentDrag, onDi
   const asyncSet = useCallback<typeof set>(
     // @ts-expect-error
     ({ onRest, config: { velocity = 1, ...config } = {}, ...opts }) =>
-      new Promise((resolve) =>
+      new Promise(resolve =>
         set({
           ...opts,
           config: {
@@ -55,11 +62,11 @@ const Sheet: React.FC<SheetProps> = ({ open, children, expandOnContentDrag, onDi
             friction: Math.max(
               friction,
               friction + (friction - friction * velocity)
-            ),
+            )
           },
           onRest: (...args) => {
             resolve(...args)
-          },
+          }
         })
       ),
     [set]
@@ -79,7 +86,7 @@ const Sheet: React.FC<SheetProps> = ({ open, children, expandOnContentDrag, onDi
       const close = async () => {
         asyncSet({
           minSnap: heightRef.current,
-          immediate: true,
+          immediate: true
         })
 
         heightRef.current = 0
@@ -107,7 +114,6 @@ const Sheet: React.FC<SheetProps> = ({ open, children, expandOnContentDrag, onDi
     tap,
     velocity
   }: any) => {
-
     if (onDismiss && closeOnTap && tap) {
       cancel()
       setTimeout(() => onDismiss(), 0)
@@ -195,7 +201,18 @@ const Sheet: React.FC<SheetProps> = ({ open, children, expandOnContentDrag, onDi
         {...bind({ closeOnTap: true })}
       ></div>
       <TrapFocus open>
-        <div className={cx('modal', 'stack')}>
+        <div
+          className={cx('modal', 'stack')}
+          aria-modal="true"
+          role="dialog"
+          tabIndex={-1}
+          onKeyDown={event => {
+            if (event.key === 'Escape') {
+              event.stopPropagation()
+              if (onDismiss) onDismiss()
+            }
+          }}
+        >
           <div className={cx('header')} {...bind()} ref={headerRef}></div>
           <div
             className={cx('scroll')}
@@ -234,7 +251,9 @@ const SheetWrapper: React.FC<SheetProps> = ({
     onCloseInitial()
   }
   if (!open) return null
-  return <Sheet open={propOpen} onDismiss={onDismiss} onClose={onClose} {...rest} />
+  return (
+    <Sheet open={propOpen} onDismiss={onDismiss} onClose={onClose} {...rest} />
+  )
 }
 
 export default SheetWrapper

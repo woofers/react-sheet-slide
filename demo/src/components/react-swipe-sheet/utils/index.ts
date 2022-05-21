@@ -14,7 +14,7 @@ export function clamp(number: number, lower: number, upper: number) {
 export function deleteNaN(arr: number[]): number[] {
   const set = new Set(arr)
   set.delete(NaN)
-  return [...set as any]
+  return [...(set as any)]
 }
 
 export function roundAndCheckForNaN(unrounded: number): number {
@@ -27,7 +27,10 @@ export function roundAndCheckForNaN(unrounded: number): number {
   return rounded
 }
 
-export function processSnapPoints(unsafeSnaps: number | number[], maxHeight: number) {
+export function processSnapPoints(
+  unsafeSnaps: number | number[],
+  maxHeight: number
+) {
   const arr: number[] = []
   const safeSnaps = arr.concat(unsafeSnaps).map(roundAndCheckForNaN)
 
@@ -52,4 +55,13 @@ export function processSnapPoints(unsafeSnaps: number | number[], maxHeight: num
     minSnap,
     maxSnap
   }
+}
+
+export const config = {
+  default: { tension: 170, friction: 26 },
+  gentle: { tension: 120, friction: 14 },
+  wobbly: { tension: 180, friction: 12 },
+  stiff: { tension: 210, friction: 20 },
+  slow: { tension: 280, friction: 60 },
+  molasses: { tension: 280, friction: 120 }
 }
