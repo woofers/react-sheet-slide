@@ -59,6 +59,7 @@ const Link = styled('a', {
 })
 
 const App = () => {
+  const [open, setOpen] = useState(false)
   return (
     <Fullscreen>
       <WaveWrapper>
@@ -68,11 +69,11 @@ const App = () => {
           </Link>
         </Center>
       </WaveWrapper>
-      <button>background button</button>
+      <button type="button" onClick={() => setOpen(v => !v)}>Open sheet</button>
       <Portal containerRef="#react-swipe-sheet">
-        <Sheet open>
-          <button>Cancel</button>
-          <button>Ok</button>
+        <Sheet open={open}>
+          <button type="button" onClick={() => setOpen(false)}>Close</button>
+          <button type="button">noop</button>
         </Sheet>
       </Portal>
     </Fullscreen>
