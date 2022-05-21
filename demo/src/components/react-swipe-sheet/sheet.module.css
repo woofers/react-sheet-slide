@@ -6,6 +6,7 @@
   --gutter: 0px;
   --width: auto;
 
+  --height: 0px;
   --modal-offset: 0px;
   --bottom-height: 0px;
 }

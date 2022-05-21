@@ -40,7 +40,7 @@ const Sheet: React.FC<SheetProps> = ({ children, expandOnContentDrag }) => {
   const asyncSet = useCallback<typeof set>(
     // @ts-expect-error
     ({ onRest, config: { velocity = 1, ...config } = {}, ...opts }) =>
-      new Promise((resolve) =>
+      new Promise(resolve =>
         set({
           ...opts,
           config: {
@@ -54,11 +54,11 @@ const Sheet: React.FC<SheetProps> = ({ children, expandOnContentDrag }) => {
             friction: Math.max(
               friction,
               friction + (friction - friction * velocity)
-            ),
+            )
           },
           onRest: (...args) => {
             resolve(...args)
-          },
+          }
         })
       ),
     [set]
@@ -71,7 +71,7 @@ const Sheet: React.FC<SheetProps> = ({ children, expandOnContentDrag }) => {
       maxSnap: maxSnapRef.current,
       // Using defaultSnapRef instead of minSnapRef to avoid animating `height` on open
       minSnap: minSnapRef.current,
-      immediate: true,
+      immediate: true
     })
   }, [set])
   const handleDrag = ({
@@ -121,7 +121,7 @@ const Sheet: React.FC<SheetProps> = ({ children, expandOnContentDrag }) => {
       if (newY >= maxSnapRef.current) {
         newY = maxSnapRef.current
       }
-      if (memo === maxSnapRef.current && sroll.current.scrollTop > 0) {
+      if (memo === maxSnapRef.current && scroll.current.scrollTop > 0) {
         newY = maxSnapRef.current
       }
     }
