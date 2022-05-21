@@ -26,12 +26,13 @@ const { tension, friction } = config.default
 
 // type ResizeSource = 'window' | 'maxheightprop' | 'element'
 
-const Sheet: React.FC<SheetProps> = ({
+const Sheet: React.FC<SheetProps & { close: () => void }> = ({
   open,
   children,
   expandOnContentDrag,
   onDismiss,
-  onClose
+  onClose,
+  close
 }) => {
   const scroll = useOverscrollLock({ enabled: expandOnContentDrag })
   useScrollLock({ enabled: true, targetRef: scroll })
@@ -72,6 +73,7 @@ const Sheet: React.FC<SheetProps> = ({
     [set]
   )
   useEffect(() => {
+    let subscribed = true
     if (open) {
       set({
         y: 500,
@@ -83,13 +85,16 @@ const Sheet: React.FC<SheetProps> = ({
         immediate: false
       })
     } else {
-      const close = async () => {
+      const animate = async () => {
+        if (!subscribed) return
         asyncSet({
           minSnap: heightRef.current,
           immediate: true
         })
 
+        if (!subscribed) return
         heightRef.current = 0
+        if (!subscribed) return
 
         await asyncSet({
           y: 0,
@@ -97,11 +102,22 @@ const Sheet: React.FC<SheetProps> = ({
           maxSnap: maxSnapRef.current,
           immediate: false
         })
+        if (!subscribed) return
         await asyncSet({ ready: 0, immediate: true })
+        if (!subscribed) return
+        close()
       }
-      close().then(() => onClose())
+      animate()
+    }
+    return () => {
+      subscribed = false
     }
   }, [set, open])
+  useEffect(() => {
+    return () => {
+      onClose()
+    }
+  }, [])
   const handleDrag = ({
     args: [{ closeOnTap = false, isContentDragging = false } = {}] = [],
     cancel,
@@ -235,7 +251,7 @@ const noop = () => {}
 const SheetWrapper: React.FC<SheetProps> = ({
   open: propOpen,
   onDismiss: onDismissInitial,
-  onClose: onCloseInitial = noop,
+  onClose = noop,
   ...rest
 }) => {
   const [open, setOpen] = useState(propOpen)
@@ -246,13 +262,18 @@ const SheetWrapper: React.FC<SheetProps> = ({
   const onDismiss = () => {
     onDismissInitial()
   }
-  const onClose = () => {
+  const close = () => {
     setOpen(false)
-    onCloseInitial()
   }
   if (!open) return null
   return (
-    <Sheet open={propOpen} onDismiss={onDismiss} onClose={onClose} {...rest} />
+    <Sheet
+      open={propOpen}
+      onDismiss={onDismiss}
+      onClose={onClose}
+      close={close}
+      {...rest}
+    />
   )
 }
 
