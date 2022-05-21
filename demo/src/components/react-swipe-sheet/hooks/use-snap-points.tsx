@@ -1,10 +1,4 @@
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import useLayoutEffect from './use-layout-effect'
 import useReady from './useReady'
 import { processSnapPoints, roundAndCheckForNaN } from '../utils'
@@ -42,7 +36,7 @@ const useSnapPoints = ({
   lastSnapRef,
   ready,
   registerReady,
-  resizeSourceRef,
+  resizeSourceRef
 }: {
   contentRef: React.RefObject<Element>
   controlledMaxHeight?: number
@@ -65,7 +59,7 @@ const useSnapPoints = ({
     headerEnabled,
     headerRef,
     registerReady,
-    resizeSourceRef,
+    resizeSourceRef
   })
 
   const { snapPoints, minSnap, maxSnap } = processSnapPoints(
@@ -75,7 +69,7 @@ const useSnapPoints = ({
           footerHeight,
           headerHeight,
           minHeight,
-          maxHeight,
+          maxHeight
         })
       : [0],
     maxHeight
@@ -95,7 +89,7 @@ const useSnapPoints = ({
         minHeight,
         maxHeight,
         snapPoints,
-        lastSnap: lastSnapRef.current,
+        lastSnap: lastSnapRef.current
       })
     } else {
       unsafeSearch = numberOrCallback
@@ -108,7 +102,6 @@ const useSnapPoints = ({
     )
   }
 
-
   return { minSnap, maxSnap, findSnap, maxHeight }
 }
 
@@ -120,7 +113,7 @@ function useDimensions({
   headerEnabled,
   headerRef,
   registerReady,
-  resizeSourceRef,
+  resizeSourceRef
 }: {
   contentRef: React.RefObject<Element>
   controlledMaxHeight?: number
@@ -131,9 +124,10 @@ function useDimensions({
   registerReady: ReturnType<typeof useReady>['registerReady']
   resizeSourceRef: React.MutableRefObject<ResizeSource>
 }) {
-  const setReady = useMemo(() => registerReady('contentHeight'), [
-    registerReady,
-  ])
+  const setReady = useMemo(
+    () => registerReady('contentHeight'),
+    [registerReady]
+  )
   const maxHeight = useMaxHeight(
     controlledMaxHeight,
     registerReady,
@@ -144,23 +138,22 @@ function useDimensions({
   const headerHeight = useElementSizeObserver(headerRef, {
     label: 'headerHeight',
     enabled: headerEnabled,
-    resizeSourceRef,
+    resizeSourceRef
   })
   const contentHeight = useElementSizeObserver(contentRef, {
     label: 'contentHeight',
     enabled: true,
-    resizeSourceRef,
+    resizeSourceRef
   })
   const footerHeight = useElementSizeObserver(footerRef, {
     label: 'footerHeight',
     enabled: footerEnabled,
-    resizeSourceRef,
+    resizeSourceRef
   })
   const minHeight =
     Math.min(maxHeight - headerHeight - footerHeight, contentHeight) +
     headerHeight +
     footerHeight
-
 
   const ready = contentHeight > 0
   useEffect(() => {
@@ -173,7 +166,7 @@ function useDimensions({
     maxHeight,
     minHeight,
     headerHeight,
-    footerHeight,
+    footerHeight
   }
 }
 
@@ -183,7 +176,7 @@ type ResizeObserverOptions = {
 const observerOptions: ResizeObserverOptions = {
   // Respond to changes to padding, happens often on iOS when using env(safe-area-inset-bottom)
   // And the user hides or shows the Safari browser toolbar
-  box: 'border-box',
+  box: 'border-box'
 }
 /**
  * Hook for determining the size of an element using the Resize Observer API.
@@ -195,7 +188,7 @@ function useElementSizeObserver(
   {
     label,
     enabled,
-    resizeSourceRef,
+    resizeSourceRef
   }: {
     label: string
     enabled: boolean
@@ -203,7 +196,6 @@ function useElementSizeObserver(
   }
 ): number {
   let [size, setSize] = useState(0)
-
 
   const handleResize = useCallback(
     (entries: ResizeObserverEntry[]) => {

@@ -49,6 +49,6 @@ export function processSnapPoints(unsafeSnaps: number | number[], maxHeight) {
   return {
     snapPoints,
     minSnap,
-    maxSnap,
+    maxSnap
   }
 }

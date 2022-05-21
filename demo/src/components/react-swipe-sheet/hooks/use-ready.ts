@@ -4,9 +4,9 @@ const useReady = () => {
   const [ready, setReady] = useState(false)
   const [readyMap, updateReadyMap] = useState<{ [key: string]: boolean }>({})
   const registerReady = useCallback((key: string) => {
-    updateReadyMap((ready) => ({ ...ready, [key]: false }))
+    updateReadyMap(ready => ({ ...ready, [key]: false }))
     return () => {
-      updateReadyMap((ready) => ({ ...ready, [key]: true }))
+      updateReadyMap(ready => ({ ...ready, [key]: true }))
     }
   }, [])
 

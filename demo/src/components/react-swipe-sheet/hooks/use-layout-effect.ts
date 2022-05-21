@@ -1,12 +1,11 @@
 import { useEffect, useLayoutEffect as useLayout } from 'react'
 
-function canUseDOM() {
-  return !!(
+const canUseDOM = () =>
+  !!(
     typeof window !== 'undefined' &&
     window.document &&
     window.document.createElement
   )
-}
 
 const useLayoutEffect = canUseDOM() ? useLayout : useEffect
 

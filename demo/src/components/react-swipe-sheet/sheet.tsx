@@ -1,6 +1,13 @@
 import React, { useRef } from 'react'
+import { animated } from '@react-spring/web'
 import { rubberbandIfOutOfBounds, useDrag } from 'react-use-gesture'
-import { useReady, useOverscrollLock, useScrollLock } from './hooks'
+import {
+  useSpring,
+  useSpringInterpolations,
+  useReady,
+  useOverscrollLock,
+  useScrollLock
+} from './hooks'
 import TrapFocus from './trap-focus'
 import classes from './classnames'
 import styles from './sheet.module.css'
@@ -21,12 +28,13 @@ const Sheet: React.FC<SheetProps> = ({ children, expandOnContentDrag }) => {
   const contentRef = useRef<HTMLDivElement | null>(null)
   const headerRef = useRef<HTMLDivElement | null>(null)
   const footerRef = useRef<HTMLDivElement | null>(null)
-  const heightRef = useRef<number>(500)
-  const maxHeightRef = useRef<number>(500)
   const minSnapRef = useRef<number>(200)
-  const maxSnapRef = useRef<number>(400)
+  const maxSnapRef = useRef<number>(500)
+  const heightRef = useRef<number>(500)
+  const maxHeightRef = useRef<number>(650)
   const resizeSourceRef = useRef<ResizeSource>()
-  const set = (...args: any) => console.log(...args)
+  const [spring, set] = useSpring()
+  const interpolations = useSpringInterpolations({ spring })
   const handleDrag = ({
     args: [{ closeOnTap = false, isContentDragging = false } = {}] = [],
     cancel,
@@ -34,10 +42,10 @@ const Sheet: React.FC<SheetProps> = ({ children, expandOnContentDrag }) => {
     down,
     first,
     last,
-    memo,
+    memo = spring.y.get() as number,
     movement: [, _my],
     tap,
-    velocity,
+    velocity
   }) => {
     if (tap) return memo
     const my = _my * -1
@@ -48,8 +56,7 @@ const Sheet: React.FC<SheetProps> = ({ children, expandOnContentDrag }) => {
       Math.min(maxSnapRef.current, rawY + predictedDistance * 2)
     )
     let newY = down
-      ?
-        minSnapRef.current === maxSnapRef.current
+      ? minSnapRef.current === maxSnapRef.current
         ? rawY < minSnapRef.current
           ? rubberbandIfOutOfBounds(
               rawY,
@@ -79,6 +86,21 @@ const Sheet: React.FC<SheetProps> = ({ children, expandOnContentDrag }) => {
         newY = maxSnapRef.current
       }
     }
+    if (first) {
+    }
+
+    if (last) {
+      set({
+        ready: 1,
+        maxHeight: maxHeightRef.current,
+        maxSnap: maxSnapRef.current,
+        minSnap: minSnapRef.current,
+        immediate: false,
+        y: newY,
+        config: { velocity: velocity > 0.05 ? velocity : 1 }
+      })
+      return memo
+    }
     set({
       y: newY,
       ready: 1,
@@ -91,21 +113,35 @@ const Sheet: React.FC<SheetProps> = ({ children, expandOnContentDrag }) => {
     return memo
   }
   const bind = useDrag(handleDrag, {
-    filterTaps: true,
+    filterTaps: true
   })
   return (
-    <div className={cx('root')}>
-      <div className={cx('backdrop', 'stack')} {...bind({ closeOnTap: true })}></div>
+    <animated.div
+      className={cx('root')}
+      style={{
+        ...interpolations
+      }}
+    >
+      <div
+        className={cx('backdrop', 'stack')}
+        {...bind({ closeOnTap: true })}
+      ></div>
       <TrapFocus open>
         <div className={cx('modal', 'stack')}>
           <div className={cx('header')} {...bind()} ref={headerRef}></div>
-          <div className={cx('scroll')} {...(expandOnContentDrag ? bind({ isContentDragging: true }) : {})} ref={scroll}>
-          <div className={cx('content')} ref={contentRef}>{children}</div>
+          <div
+            className={cx('scroll')}
+            {...(expandOnContentDrag ? bind({ isContentDragging: true }) : {})}
+            ref={scroll}
+          >
+            <div className={cx('content')} ref={contentRef}>
+              {children}
+            </div>
           </div>
           <div className={cx('footer')} {...bind()} ref={footerRef}></div>
         </div>
       </TrapFocus>
-    </div>
+    </animated.div>
   )
 }
 

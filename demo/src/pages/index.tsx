@@ -69,10 +69,14 @@ const App = () => {
           </Link>
         </Center>
       </WaveWrapper>
-      <button type="button" onClick={() => setOpen(v => !v)}>Open sheet</button>
+      <button type="button" onClick={() => setOpen(v => !v)}>
+        Open sheet
+      </button>
       <Portal containerRef="#react-swipe-sheet">
         <Sheet open={open}>
-          <button type="button" onClick={() => setOpen(false)}>Close</button>
+          <button type="button" onClick={() => setOpen(false)}>
+            Close
+          </button>
           <button type="button">noop</button>
         </Sheet>
       </Portal>

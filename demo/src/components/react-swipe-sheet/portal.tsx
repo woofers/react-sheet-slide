@@ -5,10 +5,7 @@
  * From https://github.com/reach/reach-ui/blob/develop/packages/portal/src/index.tsx
  * MIT License at https://github.com/reach/reach-ui/blob/develop/LICENSE
  */
-import React, {
-  useState,
-  useCallback,
-} from 'react'
+import React, { useState, useCallback } from 'react'
 import { createPortal } from 'react-dom'
 import { useLayoutEffect } from './hooks'
 
