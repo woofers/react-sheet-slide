@@ -31,10 +31,14 @@
     "react-dom": "^0.13.0 || ^0.14.0 || >=15"
   },
   "devDependencies": {
+    "@types/body-scroll-lock": "^3.1.0",
     "@types/react": "^18.0.9",
     "@types/react-dom": "^18.0.4",
     "microbundle": "^0.15.0",
     "rimraf": "^3.0.2",
     "typescript": "^4.6.4"
+  },
+  "dependencies": {
+    "body-scroll-lock": "^4.0.0-beta.0"
   }
 }
