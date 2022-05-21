@@ -27,3 +27,4 @@ lib/react-swipe-sheet.js
 lib/react-swipe-sheet.mjs
 lib/*.d.ts
 lib/*.css
+lib/hooks

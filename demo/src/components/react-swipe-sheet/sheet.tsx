@@ -29,7 +29,10 @@ const Sheet: React.FC<SheetProps> = ({ children }) => {
   )
 }
 
-const SheetWrapper: React.FC<SheetProps & { open: boolean }> = ({ open, ...rest }) => {
+const SheetWrapper: React.FC<SheetProps & { open: boolean }> = ({
+  open,
+  ...rest
+}) => {
   if (!open) return null
   return <Sheet {...rest} />
 }

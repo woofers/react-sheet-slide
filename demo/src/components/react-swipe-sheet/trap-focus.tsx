@@ -1,4 +1,10 @@
-import React, { cloneElement, Fragment, useEffect, useRef, useMemo } from 'react'
+import React, {
+  cloneElement,
+  Fragment,
+  useEffect,
+  useRef,
+  useMemo
+} from 'react'
 
 /*
  * mui-base TrapFocus
@@ -8,11 +14,16 @@ import React, { cloneElement, Fragment, useEffect, useRef, useMemo } from 'react
  * MIT License at https://raw.githubusercontent.com/mui/material-ui/master/LICENSE
  */
 
-const ownerDocument = (node: Node | null | undefined): Document => (node && node.ownerDocument) || document
+const ownerDocument = (node: Node | null | undefined): Document =>
+  (node && node.ownerDocument) || document
 
 function setRef<T>(
-  ref: React.MutableRefObject<T | null> | ((instance: T | null) => void) | null | undefined,
-  value: T | null,
+  ref:
+    | React.MutableRefObject<T | null>
+    | ((instance: T | null) => void)
+    | null
+    | undefined,
+  value: T | null
 ) {
   if (typeof ref === 'function') {
     ref(value)
@@ -23,21 +34,16 @@ function setRef<T>(
 
 const useForkRef = <InstanceA, InstanceB>(
   refA: React.Ref<InstanceA> | null | undefined,
-  refB: React.Ref<InstanceB> | null | undefined,
+  refB: React.Ref<InstanceB> | null | undefined
 ): React.Ref<InstanceA & InstanceB> | null => {
-  /**
-   * This will create a new function if the ref props change and are defined.
-   * This means react will call the old forkRef with `null` and the new forkRef
-   * with the ref. Cleanup naturally emerges from this behavior.
-   */
   return useMemo(() => {
     if (refA == null && refB == null) {
       return null
     }
-    return (refValue) => {
+    return refValue => {
       setRef(refA, refValue)
       setRef(refB, refValue)
-    };
+    }
   }, [refA, refB])
 }
 
@@ -50,58 +56,43 @@ const candidatesSelector = [
   '[tabindex]',
   'audio[controls]',
   'video[controls]',
-  '[contenteditable]:not([contenteditable="false"])',
+  '[contenteditable]:not([contenteditable="false"])'
 ].join(',')
 
-function getTabIndex(node: HTMLElement) {
+const getTabIndex = (node: HTMLElement) => {
   const tabindexAttr = parseInt(node.getAttribute('tabindex') ?? '', 10)
-  if (!Number.isNaN(tabindexAttr)) {
-    return tabindexAttr
-  }
-  // Browsers do not return `tabIndex` correctly for contentEditable nodes
-  // https://bugs.chromium.org/p/chromium/issues/detail?id=661108&q=contenteditable%20tabindex&can=2
-  // so if they don't have a tabindex attribute specifically set, assume it's 0.
-  // in Chrome, <details/>, <audio controls/> and <video controls/> elements get a default
-  //  `tabIndex` of -1 when the 'tabindex' attribute isn't specified in the DOM,
-  //  yet they are still part of the regular tab order in FF, they get a default
-  //  `tabIndex` of 0 since Chrome still puts those elements in the regular tab
-  //  order, consider their tab index to be 0.
+  if (!Number.isNaN(tabindexAttr)) return tabindexAttr
   if (
     node.contentEditable === 'true' ||
-    ((node.nodeName === 'AUDIO' || node.nodeName === 'VIDEO' || node.nodeName === 'DETAILS') &&
+    ((node.nodeName === 'AUDIO' ||
+      node.nodeName === 'VIDEO' ||
+      node.nodeName === 'DETAILS') &&
       node.getAttribute('tabindex') === null)
   ) {
     return 0
   }
-
   return node.tabIndex
 }
 
-function isNonTabbableRadio(node: HTMLInputElement) {
-  if (node.tagName !== 'INPUT' || node.type !== 'radio') {
-    return false
-  }
-  if (!node.name) {
-    return false
-  }
-  const getRadio = (selector: string) => node.ownerDocument.querySelector(`input[type="radio"]${selector}`)
-  let roving = getRadio(`[name="${node.name}"]:checked`)
+const getRadio = (selector: string, node: HTMLInputElement) =>
+  node.ownerDocument.querySelector(`input[type="radio"]${selector}`)
+
+const isNonTabbableRadio = (node: HTMLInputElement) => {
+  if (node.tagName !== 'INPUT' || node.type !== 'radio') return false
+  if (!node.name) return false
+  let roving = getRadio(`[name="${node.name}"]:checked`, node)
   if (!roving) {
-    roving = getRadio(`[name="${node.name}"]`)
+    roving = getRadio(`[name="${node.name}"]`, node)
   }
   return roving !== node
 }
 
-function isNodeMatchingSelectorFocusable(node: HTMLInputElement) {
-  if (
+const isNodeMatchingSelectorFocusable = (node: HTMLInputElement) =>
+  !(
     node.disabled ||
     (node.tagName === 'INPUT' && node.type === 'hidden') ||
     isNonTabbableRadio(node)
-  ) {
-    return false
-  }
-  return true
-}
+  )
 
 type TabNode = {
   documentOrder: number
@@ -109,12 +100,15 @@ type TabNode = {
   node: HTMLElement
 }
 
-function defaultGetTabbable(root: HTMLElement): HTMLElement[] {
+const defaultGetTabbable = (root: HTMLElement): HTMLElement[] => {
   const regularTabNodes: HTMLElement[] = []
   const orderedTabNodes: TabNode[] = []
   Array.from(root.querySelectorAll(candidatesSelector)).forEach((node, i) => {
     const nodeTabIndex = getTabIndex(node as HTMLElement)
-    if (nodeTabIndex === -1 || !isNodeMatchingSelectorFocusable(node as HTMLInputElement)) {
+    if (
+      nodeTabIndex === -1 ||
+      !isNodeMatchingSelectorFocusable(node as HTMLInputElement)
+    ) {
       return
     }
     if (nodeTabIndex === 0) {
@@ -130,15 +124,15 @@ function defaultGetTabbable(root: HTMLElement): HTMLElement[] {
 
   return orderedTabNodes
     .sort((a, b) =>
-      a.tabIndex === b.tabIndex ? a.documentOrder - b.documentOrder : a.tabIndex - b.tabIndex,
+      a.tabIndex === b.tabIndex
+        ? a.documentOrder - b.documentOrder
+        : a.tabIndex - b.tabIndex
     )
-    .map((a) => a.node)
+    .map(a => a.node)
     .concat(regularTabNodes)
 }
 
-function defaultIsEnabled() {
-  return true
-}
+const defaultIsEnabled = () => true
 
 type TrapFocusProps = {
   open: boolean
@@ -156,7 +150,7 @@ function TrapFocus(props: TrapFocusProps) {
     disableRestoreFocus = false,
     getTabbable = defaultGetTabbable,
     isEnabled = defaultIsEnabled,
-    open,
+    open
   } = props
   const ignoreNextEnforceFocus = useRef<boolean | undefined>()
   const sentinelStart = useRef<HTMLDivElement | null>(null)
@@ -208,9 +202,7 @@ function TrapFocus(props: TrapFocusProps) {
   }, [open])
 
   useEffect(() => {
-    if (!open || !rootRef.current) {
-      return
-    }
+    if (!open || !rootRef.current) return
     const doc = ownerDocument(rootRef.current)
     const contain = (nativeEvent?: Event) => {
       const { current: rootElement } = rootRef
@@ -219,18 +211,15 @@ function TrapFocus(props: TrapFocusProps) {
       if (rootElement === null) {
         return
       }
-      if (
-        !doc.hasFocus() ||
-        !isEnabled() ||
-        ignoreNextEnforceFocus.current
-      ) {
+      if (!doc.hasFocus() || !isEnabled() || ignoreNextEnforceFocus.current) {
         ignoreNextEnforceFocus.current = false
         return
       }
 
       if (!rootElement.contains(doc.activeElement)) {
         if (
-          (nativeEvent && reactFocusEventTarget.current !== nativeEvent.target) ||
+          (nativeEvent &&
+            reactFocusEventTarget.current !== nativeEvent.target) ||
           doc.activeElement !== reactFocusEventTarget.current
         ) {
           reactFocusEventTarget.current = null
@@ -250,7 +239,7 @@ function TrapFocus(props: TrapFocusProps) {
 
         if (tabbable.length > 0) {
           const isShiftTab = Boolean(
-            lastKeydown.current?.shiftKey && lastKeydown.current?.key === 'Tab',
+            lastKeydown.current?.shiftKey && lastKeydown.current?.key === 'Tab'
           )
           const focusNext = tabbable[0]
           const focusPrevious = tabbable[tabbable.length - 1]
@@ -299,13 +288,12 @@ function TrapFocus(props: TrapFocusProps) {
 
     return () => {
       clearInterval(interval)
-
       doc.removeEventListener('focusin', contain)
       doc.removeEventListener('keydown', loopFocus, true)
     }
   }, [disableAutoFocus, disableRestoreFocus, isEnabled, open, getTabbable])
 
-  const onFocus: React.FocusEventHandler<HTMLElement> = (event) => {
+  const onFocus: React.FocusEventHandler<HTMLElement> = event => {
     if (nodeToRestore.current === null) {
       nodeToRestore.current = event.relatedTarget as HTMLElement
     }
@@ -317,7 +305,9 @@ function TrapFocus(props: TrapFocusProps) {
       childrenPropsHandler(event)
     }
   }
-  const handleFocusSentinel: React.FocusEventHandler<HTMLDivElement> = (event) => {
+  const handleFocusSentinel: React.FocusEventHandler<
+    HTMLDivElement
+  > = event => {
     if (nodeToRestore.current === null) {
       nodeToRestore.current = event.relatedTarget as HTMLElement
     }
@@ -325,11 +315,7 @@ function TrapFocus(props: TrapFocusProps) {
   }
   return (
     <Fragment>
-      <div
-        tabIndex={0}
-        onFocus={handleFocusSentinel}
-        ref={sentinelStart}
-      />
+      <div tabIndex={0} onFocus={handleFocusSentinel} ref={sentinelStart} />
       {cloneElement(children, { ref: handleRef, onFocus })}
       <div tabIndex={0} onFocus={handleFocusSentinel} ref={sentinelEnd} />
     </Fragment>

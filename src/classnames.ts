@@ -13,7 +13,10 @@ type Binding = Record<string, string>
 
 var hasOwn = {}.hasOwnProperty
 
-function classNames(this: Binding | undefined, ..._args: ArgumentArray): string {
+function classNames(
+  this: Binding | undefined,
+  ..._args: ArgumentArray
+): string {
   var classes = []
   for (var i = 0; i < arguments.length; i++) {
     var arg = arguments[i]
