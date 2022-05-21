@@ -1,18 +1,15 @@
-import React, { useEffect, useCallback, useRef } from 'react'
-import { animated, config } from '@react-spring/web'
+import React, { useEffect, useRef } from 'react'
+import { animated } from '@react-spring/web'
 import { rubberbandIfOutOfBounds, useDrag } from 'react-use-gesture'
 import {
   useSpring,
   useSpringInterpolations,
-  useReady,
   useOverscrollLock,
   useScrollLock
 } from './hooks'
 import TrapFocus from './trap-focus'
 import classes from './classnames'
 import styles from './sheet.module.css'
-
-const { tension, friction } = config.default
 
 const cx = classes.bind(styles)
 
@@ -21,12 +18,11 @@ type SheetProps = {
   expandOnContentDrag?: boolean
 }
 
-type ResizeSource = 'window' | 'maxheightprop' | 'element'
+// type ResizeSource = 'window' | 'maxheightprop' | 'element'
 
 const Sheet: React.FC<SheetProps> = ({ children, expandOnContentDrag }) => {
   const scroll = useOverscrollLock({ enabled: expandOnContentDrag })
   useScrollLock({ enabled: true, targetRef: scroll })
-  const { ready, registerReady } = useReady()
   const contentRef = useRef<HTMLDivElement | null>(null)
   const headerRef = useRef<HTMLDivElement | null>(null)
   const footerRef = useRef<HTMLDivElement | null>(null)
@@ -34,7 +30,7 @@ const Sheet: React.FC<SheetProps> = ({ children, expandOnContentDrag }) => {
   const maxSnapRef = useRef<number>(500)
   const heightRef = useRef<number>(500)
   const maxHeightRef = useRef<number>(650)
-  const resizeSourceRef = useRef<ResizeSource>()
+  //const resizeSourceRef = useRef<ResizeSource>()
   const [spring, set] = useSpring()
   const interpolations = useSpringInterpolations({ spring })
   useEffect(() => {
@@ -49,9 +45,9 @@ const Sheet: React.FC<SheetProps> = ({ children, expandOnContentDrag }) => {
     })
   }, [set])
   const handleDrag = ({
-    args: [{ closeOnTap = false, isContentDragging = false } = {}] = [],
-    cancel,
-    direction: [, direction],
+    args: [{ /*closeOnTap = false,*/ isContentDragging = false } = {}] = [],
+    //cancel,
+    //direction: [, direction],
     down,
     first,
     last,

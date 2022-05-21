@@ -6,8 +6,8 @@
   --gutter: 0px;
   --width: auto;
 
+  --height: 0px;
   --modal-offset: 0px;
-  --height: 500px;
   --bottom-height: 0px;
 }
 
@@ -42,12 +42,11 @@
   background: var(--background);
   flex-direction: column;
   height: var(--height);
-  transform: translate3d(0, var(--modal-offset), 0);
+  transform: translate3d(-50%, var(--modal-offset), 0);
   will-change: height;
   width: 100%;
   left: 50%;
   right: unset;
-  transform: translate(-50%, 0);
 }
 
 .modal:focus {
@@ -59,7 +58,7 @@
   pointer-events: none;
   background: var(--background);
   height: 1px;
-  transform-origin: bottom;
+  transform-origin: top;
   transform: scaleY(0);
   transform: scaleY(var(--bottom-height, 0));
   will-change: transform;

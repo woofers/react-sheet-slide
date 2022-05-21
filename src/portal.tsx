@@ -5,23 +5,9 @@
  * From https://github.com/reach/reach-ui/blob/develop/packages/portal/src/index.tsx
  * MIT License at https://github.com/reach/reach-ui/blob/develop/LICENSE
  */
-import React, {
-  useState,
-  useCallback,
-  useEffect,
-  useLayoutEffect as useLayout
-} from 'react'
+import React, { useState, useCallback } from 'react'
 import { createPortal } from 'react-dom'
-
-function canUseDOM() {
-  return !!(
-    typeof window !== 'undefined' &&
-    window.document &&
-    window.document.createElement
-  )
-}
-
-const useLayoutEffect = canUseDOM() ? useLayout : useEffect
+import { useLayoutEffect } from './hooks'
 
 function useForceUpdate() {
   let [, dispatch] = useState<{}>(Object.create(null))

@@ -39,6 +39,8 @@
     "typescript": "^4.6.4"
   },
   "dependencies": {
-    "body-scroll-lock": "^4.0.0-beta.0"
+    "@react-spring/web": "^9.4.5",
+    "body-scroll-lock": "^4.0.0-beta.0",
+    "react-use-gesture": "^9.1.3"
   }
 }
