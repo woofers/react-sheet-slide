@@ -8,20 +8,9 @@
 import React, {
   useState,
   useCallback,
-  useEffect,
-  useLayoutEffect as useLayout
 } from 'react'
 import { createPortal } from 'react-dom'
-
-function canUseDOM() {
-  return !!(
-    typeof window !== 'undefined' &&
-    window.document &&
-    window.document.createElement
-  )
-}
-
-const useLayoutEffect = canUseDOM() ? useLayout : useEffect
+import { useLayoutEffect } from './hooks'
 
 function useForceUpdate() {
   let [, dispatch] = useState<{}>(Object.create(null))
