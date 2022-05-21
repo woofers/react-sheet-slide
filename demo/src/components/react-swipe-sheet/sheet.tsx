@@ -2,6 +2,9 @@ import React, { useCallback, useState, useEffect, useRef } from 'react'
 import { animated } from '@react-spring/web'
 import { rubberbandIfOutOfBounds, useDrag } from 'react-use-gesture'
 import {
+  useLayoutEffect,
+  useReady,
+  useSnapPoints,
   useSpring,
   useSpringInterpolations,
   useOverscrollLock,
@@ -11,8 +14,16 @@ import { config } from './utils'
 import TrapFocus from './trap-focus'
 import classes from './classnames'
 import styles from './sheet.module.css'
+import { SnapPointProps, defaultSnapPoints, snapPoints, ResizeSource } from './types'
 
 const cx = classes.bind(styles)
+
+function _defaultSnap({ snapPoints, lastSnap }: defaultSnapProps) {
+  return lastSnap ?? Math.min(...snapPoints)
+}
+function _snapPoints({ minHeight }: SnapPointProps) {
+  return minHeight
+}
 
 type SheetProps = {
   open?: boolean
@@ -20,11 +31,11 @@ type SheetProps = {
   expandOnContentDrag?: boolean
   onDismiss?: () => void
   onClose?: () => void
+  snapPoints?: snapPoints
+  defaultSnap?: number | ((props: defaultSnapProps) => number)
 }
 
 const { tension, friction } = config.default
-
-// type ResizeSource = 'window' | 'maxheightprop' | 'element'
 
 const Sheet: React.FC<SheetProps & { close: () => void }> = ({
   open,
@@ -32,20 +43,46 @@ const Sheet: React.FC<SheetProps & { close: () => void }> = ({
   expandOnContentDrag,
   onDismiss,
   onClose,
-  close
+  close,
+  defaultSnap: getDefaultSnap = _defaultSnap,
+  snapPoints: getSnapPoints = _snapPoints
 }) => {
+  const { ready, registerReady } = useReady()
   const scroll = useOverscrollLock({ enabled: expandOnContentDrag })
   useScrollLock({ enabled: true, targetRef: scroll })
   const contentRef = useRef<HTMLDivElement | null>(null)
   const headerRef = useRef<HTMLDivElement | null>(null)
   const footerRef = useRef<HTMLDivElement | null>(null)
-  const minSnapRef = useRef<number>(200)
-  const maxSnapRef = useRef<number>(500)
-  const heightRef = useRef<number>(500)
-  const maxHeightRef = useRef<number>(650)
-  //const resizeSourceRef = useRef<ResizeSource>()
   const [spring, set] = useSpring()
   const interpolations = useSpringInterpolations({ spring })
+  const resizeSourceRef = useRef<ResizeSource>()
+  const lastSnapRef = useRef<any>(null)
+  const heightRef = useRef<number>()
+  const { minSnap, maxSnap, maxHeight, findSnap } = useSnapPoints({
+    contentRef,
+    controlledMaxHeight: undefined,
+    footerRef,
+    getSnapPoints,
+    headerRef,
+    heightRef,
+    lastSnapRef,
+    ready,
+    registerReady,
+    resizeSourceRef,
+  })
+  console.log(maxHeight)
+  const minSnapRef = useRef<number>()
+  const maxSnapRef = useRef<number>()
+  const maxHeightRef = useRef<number>()
+  const findSnapRef = useRef<any>(findSnap)
+  const defaultSnapRef = useRef<number>(0)
+  useLayoutEffect(() => {
+    maxHeightRef.current = maxHeight
+    maxSnapRef.current = maxSnap
+    minSnapRef.current = minSnap
+    findSnapRef.current = findSnap
+    defaultSnapRef.current = findSnap(getDefaultSnap)
+  }, [findSnap, getDefaultSnap, maxHeight, maxSnap, minSnap])
   const asyncSet = useCallback<typeof set>(
     // @ts-expect-error
     ({ onRest, config: { velocity = 1, ...config } = {}, ...opts }) =>
@@ -73,17 +110,34 @@ const Sheet: React.FC<SheetProps & { close: () => void }> = ({
     [set]
   )
   useEffect(() => {
+    if (!ready) return
     let subscribed = true
     if (open) {
-      set({
-        y: 500,
-        ready: 1,
-        maxHeight: maxHeightRef.current,
-        maxSnap: maxSnapRef.current,
-        // Using defaultSnapRef instead of minSnapRef to avoid animating `height` on open
-        minSnap: minSnapRef.current,
-        immediate: false
-      })
+      const anim = async () => {
+        if (!subscribed) return
+        await asyncSet({
+          y: 0,
+          ready: 1,
+          maxHeight: maxHeightRef.current,
+          maxSnap: maxSnapRef.current,
+          // Using defaultSnapRef instead of minSnapRef to avoid animating `height` on open
+          minSnap: defaultSnapRef.current,
+          immediate: true,
+        })
+        if (!subscribed) return
+        heightRef.current = defaultSnapRef.current
+        if (!subscribed) return
+        await asyncSet({
+          y: defaultSnapRef.current,
+          ready: 1,
+          maxHeight: maxHeightRef.current,
+          maxSnap: maxSnapRef.current,
+          // Using defaultSnapRef instead of minSnapRef to avoid animating `height` on open
+          minSnap: defaultSnapRef.current,
+          immediate: false
+        })
+      }
+      anim()
     } else {
       const animate = async () => {
         if (!subscribed) return
@@ -112,7 +166,7 @@ const Sheet: React.FC<SheetProps & { close: () => void }> = ({
     return () => {
       subscribed = false
     }
-  }, [set, open])
+  }, [set, open, ready])
   useEffect(() => {
     return () => {
       onClose()
@@ -178,8 +232,9 @@ const Sheet: React.FC<SheetProps & { close: () => void }> = ({
     }
 
     if (last) {
-      const snap = newY
+      const snap = findSnapRef.current(newY)
       heightRef.current = snap
+      lastSnapRef.current = snap
       set({
         ready: 1,
         maxHeight: maxHeightRef.current,

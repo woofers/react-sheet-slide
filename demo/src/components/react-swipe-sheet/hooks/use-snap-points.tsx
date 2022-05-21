@@ -2,34 +2,14 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import useLayoutEffect from './use-layout-effect'
 import useReady from './use-ready'
 import { processSnapPoints, roundAndCheckForNaN } from '../utils'
-
-type SnapPointProps = {
-  headerHeight: number
-  footerHeight: number
-  height: number
-  minHeight: number
-  maxHeight: number
-}
-
-type snapPoints = (props: SnapPointProps) => number[] | number
-
-type ResizeSource = 'window' | 'maxheightprop' | 'element'
-
-type defaultSnapProps = {
-  snapPoints: number[]
-  lastSnap: number | null
-} & SnapPointProps
-
-function defaultSnapPoints({ minHeight }: SnapPointProps) {
-  return minHeight
-}
+import type { SnapPointProps, snapPoints, ResizeSource, defaultSnapProps } from '../types'
 
 const useSnapPoints = ({
   contentRef,
   controlledMaxHeight,
   footerEnabled = true,
   footerRef,
-  getSnapPoints = defaultSnapPoints,
+  getSnapPoints,
   headerEnabled = true,
   headerRef,
   heightRef,
@@ -42,7 +22,7 @@ const useSnapPoints = ({
   controlledMaxHeight?: number
   footerEnabled?: boolean
   footerRef: React.RefObject<Element>
-  getSnapPoints?: snapPoints
+  getSnapPoints: snapPoints
   headerEnabled?: boolean
   headerRef: React.RefObject<Element>
   heightRef: React.RefObject<number>

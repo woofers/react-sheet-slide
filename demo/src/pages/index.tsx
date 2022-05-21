@@ -80,6 +80,12 @@ const App = () => {
             expandOnContentDrag
             onDismiss={() => setOpen(false)}
             onClose={() => console.log('we closed')}
+            defaultSnap={({ maxHeight }) => maxHeight - maxHeight / 10}
+            snapPoints={({ maxHeight }) => [
+              maxHeight - maxHeight / 10,
+              maxHeight / 4,
+              maxHeight * 0.6,
+            ]}
           >
             <button type="button" onClick={() => setOpen(false)}>
               Close
