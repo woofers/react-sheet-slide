@@ -68,8 +68,12 @@ const App = () => {
           </Link>
         </Center>
       </WaveWrapper>
+      <button>background button</button>
       <Portal containerRef="#react-swipe-sheet">
-        <Sheet>hi</Sheet>
+        <Sheet open>
+          <button>Cancel</button>
+          <button>Ok</button>
+        </Sheet>
       </Portal>
     </Fullscreen>
   )

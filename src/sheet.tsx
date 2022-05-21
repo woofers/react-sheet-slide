@@ -12,13 +12,15 @@ const Sheet: React.FC<SheetProps> = ({ children }) => {
   return (
     <div className={cx('root')}>
       <div className={cx('backdrop', 'stack')}></div>
-      <div className={cx('modal', 'stack')}>
-        <div className={cx('header')}></div>
-        <div className={cx('scroll')}>
-          <div className={cx('content')}>{children}</div>
+      <TrapFocus>
+        <div className={cx('modal', 'stack')}>
+          <div className={cx('header')}></div>
+          <div className={cx('scroll')}>
+            <div className={cx('content')}>{children}</div>
+          </div>
+          <div className={cx('footer')}></div>
         </div>
-        <div className={cx('footer')}></div>
-      </div>
+      </TrapFocus>
     </div>
   )
 }
