@@ -20,7 +20,7 @@ type defaultSnapProps = {
   lastSnap: number | null
 } & SnapPointProps
 
-function snapPoints({ minHeight }: SnapPointProps) {
+function defaultSnapPoints({ minHeight }: SnapPointProps) {
   return minHeight
 }
 
@@ -29,7 +29,7 @@ const useSnapPoints = ({
   controlledMaxHeight,
   footerEnabled = true,
   footerRef,
-  getSnapPoints = snapPoints,
+  getSnapPoints = defaultSnapPoints,
   headerEnabled = true,
   headerRef,
   heightRef,
@@ -65,7 +65,7 @@ const useSnapPoints = ({
   const { snapPoints, minSnap, maxSnap } = processSnapPoints(
     ready
       ? getSnapPoints({
-          height: heightRef.current,
+          height: heightRef.current!,
           footerHeight,
           headerHeight,
           minHeight,
@@ -85,7 +85,7 @@ const useSnapPoints = ({
       unsafeSearch = numberOrCallback({
         footerHeight,
         headerHeight,
-        height: heightRef.current,
+        height: heightRef.current!,
         minHeight,
         maxHeight,
         snapPoints,
@@ -123,13 +123,18 @@ function useDimensions({
   headerRef: React.RefObject<Element>
   registerReady: ReturnType<typeof useReady>['registerReady']
   resizeSourceRef: React.MutableRefObject<ResizeSource>
-}) {
+}): {
+  maxHeight: number
+  minHeight: number
+  headerHeight: number
+  footerHeight: number
+} {
   const setReady = useMemo(
     () => registerReady('contentHeight'),
     [registerReady]
   )
   const maxHeight = useMaxHeight(
-    controlledMaxHeight,
+    controlledMaxHeight!,
     registerReady,
     resizeSourceRef
   )
@@ -171,7 +176,7 @@ function useDimensions({
 }
 
 type ResizeObserverOptions = {
-  box: string
+  box: ResizeObserverBoxOptions
 }
 const observerOptions: ResizeObserverOptions = {
   // Respond to changes to padding, happens often on iOS when using env(safe-area-inset-bottom)
@@ -223,11 +228,11 @@ function useElementSizeObserver(
 }
 
 // Blazingly keep track of the current viewport height without blocking the thread, keeping that sweet 60fps on smartphones
-function useMaxHeight(
-  controlledMaxHeight,
+const useMaxHeight = (
+  controlledMaxHeight: number,
   registerReady: ReturnType<typeof useReady>['registerReady'],
   resizeSourceRef: React.MutableRefObject<ResizeSource>
-) {
+): number => {
   const setReady = useMemo(() => registerReady('maxHeight'), [registerReady])
   const [maxHeight, setMaxHeight] = useState(() =>
     roundAndCheckForNaN(controlledMaxHeight) || typeof window !== 'undefined'

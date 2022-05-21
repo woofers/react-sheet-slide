@@ -37,32 +37,6 @@ const Sheet: React.FC<SheetProps> = ({ children, expandOnContentDrag }) => {
   const resizeSourceRef = useRef<ResizeSource>()
   const [spring, set] = useSpring()
   const interpolations = useSpringInterpolations({ spring })
-  const asyncSet = useCallback<typeof set>(
-    // @ts-expect-error
-    ({ onRest, config: { velocity = 1, ...config } = {}, ...opts }) =>
-      new Promise(resolve =>
-        set({
-          ...opts,
-          config: {
-            velocity,
-            ...config,
-            // @see https://springs.pomb.us
-            mass: 1,
-            // "stiffness"
-            tension,
-            // "damping"
-            friction: Math.max(
-              friction,
-              friction + (friction - friction * velocity)
-            )
-          },
-          onRest: (...args) => {
-            resolve(...args)
-          }
-        })
-      ),
-    [set]
-  )
   useEffect(() => {
     set({
       y: 500,
@@ -85,7 +59,7 @@ const Sheet: React.FC<SheetProps> = ({ children, expandOnContentDrag }) => {
     movement: [, _my],
     tap,
     velocity
-  }) => {
+  }: any) => {
     if (tap) return memo
     const my = _my * -1
     const rawY = memo + my
@@ -121,7 +95,7 @@ const Sheet: React.FC<SheetProps> = ({ children, expandOnContentDrag }) => {
       if (newY >= maxSnapRef.current) {
         newY = maxSnapRef.current
       }
-      if (memo === maxSnapRef.current && scroll.current.scrollTop > 0) {
+      if (memo === maxSnapRef.current && scroll.current!.scrollTop > 0) {
         newY = maxSnapRef.current
       }
     }

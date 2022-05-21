@@ -11,13 +11,13 @@ export function clamp(number: number, lower: number, upper: number) {
   return number
 }
 
-export function deleteNaN(arr) {
+export function deleteNaN(arr: number[]): number[] {
   const set = new Set(arr)
   set.delete(NaN)
-  return [...set]
+  return [...set as any]
 }
 
-export function roundAndCheckForNaN(unrounded) {
+export function roundAndCheckForNaN(unrounded: number): number {
   const rounded = Math.round(unrounded)
   if (Number.isNaN(unrounded)) {
     throw new TypeError(
@@ -27,8 +27,9 @@ export function roundAndCheckForNaN(unrounded) {
   return rounded
 }
 
-export function processSnapPoints(unsafeSnaps: number | number[], maxHeight) {
-  const safeSnaps = [].concat(unsafeSnaps).map(roundAndCheckForNaN)
+export function processSnapPoints(unsafeSnaps: number | number[], maxHeight: number) {
+  const arr: number[] = []
+  const safeSnaps = arr.concat(unsafeSnaps).map(roundAndCheckForNaN)
 
   const snapPointsDedupedSet = safeSnaps.reduce((acc, snapPoint) => {
     acc.add(clamp(snapPoint, 0, maxHeight))

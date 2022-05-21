@@ -1,5 +1,5 @@
 import { to as interpolate } from '@react-spring/web'
-import type { Spring } from './useSpring'
+import type { Spring } from './use-spring'
 import { clamp } from '../utils'
 
 function useSpringInterpolations({
@@ -11,7 +11,6 @@ function useSpringInterpolations({
   // as it's really ugly with the gaps border radius creates. This ensures it looks sleek.
   // @TODO the ts-ignore comments are because the `extrapolate` param isn't in the TS defs for some reason
   const interpolateBorderRadius = interpolate(
-    // @ts-expect-error
     [spring.y, spring.maxHeight],
     (y, maxHeight) => {
       return `${Math.round(clamp(maxHeight - y, 0, 16))}px`
