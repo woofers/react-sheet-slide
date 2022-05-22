@@ -9,6 +9,7 @@
   --height: 0px;
   --modal-offset: 0px;
   --bottom-height: 0px;
+  --backdrop-opacity: 0;
 }
 
 .stack {
@@ -31,6 +32,7 @@
 .backdrop {
   background-color: var(--backdrop);
   top: 0;
+  opacity: var(--backdrop-opacity);
 }
 
 .modal {

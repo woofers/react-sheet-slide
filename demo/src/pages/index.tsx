@@ -84,7 +84,7 @@ const App = () => {
             snapPoints={({ maxHeight }) => [
               maxHeight - maxHeight / 10,
               maxHeight / 4,
-              maxHeight * 0.6,
+              maxHeight * 0.6
             ]}
           >
             <button type="button" onClick={() => setOpen(false)}>

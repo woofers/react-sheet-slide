@@ -2,7 +2,11 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import useLayoutEffect from './use-layout-effect'
 import useReady from './use-ready'
 import { processSnapPoints, roundAndCheckForNaN } from '../utils'
-import type { SnapPointProps, snapPoints, ResizeSource, defaultSnapProps } from '../types'
+import type {
+  SnapPoints,
+  ResizeSource,
+  DefaultSnapProps
+} from '../types'
 
 const useSnapPoints = ({
   contentRef,
@@ -22,14 +26,14 @@ const useSnapPoints = ({
   controlledMaxHeight?: number
   footerEnabled?: boolean
   footerRef: React.RefObject<Element>
-  getSnapPoints: snapPoints
+  getSnapPoints: SnapPoints
   headerEnabled?: boolean
   headerRef: React.RefObject<Element>
-  heightRef: React.RefObject<number>
-  lastSnapRef: React.RefObject<number>
+  heightRef: React.RefObject<number | undefined>
+  lastSnapRef: React.RefObject<number | undefined>
   ready: boolean
   registerReady: ReturnType<typeof useReady>['registerReady']
-  resizeSourceRef: React.MutableRefObject<ResizeSource>
+  resizeSourceRef: React.MutableRefObject<ResizeSource | undefined>
 }) => {
   const { maxHeight, minHeight, headerHeight, footerHeight } = useDimensions({
     contentRef: contentRef,
@@ -54,11 +58,10 @@ const useSnapPoints = ({
       : [0],
     maxHeight
   )
-  //console.log({ snapPoints, minSnap, maxSnap })
 
   // @TODO investigate the gains from memoizing this
   function findSnap(
-    numberOrCallback: number | ((state: defaultSnapProps) => number)
+    numberOrCallback: number | ((state: DefaultSnapProps) => number)
   ) {
     let unsafeSearch: number
     if (typeof numberOrCallback === 'function') {
@@ -69,7 +72,7 @@ const useSnapPoints = ({
         minHeight,
         maxHeight,
         snapPoints,
-        lastSnap: lastSnapRef.current
+        lastSnap: lastSnapRef.current!
       })
     } else {
       unsafeSearch = numberOrCallback
@@ -102,7 +105,7 @@ function useDimensions({
   headerEnabled: boolean
   headerRef: React.RefObject<Element>
   registerReady: ReturnType<typeof useReady>['registerReady']
-  resizeSourceRef: React.MutableRefObject<ResizeSource>
+  resizeSourceRef: React.MutableRefObject<ResizeSource | undefined>
 }): {
   maxHeight: number
   minHeight: number
@@ -172,7 +175,7 @@ function useElementSizeObserver(
     resizeSourceRef
   }: {
     enabled: boolean
-    resizeSourceRef: React.MutableRefObject<ResizeSource>
+    resizeSourceRef: React.MutableRefObject<ResizeSource | undefined>
   }
 ): number {
   let [size, setSize] = useState(0)
@@ -206,7 +209,7 @@ function useElementSizeObserver(
 const useMaxHeight = (
   controlledMaxHeight: number,
   registerReady: ReturnType<typeof useReady>['registerReady'],
-  resizeSourceRef: React.MutableRefObject<ResizeSource>
+  resizeSourceRef: React.MutableRefObject<ResizeSource | undefined>
 ): number => {
   const setReady = useMemo(() => registerReady('maxHeight'), [registerReady])
   const [maxHeight, setMaxHeight] = useState(() =>

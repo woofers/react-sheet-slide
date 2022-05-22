@@ -14,30 +14,42 @@ import { config } from './utils'
 import TrapFocus from './trap-focus'
 import classes from './classnames'
 import styles from './sheet.module.css'
-import { SnapPointProps, defaultSnapPoints, snapPoints, ResizeSource } from './types'
+import {
+  SnapPointProps,
+  DefaultSnapProps,
+  SnapPoints,
+  ResizeSource
+} from './types'
 
 const cx = classes.bind(styles)
 
-function _defaultSnap({ snapPoints, lastSnap }: defaultSnapProps) {
+function _defaultSnap({ snapPoints, lastSnap }: DefaultSnapProps) {
   return lastSnap ?? Math.min(...snapPoints)
 }
 function _snapPoints({ minHeight }: SnapPointProps) {
   return minHeight
 }
 
-type SheetProps = {
+type Callbacks = {
+  onClose: () => void
+}
+
+type BaseProps = {
+  onDismiss?: () => void
   open?: boolean
   children?: React.ReactNode
   expandOnContentDrag?: boolean
-  onDismiss?: () => void
-  onClose?: () => void
-  snapPoints?: snapPoints
-  defaultSnap?: number | ((props: defaultSnapProps) => number)
+  snapPoints?: SnapPoints
+  defaultSnap?: number | ((props: DefaultSnapProps) => number)
 }
+
+type SheetProps = Partial<Callbacks> & BaseProps
+
+type InteralSheetProps = Callbacks & BaseProps & { close: () => void }
 
 const { tension, friction } = config.default
 
-const Sheet: React.FC<SheetProps & { close: () => void }> = ({
+const Sheet: React.FC<InteralSheetProps> = ({
   open,
   children,
   expandOnContentDrag,
@@ -68,9 +80,8 @@ const Sheet: React.FC<SheetProps & { close: () => void }> = ({
     lastSnapRef,
     ready,
     registerReady,
-    resizeSourceRef,
+    resizeSourceRef
   })
-  console.log(maxHeight)
   const minSnapRef = useRef<number>()
   const maxSnapRef = useRef<number>()
   const maxHeightRef = useRef<number>()
@@ -86,6 +97,7 @@ const Sheet: React.FC<SheetProps & { close: () => void }> = ({
   const asyncSet = useCallback<typeof set>(
     // @ts-expect-error
     ({ onRest, config: { velocity = 1, ...config } = {}, ...opts }) =>
+      // @ts-expect-error
       new Promise(resolve =>
         set({
           ...opts,
@@ -103,7 +115,7 @@ const Sheet: React.FC<SheetProps & { close: () => void }> = ({
             )
           },
           onRest: (...args) => {
-            resolve(...args)
+            resolve(args)
           }
         })
       ),
@@ -122,7 +134,7 @@ const Sheet: React.FC<SheetProps & { close: () => void }> = ({
           maxSnap: maxSnapRef.current,
           // Using defaultSnapRef instead of minSnapRef to avoid animating `height` on open
           minSnap: defaultSnapRef.current,
-          immediate: true,
+          immediate: true
         })
         if (!subscribed) return
         heightRef.current = defaultSnapRef.current
@@ -194,38 +206,38 @@ const Sheet: React.FC<SheetProps & { close: () => void }> = ({
     const rawY = memo + my
     const predictedDistance = my * velocity
     const predictedY = Math.max(
-      minSnapRef.current,
-      Math.min(maxSnapRef.current, rawY + predictedDistance * 2)
+      minSnapRef.current!,
+      Math.min(maxSnapRef.current!, rawY + predictedDistance * 2)
     )
     let newY = down
       ? minSnapRef.current === maxSnapRef.current
-        ? rawY < minSnapRef.current
+        ? rawY < minSnapRef.current!
           ? rubberbandIfOutOfBounds(
               rawY,
-              minSnapRef.current,
-              maxSnapRef.current * 2,
+              minSnapRef.current!,
+              maxSnapRef.current! * 2,
               0.55
             )
           : rubberbandIfOutOfBounds(
               rawY,
-              minSnapRef.current / 2,
-              maxSnapRef.current,
+              (minSnapRef.current!) / 2,
+              maxSnapRef.current!,
               0.55
             )
         : rubberbandIfOutOfBounds(
             rawY,
-            minSnapRef.current,
-            maxSnapRef.current,
+            minSnapRef.current!,
+            maxSnapRef.current!,
             0.55
           )
       : predictedY
 
     if (expandOnContentDrag && isContentDragging) {
-      if (newY >= maxSnapRef.current) {
-        newY = maxSnapRef.current
+      if (newY >= maxSnapRef.current!) {
+        newY = maxSnapRef.current!
       }
-      if (memo === maxSnapRef.current && scroll.current!.scrollTop > 0) {
-        newY = maxSnapRef.current
+      if (memo === maxSnapRef.current! && scroll.current!.scrollTop > 0) {
+        newY = maxSnapRef.current!
       }
     }
     if (first) {
@@ -305,7 +317,7 @@ const noop = () => {}
 
 const SheetWrapper: React.FC<SheetProps> = ({
   open: propOpen,
-  onDismiss: onDismissInitial,
+  onDismiss,
   onClose = noop,
   ...rest
 }) => {
@@ -314,9 +326,6 @@ const SheetWrapper: React.FC<SheetProps> = ({
     if (!propOpen) return
     setOpen(propOpen)
   }, [propOpen])
-  const onDismiss = () => {
-    onDismissInitial()
-  }
   const close = () => {
     setOpen(false)
   }

@@ -47,10 +47,16 @@ function useSpringInterpolations({
     }
   )
 
+  const interpolateBackdrop = interpolate(
+    [spring.y, spring.minSnap],
+    (y, minSnap) => (minSnap ? clamp(y / minSnap, 0, 1) : 0)
+  )
+
   return {
     ['--bottom-height' as any]: interpolateFiller,
     ['--modal-offset' as any]: interpolateY,
-    ['--height' as any]: interpolateHeight
+    ['--height' as any]: interpolateHeight,
+    ['--backdrop-opacity' as any]: interpolateBackdrop
   }
 }
 
