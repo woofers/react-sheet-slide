@@ -41,6 +41,7 @@ type BaseProps = {
   expandOnContentDrag?: boolean
   snapPoints?: SnapPoints
   defaultSnap?: number | ((props: DefaultSnapProps) => number)
+  useModal?: boolean
 }
 
 type SheetProps = Partial<Callbacks> & BaseProps
@@ -57,11 +58,13 @@ const Sheet: React.FC<InteralSheetProps> = ({
   onClose,
   close,
   defaultSnap: getDefaultSnap = _defaultSnap,
-  snapPoints: getSnapPoints = _snapPoints
+  snapPoints: getSnapPoints = _snapPoints,
+  useModal = true
 }) => {
+  const enabled = !useModal
   const { ready, registerReady } = useReady()
-  const scroll = useOverscrollLock({ enabled: expandOnContentDrag })
-  useScrollLock({ enabled: true, targetRef: scroll })
+  const scroll = useOverscrollLock({ enabled: expandOnContentDrag && enabled })
+  useScrollLock({ enabled, targetRef: scroll })
   const contentRef = useRef<HTMLDivElement | null>(null)
   const headerRef = useRef<HTMLDivElement | null>(null)
   const footerRef = useRef<HTMLDivElement | null>(null)
@@ -126,7 +129,7 @@ const Sheet: React.FC<InteralSheetProps> = ({
     let subscribed = true
     if (open) {
       const anim = async () => {
-        if (!subscribed) return
+        if (!subscribed || !enabled) return
         await asyncSet({
           y: 0,
           ready: 1,
@@ -152,6 +155,10 @@ const Sheet: React.FC<InteralSheetProps> = ({
       anim()
     } else {
       const animate = async () => {
+        if (!enabled) {
+          close()
+          return
+        }
         if (!subscribed) return
         asyncSet({
           minSnap: heightRef.current,
@@ -196,6 +203,7 @@ const Sheet: React.FC<InteralSheetProps> = ({
     tap,
     velocity
   }: any) => {
+    if (!enabled) return memo
     if (onDismiss && closeOnTap && tap) {
       cancel()
       setTimeout(() => onDismiss(), 0)
@@ -282,20 +290,21 @@ const Sheet: React.FC<InteralSheetProps> = ({
   const bind = useDrag(handleDrag, {
     filterTaps: true
   })
+  const prefix = enabled ? 'sheet' : 'modal'
   return (
     <animated.div
-      className={cx('root')}
+      className={cx(`${prefix}-root`)}
       style={{
         ...interpolations
       }}
     >
       <div
-        className={cx('backdrop', 'stack')}
+        className={cx(`${prefix}-backdrop`, `${prefix}-stack`)}
         {...bind({ closeOnTap: true })}
       ></div>
       <TrapFocus open>
         <div
-          className={cx('modal', 'stack')}
+          className={cx(`${prefix}-modal`, `${prefix}-stack`)}
           aria-modal="true"
           role="dialog"
           tabIndex={-1}
@@ -306,17 +315,17 @@ const Sheet: React.FC<InteralSheetProps> = ({
             }
           }}
         >
-          <div className={cx('header')} {...bind()} ref={headerRef}></div>
+          <div className={cx(`${prefix}-header`)} {...bind()} ref={headerRef}></div>
           <div
-            className={cx('scroll')}
+            className={cx(`${prefix}-scroll`)}
             {...(expandOnContentDrag ? bind({ isContentDragging: true }) : {})}
             ref={scroll}
           >
-            <div className={cx('content')} ref={contentRef}>
+            <div className={cx(`${prefix}-content`)} ref={contentRef}>
               {children}
             </div>
           </div>
-          <div className={cx('footer')} {...bind()} ref={footerRef}></div>
+          <div className={cx(`${prefix}-footer`)} {...bind()} ref={footerRef}></div>
         </div>
       </TrapFocus>
     </animated.div>

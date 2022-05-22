@@ -1,5 +1,5 @@
 
-.root {
+.sheet-root, .modal-root {
   --backdrop: rgba(0, 0, 0, 0.6);
   --background: #fff;
   --handle: #c9c9c9;
@@ -12,7 +12,14 @@
   --backdrop-opacity: 0;
 }
 
-.stack {
+.modal-root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.sheet-stack, .modal-stack {
   z-index: 3;
   -ms-scroll-chaining: none;
   overscroll-behavior: none;
@@ -29,13 +36,28 @@
   -webkit-touch-callout: none;
 }
 
-.backdrop {
+.sheet-backdrop, .modal-backdrop {
   background-color: var(--backdrop);
   top: 0;
+}
+
+.sheet-backdrop {
   opacity: var(--backdrop-opacity);
 }
 
-.modal {
+.modal-modal {
+  max-width: 492px;
+  border-radius: 16px;
+  display: flex;
+  background: var(--background);
+  flex-direction: column;
+  inset: 0;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.sheet-modal {
   max-width: var(--width);
   margin: auto calc(var(--gutter) + env(safe-area-inset-right)) auto calc(var(--gutter) + env(safe-area-inset-left));
   border-top-left-radius: 16px;
@@ -51,11 +73,11 @@
   right: unset;
 }
 
-.modal:focus {
+.sheet-modal:focus {
   outline: none;
 }
 
-.modal:after {
+.sheet-modal:after {
   content: '';
   pointer-events: none;
   background: var(--background);
@@ -66,7 +88,7 @@
   will-change: transform;
 }
 
-.header {
+.sheet-header, .modal-header {
   z-index: 1;
   text-align: center;
   user-select: none;
@@ -75,7 +97,7 @@
   padding-bottom: 8px;
 }
 
-.header:before {
+.sheet-header:before {
   position: absolute;
   content: '';
   display: block;
@@ -88,7 +110,7 @@
   background-color: var(--handle);
 }
 
-.scroll {
+.sheet-scroll, .modal-scroll {
   flex-shrink: 1;
   flex-grow: 1;
   -webkit-tap-highlight-color: revert;
@@ -101,19 +123,19 @@
   -webkit-overflow-scrolling: touch;
 }
 
-.content {
+.sheet-content, .modal-content {
   overflow: hidden;
 }
 
-.footer {
+.sheet-footer, .modal-footer {
   z-index: 1;
   box-shadow: 0 -1px 0 rgba(46, 59, 66, 0.125), 0 2px 0 var(--background);
   overflow: hidden;
   padding-bottom: calc(16px + env(safe-area-inset-bottom));
 }
 
-.header,
-.footer {
+.sheet-header,
+.sheet-footer {
   flex-shrink: 0;
   cursor: ns-resize;
   padding: 16px;
