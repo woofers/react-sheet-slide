@@ -1,4 +1,11 @@
-import React, { useCallback, useState, useEffect, useRef } from 'react'
+import React, {
+  Children,
+  Fragment,
+  useCallback,
+  useState,
+  useEffect,
+  useRef
+} from 'react'
 import { animated } from '@react-spring/web'
 import { rubberbandIfOutOfBounds, useDrag } from 'react-use-gesture'
 import {
@@ -20,6 +27,24 @@ import {
   SnapPoints,
   ResizeSource
 } from './types'
+
+type WrapperProps = {
+  children?: React.ReactNode
+}
+
+const makeEmpty = (name: string) => {
+  const val: React.FC<WrapperProps> = ({ children }) => (
+    <Fragment>{children}</Fragment>
+  )
+  val.dispalyName = name
+  return val
+}
+
+export const Header = makeEmpty('header')
+
+export const Content = makeEmpty('content')
+
+export const Footer = makeEmpty('footer')
 
 const cx = classes.bind(styles)
 
@@ -50,7 +75,12 @@ type InteralSheetProps = Callbacks & BaseProps & { close: () => void }
 
 const { tension, friction } = config.default
 
-const Sheet: React.FC<InteralSheetProps> = ({
+const getItem = (
+  Component: React.ComponentType<WrapperProps>,
+  content: React.ReactNode[]
+) => content.filter(child => child?.type === Component)
+
+const BaseSheet: React.FC<InteralSheetProps> = ({
   open,
   children,
   expandOnContentDrag,
@@ -59,12 +89,17 @@ const Sheet: React.FC<InteralSheetProps> = ({
   close,
   defaultSnap: getDefaultSnap = _defaultSnap,
   snapPoints: getSnapPoints = _snapPoints,
-  useModal = true
+  useModal = false
 }) => {
+  const content = Children.toArray(children)
+  const headerContent = getItem(Header, content)
+  const scrollContent = getItem(Content, content)
+  const footerContent = getItem(Footer, content)
+  console.log(scrollContent)
   const enabled = !useModal
   const { ready, registerReady } = useReady()
   const scroll = useOverscrollLock({ enabled: expandOnContentDrag && enabled })
-  useScrollLock({ enabled, targetRef: scroll })
+  useScrollLock({ enabled: true, targetRef: scroll })
   const contentRef = useRef<HTMLDivElement | null>(null)
   const headerRef = useRef<HTMLDivElement | null>(null)
   const footerRef = useRef<HTMLDivElement | null>(null)
@@ -221,7 +256,7 @@ const Sheet: React.FC<InteralSheetProps> = ({
       !down &&
       onDismiss &&
       direction > 0 &&
-      rawY + predictedDistance < (minSnapRef.current!) / 2
+      rawY + predictedDistance < minSnapRef.current! / 2
     ) {
       cancel()
       onDismiss()
@@ -238,7 +273,7 @@ const Sheet: React.FC<InteralSheetProps> = ({
             )
           : rubberbandIfOutOfBounds(
               rawY,
-              (minSnapRef.current!) / 2,
+              minSnapRef.current! / 2,
               maxSnapRef.current!,
               0.55
             )
@@ -315,17 +350,21 @@ const Sheet: React.FC<InteralSheetProps> = ({
             }
           }}
         >
-          <div className={cx(`${prefix}-header`)} {...bind()} ref={headerRef}></div>
+          <div className={cx(`${prefix}-header`)} {...bind()} ref={headerRef}>
+            {headerContent}
+          </div>
           <div
             className={cx(`${prefix}-scroll`)}
             {...(expandOnContentDrag ? bind({ isContentDragging: true }) : {})}
             ref={scroll}
           >
             <div className={cx(`${prefix}-content`)} ref={contentRef}>
-              {children}
+              {scrollContent}
             </div>
           </div>
-          <div className={cx(`${prefix}-footer`)} {...bind()} ref={footerRef}></div>
+          <div className={cx(`${prefix}-footer`)} {...bind()} ref={footerRef}>
+            {footerContent}
+          </div>
         </div>
       </TrapFocus>
     </animated.div>
@@ -334,7 +373,7 @@ const Sheet: React.FC<InteralSheetProps> = ({
 
 const noop = () => {}
 
-const SheetWrapper: React.FC<SheetProps> = ({
+export const Sheet: React.FC<SheetProps> = ({
   open: propOpen,
   onDismiss,
   onClose = noop,
@@ -350,7 +389,7 @@ const SheetWrapper: React.FC<SheetProps> = ({
   }
   if (!open) return null
   return (
-    <Sheet
+    <BaseSheet
       open={propOpen}
       onDismiss={onDismiss}
       onClose={onClose}
@@ -359,5 +398,3 @@ const SheetWrapper: React.FC<SheetProps> = ({
     />
   )
 }
-
-export default SheetWrapper

@@ -2,7 +2,7 @@
 .sheet-root, .modal-root {
   --backdrop: rgba(0, 0, 0, 0.6);
   --background: #fff;
-  --handle: #c9c9c9;
+  --handle: #eeeeef;
   --gutter: 0px;
   --width: auto;
 
@@ -10,6 +10,17 @@
   --modal-offset: 0px;
   --bottom-height: 0px;
   --backdrop-opacity: 0;
+
+  --padding: 32px;
+}
+
+
+.modal-header,
+.modal-footer,
+.sheet-header,
+.sheet-footer {
+  flex-shrink: 0;
+  padding: 16px;
 }
 
 .modal-root {
@@ -23,17 +34,20 @@
   z-index: 3;
   -ms-scroll-chaining: none;
   overscroll-behavior: none;
-  touch-action: none;
   position: fixed;
   right: 0;
   bottom: 0;
   left: 0;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+}
+
+.sheet-stack {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  -webkit-tap-highlight-color: transparent;
-  -webkit-touch-callout: none;
+  touch-action: none;
 }
 
 .sheet-backdrop, .modal-backdrop {
@@ -46,6 +60,7 @@
 }
 
 .modal-modal {
+  max-height: calc(100% - var(--padding) * 2);
   max-width: 492px;
   border-radius: 16px;
   display: flex;
@@ -90,9 +105,7 @@
 
 .sheet-header, .modal-header {
   z-index: 1;
-  text-align: center;
   user-select: none;
-  box-shadow: 0 1px 0 rgba(46, 59, 66, 0.125);
   padding-top: calc(20px + env(safe-area-inset-top));
   padding-bottom: 8px;
 }
@@ -110,14 +123,17 @@
   background-color: var(--handle);
 }
 
+.sheet-scroll {
+  -webkit-user-select: auto;
+  -ms-user-select: auto;
+  user-select: auto;
+}
+
 .sheet-scroll, .modal-scroll {
   flex-shrink: 1;
   flex-grow: 1;
   -webkit-tap-highlight-color: revert;
   -webkit-touch-callout: revert;
-  -webkit-user-select: auto;
-  -ms-user-select: auto;
-  user-select: auto;
   overflow: auto;
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
@@ -129,14 +145,11 @@
 
 .sheet-footer, .modal-footer {
   z-index: 1;
-  box-shadow: 0 -1px 0 rgba(46, 59, 66, 0.125), 0 2px 0 var(--background);
   overflow: hidden;
   padding-bottom: calc(16px + env(safe-area-inset-bottom));
 }
 
 .sheet-header,
 .sheet-footer {
-  flex-shrink: 0;
   cursor: ns-resize;
-  padding: 16px;
 }

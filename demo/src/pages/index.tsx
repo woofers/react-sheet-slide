@@ -1,18 +1,48 @@
 import { useState } from 'react'
 import { styled } from 'stitches'
-import { Sheet, Portal } from 'components/react-swipe-sheet'
+import {
+  Sheet,
+  Header,
+  Content,
+  Footer,
+  Portal
+} from 'components/react-swipe-sheet'
 
 const Flex = styled('div', {
+  width: '100%',
   display: 'flex',
-  justifyContent: 'center',
+  justifyContent: 'space-between',
   alignItems: 'center',
   gap: '0 12px'
+})
+
+const HeaderWrapper = styled('div', {
+  display: 'flex',
+  padding: '0px 0 0px',
+  alignItems: 'center',
+  gap: '0 8px'
+})
+
+const HeaderBox = styled('div', {
+  br: '4px',
+  height: '24px',
+  width: '24px',
+  background: '#0b8aff'
 })
 
 const Box = styled('div', {
   height: '62px',
   width: '92px',
   background: '#0b8aff'
+})
+
+const CloseButton = styled('button', {
+  padding: 0,
+  border: 'none',
+  backgroundColor: '#eeeeef',
+  br: '$round',
+  width: '28px',
+  height: '28px'
 })
 
 const Description = styled('div', {
@@ -28,6 +58,7 @@ const Description = styled('div', {
 })
 
 const Text = styled('div', {
+  maxWidth: '300px',
   fontFamily: '$title',
   fontWeight: 500,
   lineHeight: '24px',
@@ -37,14 +68,23 @@ const Text = styled('div', {
   letterSpacing: '-0.5px'
 })
 
+const ButtonText = styled('div', {
+  fontFamily: '$title',
+  fontWeight: 500,
+  lineHeight: '24px',
+  fontSize: '18px',
+  marginTop: 0,
+  marginBottom: 0,
+  letterSpacing: '0px',
+  flex: 1
+})
+
 const Action = styled('div', {
   color: '#2878f4',
   fontFamily: '$title',
   fontWeight: 400,
   lineHeight: '20px',
   fontSize: '16px',
-  marginTop: 0,
-  marginBottom: 0,
   width: '100%',
   letterSpacing: '-0.25px',
   textAlign: 'center',
@@ -54,15 +94,36 @@ const Action = styled('div', {
 const Button = styled('button', {
   height: '44px',
   padding: '8px 16px',
-  background: '#2878f4',
-  color: '#fff',
+  backgroundColor: '$$background',
+  color: '$$text',
   border: 'none',
   br: '10px',
   fontFamily: '$title',
   fontWeight: 500,
   lineHeight: '16px',
   fontSize: '16px',
-  letterSpacing: '0px'
+  letterSpacing: '0px',
+  transition: 'background-color 0.3s ease-in-out',
+  '&:hover': {
+    backgroundColor: '$$hover'
+  },
+  variants: {
+    theme: {
+      primary: {
+        $$background: '#2878f4',
+        $$text: '#ffffff',
+        $$hover: '#67a0f7'
+      },
+      secondary: {
+        $$background: 'none',
+        $$text: '#2878f4',
+        $$hover: 'none'
+      }
+    }
+  },
+  defaultVariants: {
+    theme: 'primary'
+  }
 })
 
 const Container = styled('div', {
@@ -119,6 +180,13 @@ const Link = styled('a', {
   }
 })
 
+const FooterWrapper = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
+  padding: '16px 16px 0',
+  gap: '8px 0'
+})
+
 const App = () => {
   const [open, setOpen] = useState(false)
   const [show, setShow] = useState(true)
@@ -141,28 +209,48 @@ const App = () => {
             expandOnContentDrag
             onDismiss={() => setOpen(false)}
             onClose={() => console.log('we closed')}
-            defaultSnap={({ maxHeight }) => maxHeight - maxHeight / 10}
-            snapPoints={({ maxHeight }) => [
+            defaultSnap={({ minHeight }) => minHeight}
+            snapPoints={({ maxHeight, minHeight }) => [
+              minHeight,
               maxHeight - maxHeight / 10,
               maxHeight / 4,
               maxHeight * 0.6
             ]}
           >
-            <Container>
-              <Flex>
-              <Text>Add more storage to keep everything on online</Text>
-              <Box />
-              </Flex>
-              <Description>
-          Online includes plenty of storage to keep all your data safe and features to protect your
-          privacy.
-              </Description>
-              <Action>Learn More About Online</Action>
-              <Button type="button" onClick={() => setOpen(false)}>
-                Close
-              </Button>
-              <Button type="button">noop</Button>
-            </Container>
+            <Header>
+              <HeaderWrapper>
+                <HeaderBox />
+                <ButtonText>Online</ButtonText>
+                <CloseButton type="button" onClick={() => setOpen(false)} />
+              </HeaderWrapper>
+            </Header>
+            <Content>
+              <Container>
+                <Flex>
+                  <Text>Add more storage to keep everything on online</Text>
+                  <Box />
+                </Flex>
+                <Description>
+                  Online includes plenty of storage to keep all your data safe
+                  and features to protect your privacy.
+                </Description>
+                <Action>Learn More About Online</Action>
+              </Container>
+            </Content>
+            <Footer>
+              <FooterWrapper>
+                <Button type="button" onClick={() => setOpen(false)}>
+                  Close
+                </Button>
+                <Button
+                  type="button"
+                  theme="secondary"
+                  onClick={() => setOpen(false)}
+                >
+                  Not Now
+                </Button>
+              </FooterWrapper>
+            </Footer>
           </Sheet>
         </Portal>
       )}
