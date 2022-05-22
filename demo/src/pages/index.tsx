@@ -2,13 +2,74 @@ import { useState } from 'react'
 import { styled } from 'stitches'
 import { Sheet, Portal } from 'components/react-swipe-sheet'
 
-const Text = styled('span', {
+const Flex = styled('div', {
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  gap: '0 12px'
+})
+
+const Box = styled('div', {
+  height: '62px',
+  width: '92px',
+  background: '#0b8aff'
+})
+
+const Description = styled('div', {
+  margin: '0 auto',
+  textAlign: 'center',
+  width: '100%',
+  maxWidth: '328px',
   fontFamily: '$title',
-  fontWeight: 600,
-  fontSize: '5.5em',
+  fontWeight: 400,
+  lineHeight: '20px',
+  fontSize: '16px',
+  letterSpacing: '-0.25px'
+})
+
+const Text = styled('div', {
+  fontFamily: '$title',
+  fontWeight: 500,
+  lineHeight: '24px',
+  fontSize: '20px',
   marginTop: 0,
   marginBottom: 0,
-  letterSpacing: '-3px'
+  letterSpacing: '-0.5px'
+})
+
+const Action = styled('div', {
+  color: '#2878f4',
+  fontFamily: '$title',
+  fontWeight: 400,
+  lineHeight: '20px',
+  fontSize: '16px',
+  marginTop: 0,
+  marginBottom: 0,
+  width: '100%',
+  letterSpacing: '-0.25px',
+  textAlign: 'center',
+  margin: '0 auto'
+})
+
+const Button = styled('button', {
+  height: '44px',
+  padding: '8px 16px',
+  background: '#2878f4',
+  color: '#fff',
+  border: 'none',
+  br: '10px',
+  fontFamily: '$title',
+  fontWeight: 500,
+  lineHeight: '16px',
+  fontSize: '16px',
+  letterSpacing: '0px'
+})
+
+const Container = styled('div', {
+  padding: '16px 20px',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '24px 0'
 })
 
 const Fullscreen = styled('div', {
@@ -70,9 +131,9 @@ const App = () => {
           </Link>
         </Center>
       </WaveWrapper>
-      <button type="button" onClick={() => setOpen(v => !v)}>
+      <Button type="button" onClick={() => setOpen(v => !v)}>
         Open sheet
-      </button>
+      </Button>
       {show && (
         <Portal containerRef="#react-swipe-sheet">
           <Sheet
@@ -87,10 +148,21 @@ const App = () => {
               maxHeight * 0.6
             ]}
           >
-            <button type="button" onClick={() => setOpen(false)}>
-              Close
-            </button>
-            <button type="button">noop</button>
+            <Container>
+              <Flex>
+              <Text>Add more storage to keep everything on online</Text>
+              <Box />
+              </Flex>
+              <Description>
+          Online includes plenty of storage to keep all your data safe and features to protect your
+          privacy.
+              </Description>
+              <Action>Learn More About Online</Action>
+              <Button type="button" onClick={() => setOpen(false)}>
+                Close
+              </Button>
+              <Button type="button">noop</Button>
+            </Container>
           </Sheet>
         </Portal>
       )}
