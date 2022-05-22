@@ -40,9 +40,27 @@ const CloseButton = styled('button', {
   padding: 0,
   border: 'none',
   backgroundColor: '#eeeeef',
+  color: '#838388',
   br: '$round',
   width: '28px',
-  height: '28px'
+  height: '28px',
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  position: 'relative',
+})
+
+const CloseText = styled('span', {
+  fontFamily: '$title',
+  fontWeight: 500,
+  lineHeight: '24px',
+  fontSize: '18px',
+  width: '12px',
+  height: '20px',
+  top: '0px',
+  left: '8.25px',
+  transform: 'scale(1.1, 1)',
+  position: 'absolute'
 })
 
 const Description = styled('div', {
@@ -221,7 +239,9 @@ const App = () => {
               <HeaderWrapper>
                 <HeaderBox />
                 <ButtonText>Online</ButtonText>
-                <CloseButton type="button" onClick={() => setOpen(false)} />
+                <CloseButton type="button" onClick={() => setOpen(false)}>
+                  <CloseText>x</CloseText>
+                </CloseButton>
               </HeaderWrapper>
             </Header>
             <Content>
