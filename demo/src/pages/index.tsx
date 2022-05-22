@@ -47,7 +47,7 @@ const CloseButton = styled('button', {
   display: 'inline-flex',
   alignItems: 'center',
   justifyContent: 'center',
-  position: 'relative',
+  position: 'relative'
 })
 
 const CloseText = styled('span', {

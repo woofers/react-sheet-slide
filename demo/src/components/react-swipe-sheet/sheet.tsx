@@ -36,14 +36,12 @@ const makeEmpty = (name: string) => {
   const val: React.FC<WrapperProps> = ({ children }) => (
     <Fragment>{children}</Fragment>
   )
-  val.dispalyName = name
+  val.displayName = name
   return val
 }
 
 export const Header = makeEmpty('header')
-
 export const Content = makeEmpty('content')
-
 export const Footer = makeEmpty('footer')
 
 const cx = classes.bind(styles)
@@ -78,7 +76,14 @@ const { tension, friction } = config.default
 const getItem = (
   Component: React.ComponentType<WrapperProps>,
   content: React.ReactNode[]
-) => content.filter(child => child?.type === Component)
+) =>
+  content.filter(
+    child =>
+      child &&
+      typeof child === 'object' &&
+      'type' in child &&
+      child.type === Component
+  )
 
 const BaseSheet: React.FC<InteralSheetProps> = ({
   open,
@@ -89,13 +94,12 @@ const BaseSheet: React.FC<InteralSheetProps> = ({
   close,
   defaultSnap: getDefaultSnap = _defaultSnap,
   snapPoints: getSnapPoints = _snapPoints,
-  useModal = false
+  useModal = true
 }) => {
   const content = Children.toArray(children)
   const headerContent = getItem(Header, content)
   const scrollContent = getItem(Content, content)
   const footerContent = getItem(Footer, content)
-  console.log(scrollContent)
   const enabled = !useModal
   const { ready, registerReady } = useReady()
   const scroll = useOverscrollLock({ enabled: expandOnContentDrag && enabled })
@@ -358,7 +362,11 @@ const BaseSheet: React.FC<InteralSheetProps> = ({
             {...(expandOnContentDrag ? bind({ isContentDragging: true }) : {})}
             ref={scroll}
           >
-          <div className={cx(`${prefix}-content`)} ref={contentRef} tabIndex={-1}>
+            <div
+              className={cx(`${prefix}-content`)}
+              ref={contentRef}
+              tabIndex={-1}
+            >
               {scrollContent}
             </div>
           </div>

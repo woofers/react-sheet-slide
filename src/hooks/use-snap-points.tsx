@@ -2,11 +2,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import useLayoutEffect from './use-layout-effect'
 import useReady from './use-ready'
 import { processSnapPoints, roundAndCheckForNaN } from '../utils'
-import type {
-  SnapPoints,
-  ResizeSource,
-  DefaultSnapProps
-} from '../types'
+import type { SnapPoints, ResizeSource, DefaultSnapProps } from '../types'
 
 const useSnapPoints = ({
   contentRef,
