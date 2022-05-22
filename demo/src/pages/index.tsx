@@ -18,7 +18,7 @@ const Flex = styled('div', {
 
 const HeaderWrapper = styled('div', {
   display: 'flex',
-  padding: '0px 0 0px',
+  padding: '0 0 4px',
   alignItems: 'center',
   gap: '0 8px'
 })
@@ -201,7 +201,7 @@ const Link = styled('a', {
 const FooterWrapper = styled('div', {
   display: 'flex',
   flexDirection: 'column',
-  padding: '16px 16px 0',
+  padding: '0 16px 0',
   gap: '8px 0'
 })
 

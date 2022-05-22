@@ -358,7 +358,7 @@ const BaseSheet: React.FC<InteralSheetProps> = ({
             {...(expandOnContentDrag ? bind({ isContentDragging: true }) : {})}
             ref={scroll}
           >
-            <div className={cx(`${prefix}-content`)} ref={contentRef}>
+          <div className={cx(`${prefix}-content`)} ref={contentRef} tabIndex={-1}>
               {scrollContent}
             </div>
           </div>
