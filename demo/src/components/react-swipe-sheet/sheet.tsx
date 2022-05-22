@@ -187,7 +187,7 @@ const Sheet: React.FC<InteralSheetProps> = ({
   const handleDrag = ({
     args: [{ closeOnTap = false, isContentDragging = false } = {}] = [],
     cancel,
-    //direction: [, direction],
+    direction: [, direction],
     down,
     first,
     last,
@@ -209,6 +209,16 @@ const Sheet: React.FC<InteralSheetProps> = ({
       minSnapRef.current!,
       Math.min(maxSnapRef.current!, rawY + predictedDistance * 2)
     )
+    if (
+      !down &&
+      onDismiss &&
+      direction > 0 &&
+      rawY + predictedDistance < (minSnapRef.current!) / 2
+    ) {
+      cancel()
+      onDismiss()
+      return memo
+    }
     let newY = down
       ? minSnapRef.current === maxSnapRef.current
         ? rawY < minSnapRef.current!
