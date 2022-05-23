@@ -8,7 +8,7 @@ import React, {
   useRef
 } from 'react'
 import { animated } from '@react-spring/web'
-import { rubberbandIfOutOfBounds, useDrag } from 'react-use-gesture'
+import { rubberbandIfOutOfBounds, useDrag } from '@use-gesture/react'
 import {
   useLayoutEffect,
   useReady,
@@ -221,7 +221,7 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
       memo = spring.y.get() as number,
       movement: [, _my],
       tap,
-      velocity
+      velocity: [, velocity]
     }: any) => {
       if (onDismiss && closeOnTap && tap) {
         cancel()

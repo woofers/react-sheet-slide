@@ -230,9 +230,9 @@ const App = () => {
           defaultSnap={({ minHeight }) => minHeight}
           snapPoints={({ maxHeight, minHeight }) => [
             minHeight,
-            maxHeight - maxHeight / 10,
-            maxHeight / 4,
-            maxHeight * 0.6
+            maxHeight - maxHeight * 0.1,
+            maxHeight - maxHeight * 0.4,
+            maxHeight - maxHeight * 0.6,
           ]}
         >
           <Header>
