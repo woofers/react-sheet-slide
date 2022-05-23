@@ -67,7 +67,7 @@ type BaseProps = {
   useModal?: boolean
 }
 
-type SheetProps = Partial<Callbacks> & BaseProps
+export type SheetProps = Partial<Callbacks> & BaseProps
 
 type InteralSheetProps = Callbacks & BaseProps & { close: () => void }
 
