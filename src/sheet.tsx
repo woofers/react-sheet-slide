@@ -15,7 +15,9 @@ import {
   useSpring,
   useSpringInterpolations,
   useOverscrollLock,
-  useScrollLock
+  useScrollLock,
+  useMediaQuery,
+  useReducedMotion
 } from './hooks'
 import { config } from './utils'
 import TrapFocus from './trap-focus'
@@ -46,12 +48,10 @@ export const Footer = makeEmpty('footer')
 
 const cx = classes.bind(styles)
 
-function _defaultSnap({ snapPoints, lastSnap }: DefaultSnapProps) {
-  return lastSnap ?? Math.min(...snapPoints)
-}
-function _snapPoints({ minHeight }: SnapPointProps) {
-  return minHeight
-}
+const _defaultSnap = ({ snapPoints, lastSnap }: DefaultSnapProps) =>
+  lastSnap ?? Math.min(...snapPoints)
+
+const _snapPoints = ({ minHeight }: SnapPointProps) => minHeight
 
 type Callbacks = {
   onClose: () => void
@@ -94,13 +94,17 @@ const BaseSheet: React.FC<InteralSheetProps> = ({
   close,
   defaultSnap: getDefaultSnap = _defaultSnap,
   snapPoints: getSnapPoints = _snapPoints,
-  useModal = true
+  useModal: useModalInitial
 }) => {
+  const bq = useMediaQuery('(max-width: 640px)')
+  const useModal =
+    typeof useModalInitial !== 'undefined' ? useModalInitial : !bq
+  const enabled = !useModal
+  const prefersReducedMotion = useReducedMotion()
   const content = Children.toArray(children)
   const headerContent = getItem(Header, content)
   const scrollContent = getItem(Content, content)
   const footerContent = getItem(Footer, content)
-  const enabled = !useModal
   const { ready, registerReady } = useReady()
   const scroll = useOverscrollLock({ enabled: expandOnContentDrag && enabled })
   useScrollLock({ enabled: true, targetRef: scroll })
@@ -188,7 +192,7 @@ const BaseSheet: React.FC<InteralSheetProps> = ({
           maxSnap: maxSnapRef.current,
           // Using defaultSnapRef instead of minSnapRef to avoid animating `height` on open
           minSnap: defaultSnapRef.current,
-          immediate: false
+          immediate: prefersReducedMotion
         })
       }
       anim()
@@ -212,7 +216,7 @@ const BaseSheet: React.FC<InteralSheetProps> = ({
           y: 0,
           maxHeight: maxHeightRef.current,
           maxSnap: maxSnapRef.current,
-          immediate: false
+          immediate: prefersReducedMotion
         })
         if (!subscribed) return
         await asyncSet({ ready: 0, immediate: true })
@@ -224,12 +228,12 @@ const BaseSheet: React.FC<InteralSheetProps> = ({
     return () => {
       subscribed = false
     }
-  }, [set, open, ready])
+  }, [set, asyncSet, open, ready, enabled, close])
   useEffect(() => {
     return () => {
       onClose()
     }
-  }, [])
+  }, [onClose])
   const handleDrag = ({
     args: [{ closeOnTap = false, isContentDragging = false } = {}] = [],
     cancel,
@@ -309,7 +313,7 @@ const BaseSheet: React.FC<InteralSheetProps> = ({
         maxHeight: maxHeightRef.current,
         maxSnap: maxSnapRef.current,
         minSnap: minSnapRef.current,
-        immediate: false,
+        immediate: prefersReducedMotion,
         y: snap,
         config: { velocity: velocity > 0.05 ? velocity : 1 }
       })
@@ -382,23 +386,26 @@ const BaseSheet: React.FC<InteralSheetProps> = ({
 const noop = () => {}
 
 export const Sheet: React.FC<SheetProps> = ({
-  open: propOpen,
+  open,
   onDismiss,
-  onClose = noop,
+  onClose: onCloseProp = noop,
   ...rest
 }) => {
-  const [open, setOpen] = useState(propOpen)
+  const [mounted, setMounted] = useState(open)
   useEffect(() => {
-    if (!propOpen) return
-    setOpen(propOpen)
-  }, [propOpen])
-  const close = () => {
-    setOpen(false)
-  }
-  if (!open) return null
+    if (!open) return
+    setMounted(open)
+  }, [open])
+  const close = useCallback(() => {
+    setMounted(false)
+  }, [])
+  const onClose = useCallback(() => {
+    onCloseProp()
+  }, [onCloseProp])
+  if (!mounted) return null
   return (
     <BaseSheet
-      open={propOpen}
+      open={open}
       onDismiss={onDismiss}
       onClose={onClose}
       close={close}

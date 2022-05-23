@@ -48,12 +48,10 @@ export const Footer = makeEmpty('footer')
 
 const cx = classes.bind(styles)
 
-function _defaultSnap({ snapPoints, lastSnap }: DefaultSnapProps) {
-  return lastSnap ?? Math.min(...snapPoints)
-}
-function _snapPoints({ minHeight }: SnapPointProps) {
-  return minHeight
-}
+const _defaultSnap = ({ snapPoints, lastSnap }: DefaultSnapProps) =>
+  lastSnap ?? Math.min(...snapPoints)
+
+const _snapPoints = ({ minHeight }: SnapPointProps) => minHeight
 
 type Callbacks = {
   onClose: () => void
@@ -99,7 +97,8 @@ const BaseSheet: React.FC<InteralSheetProps> = ({
   useModal: useModalInitial
 }) => {
   const bq = useMediaQuery('(max-width: 640px)')
-  const useModal = typeof useModalInitial !== 'undefined' ? useModalInitial : !bq
+  const useModal =
+    typeof useModalInitial !== 'undefined' ? useModalInitial : !bq
   const enabled = !useModal
   const prefersReducedMotion = useReducedMotion()
   const content = Children.toArray(children)
@@ -229,12 +228,12 @@ const BaseSheet: React.FC<InteralSheetProps> = ({
     return () => {
       subscribed = false
     }
-  }, [set, open, ready, enabled])
+  }, [set, asyncSet, open, ready, enabled, close])
   useEffect(() => {
     return () => {
       onClose()
     }
-  }, [])
+  }, [onClose])
   const handleDrag = ({
     args: [{ closeOnTap = false, isContentDragging = false } = {}] = [],
     cancel,
@@ -265,7 +264,7 @@ const BaseSheet: React.FC<InteralSheetProps> = ({
       !down &&
       onDismiss &&
       direction > 0 &&
-      rawY + predictedDistance < (minSnapRef.current!) / 2
+      rawY + predictedDistance < minSnapRef.current! / 2
     ) {
       cancel()
       onDismiss()
@@ -387,23 +386,26 @@ const BaseSheet: React.FC<InteralSheetProps> = ({
 const noop = () => {}
 
 export const Sheet: React.FC<SheetProps> = ({
-  open: propOpen,
+  open,
   onDismiss,
-  onClose = noop,
+  onClose: onCloseProp = noop,
   ...rest
 }) => {
-  const [open, setOpen] = useState(propOpen)
+  const [mounted, setMounted] = useState(open)
   useEffect(() => {
-    if (!propOpen) return
-    setOpen(propOpen)
-  }, [propOpen])
-  const close = () => {
-    setOpen(false)
-  }
-  if (!open) return null
+    if (!open) return
+    setMounted(open)
+  }, [open])
+  const close = useCallback(() => {
+    setMounted(false)
+  }, [])
+  const onClose = useCallback(() => {
+    onCloseProp()
+  }, [onCloseProp])
+  if (!mounted) return null
   return (
     <BaseSheet
-      open={propOpen}
+      open={open}
       onDismiss={onDismiss}
       onClose={onClose}
       close={close}
