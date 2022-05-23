@@ -7,7 +7,6 @@ const useSpringInterpolations = ({
 }: {
   spring: Spring
 }): React.CSSProperties => {
-
   const interpolateHeight = interpolate(
     [spring.y, spring.minSnap, spring.maxSnap],
     (y, minSnap, maxSnap) => `${clamp(y, minSnap, maxSnap)}px`

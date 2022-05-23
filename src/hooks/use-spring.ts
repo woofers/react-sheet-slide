@@ -1,6 +1,7 @@
 import { useCallback } from 'react'
 import { useSpring as useReactSpring } from '@react-spring/web'
 import { config } from '../utils'
+import type { SpringConfig } from '../types'
 
 const { tension, friction } = config.default
 
@@ -13,7 +14,7 @@ const useSpringWrapper = () =>
     maxSnap: 0
   }))
 
-type AsyncType = Record<string, any>
+type AsyncType = { config?: SpringConfig } & Record<string, unknown>
 type SpringSetAsync = (e: AsyncType) => Promise<unknown>
 
 const useSpring = (): [Spring, SpringSet, SpringSetAsync] => {

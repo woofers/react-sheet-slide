@@ -8,8 +8,6 @@ export type SnapPointProps = {
 
 export type SnapPoints = (props: SnapPointProps) => number[] | number
 
-export type ResizeSource = 'window' | 'maxheightprop' | 'element'
-
 export type DefaultSnapProps = {
   snapPoints: number[]
   lastSnap: number | null

@@ -22,12 +22,9 @@ import {
 import TrapFocus from './trap-focus'
 import classes from './classnames'
 import styles from './sheet.module.css'
-import {
-  SnapPointProps,
-  DefaultSnapProps,
-  SnapPoints,
-  ResizeSource
-} from './types'
+import { SnapPointProps, DefaultSnapProps, SnapPoints } from './types'
+
+const empty = {}
 
 type WrapperProps = {
   children?: React.ReactNode
@@ -66,9 +63,9 @@ type BaseProps = {
   useModal?: boolean
 }
 
-export type SheetProps = Partial<Callbacks> & BaseProps
-
 type InteralSheetProps = Callbacks & BaseProps & { close: () => void }
+
+export type SheetProps = Partial<Callbacks> & BaseProps
 
 const getItem = (
   Component: React.ComponentType<WrapperProps>,
@@ -105,12 +102,14 @@ const BaseSheet: React.FC<InteralSheetProps> = ({
   const { ready, registerReady } = useReady()
   const scroll = useOverscrollLock({ enabled: expandOnContentDrag && enabled })
   useScrollLock({ enabled: true, targetRef: scroll })
+
   const contentRef = useRef<HTMLDivElement | null>(null)
   const headerRef = useRef<HTMLDivElement | null>(null)
   const footerRef = useRef<HTMLDivElement | null>(null)
+
   const [spring, set, asyncSet] = useSpring()
   const interpolations = useSpringInterpolations({ spring })
-  const resizeSourceRef = useRef<ResizeSource>()
+
   const lastSnapRef = useRef<any>(null)
   const heightRef = useRef<number>()
   const { minSnap, maxSnap, maxHeight, findSnap } = useSnapPoints({
@@ -122,8 +121,7 @@ const BaseSheet: React.FC<InteralSheetProps> = ({
     heightRef,
     lastSnapRef,
     ready,
-    registerReady,
-    resizeSourceRef
+    registerReady
   })
   const minSnapRef = useRef<number>()
   const maxSnapRef = useRef<number>()
@@ -137,6 +135,7 @@ const BaseSheet: React.FC<InteralSheetProps> = ({
     findSnapRef.current = findSnap
     defaultSnapRef.current = findSnap(getDefaultSnap)
   }, [findSnap, getDefaultSnap, maxHeight, maxSnap, minSnap])
+
   useEffect(() => {
     if (!ready) return
     let subscribed = true
@@ -216,7 +215,6 @@ const BaseSheet: React.FC<InteralSheetProps> = ({
     tap,
     velocity
   }: any) => {
-    if (!enabled) return memo
     if (onDismiss && closeOnTap && tap) {
       cancel()
       setTimeout(() => onDismiss(), 0)
@@ -303,6 +301,24 @@ const BaseSheet: React.FC<InteralSheetProps> = ({
   const bind = useDrag(handleDrag, {
     filterTaps: true
   })
+  const bindEvents = useCallback(
+    ({
+      isContentDragging,
+      closeOnTap
+    }: {
+      isContentDragging?: boolean
+      closeOnTap?: boolean
+    } = empty) => {
+      if (enabled) return bind({ isContentDragging, closeOnTap })
+      if (!closeOnTap) return empty
+      return {
+        onClick: () => {
+          if (onDismiss) onDismiss()
+        }
+      }
+    },
+    [bind, enabled]
+  )
   const prefix = enabled ? 'sheet' : 'modal'
   return (
     <animated.div
@@ -313,7 +329,7 @@ const BaseSheet: React.FC<InteralSheetProps> = ({
     >
       <div
         className={cx(`${prefix}-backdrop`, `${prefix}-stack`)}
-        {...bind({ closeOnTap: true })}
+        {...bindEvents({ closeOnTap: true })}
       ></div>
       <TrapFocus open>
         <div
@@ -328,12 +344,18 @@ const BaseSheet: React.FC<InteralSheetProps> = ({
             }
           }}
         >
-          <div className={cx(`${prefix}-header`)} {...bind()} ref={headerRef}>
+          <div
+            className={cx(`${prefix}-header`)}
+            {...bindEvents()}
+            ref={headerRef}
+          >
             {headerContent}
           </div>
           <div
             className={cx(`${prefix}-scroll`)}
-            {...(expandOnContentDrag ? bind({ isContentDragging: true }) : {})}
+            {...(expandOnContentDrag
+              ? bindEvents({ isContentDragging: true })
+              : empty)}
             ref={scroll}
           >
             <div
@@ -344,7 +366,11 @@ const BaseSheet: React.FC<InteralSheetProps> = ({
               {scrollContent}
             </div>
           </div>
-          <div className={cx(`${prefix}-footer`)} {...bind()} ref={footerRef}>
+          <div
+            className={cx(`${prefix}-footer`)}
+            {...bindEvents()}
+            ref={footerRef}
+          >
             {footerContent}
           </div>
         </div>
@@ -353,7 +379,7 @@ const BaseSheet: React.FC<InteralSheetProps> = ({
   )
 }
 
-const noop = () => {}
+const noop = () => empty
 
 export const Sheet: React.FC<SheetProps> = ({
   open,

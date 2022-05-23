@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import useLayoutEffect from './use-layout-effect'
 import useReady from './use-ready'
 import { processSnapPoints, roundAndCheckForNaN } from '../utils'
-import type { SnapPoints, ResizeSource, DefaultSnapProps } from '../types'
+import type { SnapPoints, DefaultSnapProps } from '../types'
 
 const useSnapPoints = ({
   contentRef,
@@ -15,8 +15,7 @@ const useSnapPoints = ({
   heightRef,
   lastSnapRef,
   ready,
-  registerReady,
-  resizeSourceRef
+  registerReady
 }: {
   contentRef: React.RefObject<Element>
   controlledMaxHeight?: number
@@ -29,7 +28,6 @@ const useSnapPoints = ({
   lastSnapRef: React.RefObject<number | undefined>
   ready: boolean
   registerReady: ReturnType<typeof useReady>['registerReady']
-  resizeSourceRef: React.MutableRefObject<ResizeSource | undefined>
 }) => {
   const { maxHeight, minHeight, headerHeight, footerHeight } = useDimensions({
     contentRef: contentRef,
@@ -38,8 +36,7 @@ const useSnapPoints = ({
     footerRef,
     headerEnabled,
     headerRef,
-    registerReady,
-    resizeSourceRef
+    registerReady
   })
 
   const { snapPoints, minSnap, maxSnap } = processSnapPoints(
@@ -91,8 +88,7 @@ function useDimensions({
   footerRef,
   headerEnabled,
   headerRef,
-  registerReady,
-  resizeSourceRef
+  registerReady
 }: {
   contentRef: React.RefObject<Element>
   controlledMaxHeight?: number
@@ -101,7 +97,6 @@ function useDimensions({
   headerEnabled: boolean
   headerRef: React.RefObject<Element>
   registerReady: ReturnType<typeof useReady>['registerReady']
-  resizeSourceRef: React.MutableRefObject<ResizeSource | undefined>
 }): {
   maxHeight: number
   minHeight: number
@@ -112,24 +107,17 @@ function useDimensions({
     () => registerReady('contentHeight'),
     [registerReady]
   )
-  const maxHeight = useMaxHeight(
-    controlledMaxHeight!,
-    registerReady,
-    resizeSourceRef
-  )
+  const maxHeight = useMaxHeight(controlledMaxHeight!, registerReady)
 
   // @TODO probably better to forward props instead of checking refs to decide if it's enabled
   const headerHeight = useElementSizeObserver(headerRef, {
-    enabled: headerEnabled,
-    resizeSourceRef
+    enabled: headerEnabled
   })
   const contentHeight = useElementSizeObserver(contentRef, {
-    enabled: true,
-    resizeSourceRef
+    enabled: true
   })
   const footerHeight = useElementSizeObserver(footerRef, {
-    enabled: footerEnabled,
-    resizeSourceRef
+    enabled: footerEnabled
   })
   const minHeight =
     Math.min(maxHeight - headerHeight - footerHeight, contentHeight) +
@@ -167,23 +155,17 @@ const observerOptions: ResizeObserverOptions = {
 function useElementSizeObserver(
   ref: React.RefObject<Element>,
   {
-    enabled,
-    resizeSourceRef
+    enabled
   }: {
     enabled: boolean
-    resizeSourceRef: React.MutableRefObject<ResizeSource | undefined>
   }
 ): number {
   let [size, setSize] = useState(0)
 
-  const handleResize = useCallback(
-    (entries: ResizeObserverEntry[]) => {
-      // we only observe one element, so accessing the first entry here is fine
-      setSize(entries[0].borderBoxSize[0].blockSize)
-      resizeSourceRef.current = 'element'
-    },
-    [resizeSourceRef]
-  )
+  const handleResize = useCallback((entries: ResizeObserverEntry[]) => {
+    // we only observe one element, so accessing the first entry here is fine
+    setSize(entries[0].borderBoxSize[0].blockSize)
+  }, [])
 
   useLayoutEffect(() => {
     if (!ref.current || !enabled) {
@@ -204,8 +186,7 @@ function useElementSizeObserver(
 // Blazingly keep track of the current viewport height without blocking the thread, keeping that sweet 60fps on smartphones
 const useMaxHeight = (
   controlledMaxHeight: number,
-  registerReady: ReturnType<typeof useReady>['registerReady'],
-  resizeSourceRef: React.MutableRefObject<ResizeSource | undefined>
+  registerReady: ReturnType<typeof useReady>['registerReady']
 ): number => {
   const setReady = useMemo(() => registerReady('maxHeight'), [registerReady])
   const [maxHeight, setMaxHeight] = useState(() =>
@@ -226,7 +207,6 @@ const useMaxHeight = (
     // Bail if the max height is a controlled prop
     if (controlledMaxHeight) {
       setMaxHeight(roundAndCheckForNaN(controlledMaxHeight))
-      resizeSourceRef.current = 'maxheightprop'
 
       return
     }
@@ -240,21 +220,19 @@ const useMaxHeight = (
       // throttle state changes using rAF
       raf.current = requestAnimationFrame(() => {
         setMaxHeight(window.innerHeight)
-        resizeSourceRef.current = 'window'
 
         raf.current = 0
       })
     }
     window.addEventListener('resize', handleResize)
     setMaxHeight(window.innerHeight)
-    resizeSourceRef.current = 'window'
     setReady()
 
     return () => {
       window.removeEventListener('resize', handleResize)
       cancelAnimationFrame(raf.current)
     }
-  }, [controlledMaxHeight, setReady, resizeSourceRef])
+  }, [controlledMaxHeight, setReady])
 
   return maxHeight
 }
