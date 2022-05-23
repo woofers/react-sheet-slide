@@ -100,7 +100,7 @@ type TabNode = {
   node: HTMLElement
 }
 
-const defaultGetTabbable = (root: HTMLElement): HTMLElement[] => {
+const getTabbable = (root: HTMLElement): HTMLElement[] => {
   const regularTabNodes: HTMLElement[] = []
   const orderedTabNodes: TabNode[] = []
   Array.from(root.querySelectorAll(candidatesSelector)).forEach((node, i) => {
@@ -132,26 +132,11 @@ const defaultGetTabbable = (root: HTMLElement): HTMLElement[] => {
     .concat(regularTabNodes)
 }
 
-const defaultIsEnabled = () => true
-
 type TrapFocusProps = {
-  open: boolean
-  getTabbable?: (root: HTMLElement) => HTMLElement[]
-  isEnabled?: () => boolean
   children: React.ReactElement<any, any>
-  disableAutoFocus?: boolean
-  disableRestoreFocus?: boolean
 }
 
-function TrapFocus(props: TrapFocusProps) {
-  const {
-    children,
-    disableAutoFocus = false,
-    disableRestoreFocus = false,
-    getTabbable = defaultGetTabbable,
-    isEnabled = defaultIsEnabled,
-    open
-  } = props
+const TrapFocus: React.FC<TrapFocusProps> = ({ children }) => {
   const ignoreNextEnforceFocus = useRef<boolean | undefined>()
   const sentinelStart = useRef<HTMLDivElement | null>(null)
   const sentinelEnd = useRef<HTMLDivElement | null>(null)
@@ -164,14 +149,14 @@ function TrapFocus(props: TrapFocusProps) {
   const lastKeydown = useRef<KeyboardEvent | null>(null)
 
   useEffect(() => {
-    if (!open || !rootRef.current) {
+    if (!rootRef.current) {
       return
     }
-    activated.current = !disableAutoFocus
-  }, [disableAutoFocus, open])
+    activated.current = true
+  }, [])
 
   useEffect(() => {
-    if (!open || !rootRef.current) {
+    if (!rootRef.current) {
       return
     }
     const doc = ownerDocument(rootRef.current)
@@ -180,29 +165,21 @@ function TrapFocus(props: TrapFocusProps) {
         rootRef.current.focus()
       }
     }
-
     return () => {
-      // restoreLastFocus()
-      if (!disableRestoreFocus) {
-        // In IE11 it is possible for document.activeElement to be null resulting
-        // in nodeToRestore.current being null.
-        // Not all elements in IE11 have a focus method.
-        // Once IE11 support is dropped the focus() call can be unconditional.
-        if (nodeToRestore.current && nodeToRestore.current.focus) {
-          ignoreNextEnforceFocus.current = true
-          nodeToRestore.current.focus()
-        }
-
-        nodeToRestore.current = null
+      // In IE11 it is possible for document.activeElement to be null resulting
+      // in nodeToRestore.current being null.
+      // Not all elements in IE11 have a focus method.
+      // Once IE11 support is dropped the focus() call can be unconditional.
+      if (nodeToRestore.current && nodeToRestore.current.focus) {
+        ignoreNextEnforceFocus.current = true
+        nodeToRestore.current.focus()
       }
+      nodeToRestore.current = null
     }
-    // Missing `disableRestoreFocus` which is fine.
-    // We don't support changing that prop on an open TrapFocus
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open])
+  }, [])
 
   useEffect(() => {
-    if (!open || !rootRef.current) return
+    if (!rootRef.current) return
     const doc = ownerDocument(rootRef.current)
     const contain = (nativeEvent?: Event) => {
       const { current: rootElement } = rootRef
@@ -211,7 +188,7 @@ function TrapFocus(props: TrapFocusProps) {
       if (rootElement === null) {
         return
       }
-      if (!doc.hasFocus() || !isEnabled() || ignoreNextEnforceFocus.current) {
+      if (!doc.hasFocus() || ignoreNextEnforceFocus.current) {
         ignoreNextEnforceFocus.current = false
         return
       }
@@ -256,11 +233,9 @@ function TrapFocus(props: TrapFocusProps) {
 
     const loopFocus = (nativeEvent: KeyboardEvent) => {
       lastKeydown.current = nativeEvent
-
-      if (!isEnabled() || nativeEvent.key !== 'Tab') {
+      if (nativeEvent.key !== 'Tab') {
         return
       }
-
       // Make sure the next tab starts from the right place.
       // doc.activeElement referes to the origin.
       if (doc.activeElement === rootRef.current && nativeEvent.shiftKey) {
@@ -291,7 +266,7 @@ function TrapFocus(props: TrapFocusProps) {
       doc.removeEventListener('focusin', contain)
       doc.removeEventListener('keydown', loopFocus, true)
     }
-  }, [disableAutoFocus, disableRestoreFocus, isEnabled, open, getTabbable])
+  }, [])
 
   const onFocus: React.FocusEventHandler<HTMLElement> = event => {
     if (nodeToRestore.current === null) {

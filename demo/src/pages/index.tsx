@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { styled } from 'stitches'
 import {
   Sheet,
@@ -207,6 +207,7 @@ const FooterWrapper = styled('div', {
 
 const App = () => {
   const [open, setOpen] = useState(false)
+  const ref = useRef<HTMLDivElement | null>(null)
   return (
     <Fullscreen>
       <WaveWrapper>
@@ -221,6 +222,7 @@ const App = () => {
       </Button>
       <Portal containerRef="#react-swipe-sheet">
         <Sheet
+          ref={ref}
           open={open}
           expandOnContentDrag
           onDismiss={() => setOpen(false)}
