@@ -1,11 +1,3 @@
-import React, {
-  cloneElement,
-  Fragment,
-  useEffect,
-  useRef,
-  useMemo
-} from 'react'
-
 /*
  * mui-base TrapFocus
  * Modified for TypeScript and reduce size
@@ -13,6 +5,14 @@ import React, {
  * From: https://github.com/mui/material-ui/blob/master/packages/mui-base/src/TrapFocus/TrapFocus.js
  * MIT License at https://raw.githubusercontent.com/mui/material-ui/master/LICENSE
  */
+
+import React, {
+  cloneElement,
+  Fragment,
+  useEffect,
+  useRef,
+  useMemo
+} from 'react'
 
 const ownerDocument = (node: Node | null | undefined): Document =>
   (node && node.ownerDocument) || document
