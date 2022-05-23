@@ -207,7 +207,6 @@ const FooterWrapper = styled('div', {
 
 const App = () => {
   const [open, setOpen] = useState(false)
-  const [show, setShow] = useState(true)
   return (
     <Fullscreen>
       <WaveWrapper>
@@ -220,60 +219,58 @@ const App = () => {
       <Button type="button" onClick={() => setOpen(v => !v)}>
         Open sheet
       </Button>
-      {show && (
-        <Portal containerRef="#react-swipe-sheet">
-          <Sheet
-            open={open}
-            expandOnContentDrag
-            onDismiss={() => setOpen(false)}
-            onClose={() => console.log('we closed')}
-            defaultSnap={({ minHeight }) => minHeight}
-            snapPoints={({ maxHeight, minHeight }) => [
-              minHeight,
-              maxHeight - maxHeight / 10,
-              maxHeight / 4,
-              maxHeight * 0.6
-            ]}
-          >
-            <Header>
-              <HeaderWrapper>
-                <HeaderBox />
-                <ButtonText>Online</ButtonText>
-                <CloseButton type="button" onClick={() => setOpen(false)}>
-                  <CloseText>x</CloseText>
-                </CloseButton>
-              </HeaderWrapper>
-            </Header>
-            <Content>
-              <Container>
-                <Flex>
-                  <Text>Add more storage to keep everything on online</Text>
-                  <Box />
-                </Flex>
-                <Description>
-                  Online includes plenty of storage to keep all your data safe
-                  and features to protect your privacy.
-                </Description>
-                <Action>Learn More About Online</Action>
-              </Container>
-            </Content>
-            <Footer>
-              <FooterWrapper>
-                <Button type="button" onClick={() => setOpen(false)}>
-                  Close
-                </Button>
-                <Button
-                  type="button"
-                  theme="secondary"
-                  onClick={() => setOpen(false)}
-                >
-                  Not Now
-                </Button>
-              </FooterWrapper>
-            </Footer>
-          </Sheet>
-        </Portal>
-      )}
+      <Portal containerRef="#react-swipe-sheet">
+        <Sheet
+          open={open}
+          expandOnContentDrag
+          onDismiss={() => setOpen(false)}
+          onClose={() => console.log('we closed')}
+          defaultSnap={({ minHeight }) => minHeight}
+          snapPoints={({ maxHeight, minHeight }) => [
+            minHeight,
+            maxHeight - maxHeight / 10,
+            maxHeight / 4,
+            maxHeight * 0.6
+          ]}
+        >
+          <Header>
+            <HeaderWrapper>
+              <HeaderBox />
+              <ButtonText>Online</ButtonText>
+              <CloseButton type="button" onClick={() => setOpen(false)}>
+                <CloseText>x</CloseText>
+              </CloseButton>
+            </HeaderWrapper>
+          </Header>
+          <Content>
+            <Container>
+              <Flex>
+                <Text>Add more storage to keep everything on online</Text>
+                <Box />
+              </Flex>
+              <Description>
+                Online includes plenty of storage to keep all your data safe and
+                features to protect your privacy.
+              </Description>
+              <Action>Learn More About Online</Action>
+            </Container>
+          </Content>
+          <Footer>
+            <FooterWrapper>
+              <Button type="button" onClick={() => setOpen(false)}>
+                Close
+              </Button>
+              <Button
+                type="button"
+                theme="secondary"
+                onClick={() => setOpen(false)}
+              >
+                Not Now
+              </Button>
+            </FooterWrapper>
+          </Footer>
+        </Sheet>
+      </Portal>
     </Fullscreen>
   )
 }

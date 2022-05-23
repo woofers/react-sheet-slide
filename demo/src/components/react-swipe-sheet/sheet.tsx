@@ -19,7 +19,6 @@ import {
   useMediaQuery,
   useReducedMotion
 } from './hooks'
-import { config } from './utils'
 import TrapFocus from './trap-focus'
 import classes from './classnames'
 import styles from './sheet.module.css'
@@ -71,8 +70,6 @@ export type SheetProps = Partial<Callbacks> & BaseProps
 
 type InteralSheetProps = Callbacks & BaseProps & { close: () => void }
 
-const { tension, friction } = config.default
-
 const getItem = (
   Component: React.ComponentType<WrapperProps>,
   content: React.ReactNode[]
@@ -111,7 +108,7 @@ const BaseSheet: React.FC<InteralSheetProps> = ({
   const contentRef = useRef<HTMLDivElement | null>(null)
   const headerRef = useRef<HTMLDivElement | null>(null)
   const footerRef = useRef<HTMLDivElement | null>(null)
-  const [spring, set] = useSpring()
+  const [spring, set, asyncSet] = useSpring()
   const interpolations = useSpringInterpolations({ spring })
   const resizeSourceRef = useRef<ResizeSource>()
   const lastSnapRef = useRef<any>(null)
@@ -140,33 +137,6 @@ const BaseSheet: React.FC<InteralSheetProps> = ({
     findSnapRef.current = findSnap
     defaultSnapRef.current = findSnap(getDefaultSnap)
   }, [findSnap, getDefaultSnap, maxHeight, maxSnap, minSnap])
-  const asyncSet = useCallback<typeof set>(
-    // @ts-expect-error
-    ({ onRest, config: { velocity = 1, ...config } = {}, ...opts }) =>
-      // @ts-expect-error
-      new Promise(resolve =>
-        set({
-          ...opts,
-          config: {
-            velocity,
-            ...config,
-            // @see https://springs.pomb.us
-            mass: 1,
-            // "stiffness"
-            tension,
-            // "damping"
-            friction: Math.max(
-              friction,
-              friction + (friction - friction * velocity)
-            )
-          },
-          onRest: (...args) => {
-            resolve(args)
-          }
-        })
-      ),
-    [set]
-  )
   useEffect(() => {
     if (!ready) return
     let subscribed = true

@@ -1,6 +1,5 @@
-
 declare global {
-  var __isDev__: boolean;
+  var __isDev__: boolean
 }
 
 export {}

@@ -1,4 +1,3 @@
-
 const getErr = (msg: string) => new TypeError(__isDev__ ? msg : '')
 
 export function clamp(number: number, lower: number, upper: number) {

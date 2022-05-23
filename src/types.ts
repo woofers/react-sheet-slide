@@ -14,3 +14,9 @@ export type DefaultSnapProps = {
   snapPoints: number[]
   lastSnap: number | null
 } & SnapPointProps
+
+export type SpringConfig = Partial<{
+  velocity: number
+  tension: number
+  friction: number
+}>

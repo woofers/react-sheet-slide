@@ -48,6 +48,7 @@ function useSpringInterpolations({
   )
 
   const interpolateBackdrop = interpolate(
+    // @ts-ignore
     [spring.y, spring.minSnap],
     (y, minSnap) => (minSnap ? clamp(y / minSnap, 0, 1) : 0)
   )
