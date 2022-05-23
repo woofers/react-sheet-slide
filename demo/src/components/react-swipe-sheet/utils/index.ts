@@ -1,3 +1,6 @@
+
+const getErr = (msg: string) => new TypeError(__isDev__ ? msg : '')
+
 export function clamp(number: number, lower: number, upper: number) {
   number = +number
   lower = +lower
@@ -20,9 +23,7 @@ export function deleteNaN(arr: number[]): number[] {
 export function roundAndCheckForNaN(unrounded: number): number {
   const rounded = Math.round(unrounded)
   if (Number.isNaN(unrounded)) {
-    throw new TypeError(
-      'Found a NaN! Check your snapPoints / defaultSnap / snapTo '
-    )
+    throw getErr('Found a NaN! Check your snapPoints / defaultSnap / snapTo')
   }
   return rounded
 }
@@ -43,13 +44,12 @@ export function processSnapPoints(
 
   const minSnap = Math.min(...snapPoints)
   if (Number.isNaN(minSnap)) {
-    throw new TypeError('minSnap is NaN')
+    throw getErr('minSnap is NaN')
   }
   const maxSnap = Math.max(...snapPoints)
   if (Number.isNaN(maxSnap)) {
-    throw new TypeError('maxSnap is NaN')
+    throw getErr('maxSnap is NaN')
   }
-
   return {
     snapPoints,
     minSnap,

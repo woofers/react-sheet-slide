@@ -9,8 +9,8 @@ import React, { useState, useCallback } from 'react'
 import { createPortal } from 'react-dom'
 import { useLayoutEffect } from './hooks'
 
-function useForceUpdate() {
-  let [, dispatch] = useState<{}>(Object.create(null))
+const useForceUpdate = () => {
+  const [, dispatch] = useState<{}>(Object.create(null))
   return useCallback(() => {
     dispatch(Object.create(null))
   }, [])
@@ -32,14 +32,14 @@ const Portal: React.FC<PortalProps> = ({
   type = 'div',
   containerRef
 }) => {
-  let mountNode = React.useRef<HTMLDivElement | null>(null)
-  let portalNode = React.useRef<HTMLElement | null>(null)
-  let forceUpdate = useForceUpdate()
+  const mountNode = React.useRef<HTMLDivElement | null>(null)
+  const portalNode = React.useRef<HTMLElement | null>(null)
+  const forceUpdate = useForceUpdate()
 
   useLayoutEffect(() => {
     if (!mountNode.current) return
-    let ownerDocument = mountNode.current!.ownerDocument
-    let body = getRef(containerRef) || ownerDocument.body
+    const ownerDocument = mountNode.current!.ownerDocument
+    const body = getRef(containerRef) || ownerDocument.body
     portalNode.current = ownerDocument?.createElement(type)!
     body.appendChild(portalNode.current)
     forceUpdate()

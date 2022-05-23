@@ -1,5 +1,7 @@
 const ESLintPlugin = require('eslint-webpack-plugin')
 const path = require('path')
+const { DefinePlugin } = require('webpack')
+
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 })
@@ -14,6 +16,7 @@ module.exports = withBundleAnalyzer({
     path: 'https://example.com/myaccount/',
   },
   webpack(config, { isServer }) {
+    config.plugins.push(new DefinePlugin({ '__isDev__': false }))
     config.plugins.push(new ESLintPlugin())
     config.module.rules.push({
       test: /\.svg$/,
