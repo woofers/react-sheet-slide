@@ -6,7 +6,7 @@ import {
   Content,
   Footer,
   Portal
-} from 'components/react-swipe-sheet'
+} from 'react-swipe-sheet'
 
 const Flex = styled('div', {
   width: '100%',

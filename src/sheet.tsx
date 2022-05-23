@@ -8,7 +8,7 @@ import React, {
   useRef
 } from 'react'
 import { animated } from '@react-spring/web'
-import { rubberbandIfOutOfBounds, useDrag } from 'react-use-gesture'
+import { rubberbandIfOutOfBounds, useDrag } from '@use-gesture/react'
 import {
   useLayoutEffect,
   useReady,

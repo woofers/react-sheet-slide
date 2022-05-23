@@ -5,8 +5,9 @@
   "src": "src/index.tsx",
   "main": "lib/index.js",
   "module": "lib/index.mjs",
-  "type": "module",
-  "sideEffects": false,
+  "sideEffects": [
+    "*.css"
+  ],
   "repository": "https://github.com/woofers/react-swipe-sheet",
   "author": "Jaxson Van Doorn",
   "license": "MIT",
@@ -24,23 +25,25 @@
     "build:dev:modern": "microbundle --no-pkg-main --no-sourcemap --jsx React.createElement --define __isDev__=true -i src/index.tsx -o lib/react-swipe-sheet.dev.js -f umd",
     "clean": "rimraf lib/react-swipe-sheet.mjs lib/react-swipe-sheet.js lib/react-swipe-sheet.dev.mjs lib/react-swipe-sheet.dev.js lib/style.css rimraf lib/*.d.ts",
     "build": "yarn build:dev:module && yarn build:dev:modern && yarn build:module && yarn build:modern && yarn build:style",
-    "test": "echo \"No tests \" && exit 0"
+    "test": "echo \"No tests \" && exit 0",
+    "format": "prettier --write \"{tests,src}/**/*.{js,mjs,ts,tsx}\""
   },
   "peerDependencies": {
-    "react": "^0.13.0 || ^0.14.0 || >=15",
-    "react-dom": "^0.13.0 || ^0.14.0 || >=15"
+    "@react-spring/web": "^9.0.0",
+    "react": "^16.8.0 || 17.x || 18.x",
+    "react-dom": "^16.8.0 || 17.x || 18.x"
   },
   "devDependencies": {
+    "@react-spring/web": "^9.4.5",
     "@types/body-scroll-lock": "^3.1.0",
     "@types/react": "^18.0.9",
-    "@types/react-dom": "^18.0.4",
+    "@types/react-dom": "^18.0.5",
     "microbundle": "^0.15.0",
     "rimraf": "^3.0.2",
     "typescript": "^4.6.4"
   },
   "dependencies": {
-    "@react-spring/web": "^9.4.5",
-    "body-scroll-lock": "^4.0.0-beta.0",
-    "react-use-gesture": "^9.1.3"
+    "@use-gesture/react": "^10.2.15",
+    "body-scroll-lock": "^4.0.0-beta.0"
   }
 }
