@@ -23,6 +23,8 @@ jobs:
       run: yarn build
     - name: Test
       run: yarn test
+    - name: Install Prod
+      run: yarn install --prod
     - name: Install Demo
       run: yarn --cwd demo install
     - name: Build Demo
@@ -36,7 +38,6 @@ jobs:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
     - name: Publish Demo
       uses: JamesIves/github-pages-deploy-action@v4.3.0
-      if: startsWith(github.ref, 'refs/tags/')
       with:
         branch: gh-pages
         folder: demo/out
