@@ -1,7 +1,10 @@
 const ESLintPlugin = require('eslint-webpack-plugin')
 const path = require('path')
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+})
 
-module.exports = {
+module.exports = withBundleAnalyzer({
   distDir: 'build',
   swcMinify: true,
   webpack5: true,
@@ -31,4 +34,4 @@ module.exports = {
   basePath: '/react-swipe-sheet',
   assetPrefix: '/react-swipe-sheet/',
   trailingSlash: true
-}
+})

@@ -15,7 +15,9 @@ import {
   useSpring,
   useSpringInterpolations,
   useOverscrollLock,
-  useScrollLock
+  useScrollLock,
+  useMediaQuery,
+  useReducedMotion
 } from './hooks'
 import { config } from './utils'
 import TrapFocus from './trap-focus'
@@ -94,13 +96,16 @@ const BaseSheet: React.FC<InteralSheetProps> = ({
   close,
   defaultSnap: getDefaultSnap = _defaultSnap,
   snapPoints: getSnapPoints = _snapPoints,
-  useModal = true
+  useModal: useModalInitial
 }) => {
+  const bq = useMediaQuery('(max-width: 640px)')
+  const useModal = typeof useModalInitial !== 'undefined' ? useModalInitial : !bq
+  const enabled = !useModal
+  const prefersReducedMotion = useReducedMotion()
   const content = Children.toArray(children)
   const headerContent = getItem(Header, content)
   const scrollContent = getItem(Content, content)
   const footerContent = getItem(Footer, content)
-  const enabled = !useModal
   const { ready, registerReady } = useReady()
   const scroll = useOverscrollLock({ enabled: expandOnContentDrag && enabled })
   useScrollLock({ enabled: true, targetRef: scroll })
@@ -188,7 +193,7 @@ const BaseSheet: React.FC<InteralSheetProps> = ({
           maxSnap: maxSnapRef.current,
           // Using defaultSnapRef instead of minSnapRef to avoid animating `height` on open
           minSnap: defaultSnapRef.current,
-          immediate: false
+          immediate: prefersReducedMotion
         })
       }
       anim()
@@ -212,7 +217,7 @@ const BaseSheet: React.FC<InteralSheetProps> = ({
           y: 0,
           maxHeight: maxHeightRef.current,
           maxSnap: maxSnapRef.current,
-          immediate: false
+          immediate: prefersReducedMotion
         })
         if (!subscribed) return
         await asyncSet({ ready: 0, immediate: true })
@@ -224,7 +229,7 @@ const BaseSheet: React.FC<InteralSheetProps> = ({
     return () => {
       subscribed = false
     }
-  }, [set, open, ready])
+  }, [set, open, ready, enabled])
   useEffect(() => {
     return () => {
       onClose()
@@ -260,7 +265,7 @@ const BaseSheet: React.FC<InteralSheetProps> = ({
       !down &&
       onDismiss &&
       direction > 0 &&
-      rawY + predictedDistance < minSnapRef.current! / 2
+      rawY + predictedDistance < (minSnapRef.current!) / 2
     ) {
       cancel()
       onDismiss()
@@ -309,7 +314,7 @@ const BaseSheet: React.FC<InteralSheetProps> = ({
         maxHeight: maxHeightRef.current,
         maxSnap: maxSnapRef.current,
         minSnap: minSnapRef.current,
-        immediate: false,
+        immediate: prefersReducedMotion,
         y: snap,
         config: { velocity: velocity > 0.05 ? velocity : 1 }
       })
