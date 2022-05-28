@@ -367,6 +367,7 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
                 ? bindEvents({ isContentDragging: true })
                 : empty)}
               ref={scroll}
+              tabIndex={-1}
             >
               <div
                 className={cx(`${prefix}-content`)}

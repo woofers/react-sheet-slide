@@ -60,6 +60,10 @@
   opacity: var(--backdrop-opacity);
 }
 
+.modal-modal, .sheet-modal {
+  outline: 0;
+}
+
 .modal-modal {
   max-height: calc(100% - var(--padding) * 2);
   max-width: 492px;
@@ -155,4 +159,10 @@
 .sheet-header,
 .sheet-footer {
   cursor: ns-resize;
+}
+
+.sheet-scroll,
+.sheet-header,
+.sheet-footer {
+  touch-action: none;
 }
