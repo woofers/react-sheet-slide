@@ -33,7 +33,7 @@ const HeaderBox = styled('div', {
 const Box = styled('div', {
   height: '62px',
   width: '92px',
-  background: '#0b8aff'
+  background: '#e02941'
 })
 
 const CloseButton = styled('button', {
@@ -128,9 +128,9 @@ const Button = styled('button', {
   variants: {
     theme: {
       primary: {
-        $$background: '#2878f4',
+        $$background: '#f92d48',
         $$text: '#ffffff',
-        $$hover: '#67a0f7'
+        $$hover: '#e02941'
       },
       secondary: {
         $$background: 'none',
