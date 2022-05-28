@@ -235,8 +235,7 @@ const App = () => {
         >
           <Header>
             <HeaderWrapper>
-              <HeaderBox css={{ opacity: '0' }} />
-              <ButtonText css={{ opacity: '0' }}>Online</ButtonText>
+              <ButtonText>Online</ButtonText>
               <CloseButton type="button" onClick={() => setOpen(false)}>
                 <CloseText>x</CloseText>
               </CloseButton>
