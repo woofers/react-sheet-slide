@@ -19,6 +19,7 @@ const Flex = styled('div', {
 const HeaderWrapper = styled('div', {
   display: 'flex',
   padding: '0 0 4px',
+  justifyContent: 'space-between',
   alignItems: 'center',
   gap: '0 8px'
 })
@@ -39,7 +40,7 @@ const Box = styled('div', {
 const CloseButton = styled('button', {
   padding: 0,
   border: 'none',
-  backgroundColor: '#eeeeef',
+  backgroundColor: 'rgba(199, 199, 208, 0.26)',
   color: '#838388',
   br: '$round',
   width: '28px',
@@ -88,13 +89,11 @@ const Text = styled('div', {
 
 const ButtonText = styled('div', {
   fontFamily: '$title',
-  fontWeight: 500,
+  fontWeight: 600,
   lineHeight: '24px',
   fontSize: '18px',
-  marginTop: 0,
-  marginBottom: 0,
-  letterSpacing: '0px',
-  flex: 1
+  margin: 0,
+  letterSpacing: '0.5px'
 })
 
 const Action = styled('div', {
@@ -235,6 +234,9 @@ const App = () => {
         >
           <Header>
             <HeaderWrapper>
+              <CloseButton as="div" css={{ visibility: 'hidden' }}>
+                <CloseText>x</CloseText>
+              </CloseButton>
               <ButtonText>Online</ButtonText>
               <CloseButton type="button" onClick={() => setOpen(false)}>
                 <CloseText>x</CloseText>
