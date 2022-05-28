@@ -81,19 +81,29 @@ const getItem = (
       child.type === Component
   )
 
-type DragHeaderProps = React.HTMLProps<HTMLDivElement> & { children: React.ReactNode, prefix: string, scrollRef: React.RefObject<Element> }
-const DragHeader = forwardRef<HTMLDivElement, DragHeaderProps>(({ children, prefix, scrollRef, ...props }, ref) => {
-  const hasScrolled = useHasScrolled(scrollRef)
-  return (
-    <div
-      {...props}
-      className={cx(`${prefix}-header`, !hasScrolled ? `${prefix}-header-plain` : false)}
-      ref={ref}
-    >
-      {children}
-    </div>
-  )
-})
+type DragHeaderProps = React.HTMLProps<HTMLDivElement> & {
+  children: React.ReactNode
+  prefix: string
+  scrollRef: React.RefObject<Element>
+  useModal: boolean
+}
+const DragHeader = forwardRef<HTMLDivElement, DragHeaderProps>(
+  ({ children, prefix, scrollRef, useModal, ...props }, ref) => {
+    const hasScrolled = useHasScrolled(scrollRef, useModal)
+    return (
+      <div
+        {...props}
+        className={cx(
+          `${prefix}-header`,
+          !hasScrolled ? `${prefix}-header-plain` : false
+        )}
+        ref={ref}
+      >
+        {children}
+      </div>
+    )
+  }
+)
 
 DragHeader.displayName = 'DragHeader'
 
@@ -148,7 +158,6 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
       ready,
       registerReady
     })
-
 
     const minSnapRef = useRef<number>()
     const maxSnapRef = useRef<number>()
@@ -378,6 +387,7 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
               prefix={prefix}
               ref={headerRef}
               scrollRef={scroll}
+              useModal={useModal}
             >
               {headerContent}
             </DragHeader>

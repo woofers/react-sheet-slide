@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 
-const useHasScrolled = (ref: React.RefObject<Element>) => {
+const useHasScrolled = (ref: React.RefObject<Element>, reset: boolean) => {
   const [value, setValue] = useState(false)
   useEffect(() => {
     const elem = ref.current
-    if (!elem) return
+    if (!elem || typeof window === 'undefined') return
     let ticking = false
     let hasScrolled = false
     const update = () => {
@@ -12,7 +12,6 @@ const useHasScrolled = (ref: React.RefObject<Element>) => {
       setValue(hasScrolled)
     }
     const onScroll = () => {
-      if (typeof window === 'undefined') return
       hasScrolled = elem.scrollTop > 0
       if (!ticking) requestAnimationFrame(update)
       ticking = true
@@ -24,6 +23,12 @@ const useHasScrolled = (ref: React.RefObject<Element>) => {
       elem.removeEventListener('touchmove', onScroll, false)
     }
   }, [ref])
+  useEffect(() => {
+    const elem = ref.current
+    if (!elem || typeof window === 'undefined') return
+    const hasScrolled = elem.scrollTop > 0
+    setValue(hasScrolled)
+  }, [reset, ref])
   return value
 }
 
