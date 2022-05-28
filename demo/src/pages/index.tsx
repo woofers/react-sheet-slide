@@ -145,7 +145,7 @@ const Button = styled('button', {
 })
 
 const Container = styled('div', {
-  padding: '16px 20px',
+  padding: '76px 20px 16px',
   display: 'flex',
   flexDirection: 'column',
   gap: '24px 0'
@@ -235,8 +235,8 @@ const App = () => {
         >
           <Header>
             <HeaderWrapper>
-              <HeaderBox />
-              <ButtonText>Online</ButtonText>
+              <HeaderBox css={{ opacity: '0' }} />
+              <ButtonText css={{ opacity: '0' }}>Online</ButtonText>
               <CloseButton type="button" onClick={() => setOpen(false)}>
                 <CloseText>x</CloseText>
               </CloseButton>
