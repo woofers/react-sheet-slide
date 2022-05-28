@@ -279,13 +279,13 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
           ? rawY < minSnapRef.current!
             ? rubberbandIfOutOfBounds(
                 rawY,
-                minSnapRef.current!,
+                80,
                 maxSnapRef.current! * 2,
                 0.55
               )
             : rubberbandIfOutOfBounds(
                 rawY,
-                minSnapRef.current! / 2,
+                80,
                 maxSnapRef.current!,
                 0.55
               )
