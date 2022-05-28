@@ -231,8 +231,7 @@ const App = () => {
           snapPoints={({ maxHeight, minHeight }) => [
             minHeight,
             maxHeight - maxHeight * 0.1,
-            maxHeight - maxHeight * 0.4,
-            maxHeight - maxHeight * 0.6,
+            maxHeight - maxHeight * 0.52
           ]}
         >
           <Header>
