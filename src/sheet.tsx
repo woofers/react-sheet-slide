@@ -312,7 +312,6 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
         const snap = findSnapRef.current(newY)
         if (
           onDismiss &&
-          direction > 0 &&
           rawY + predictedDistance < minSnapRef.current! / 2 &&
           snap === minSnapRef.current
         ) {

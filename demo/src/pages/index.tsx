@@ -227,6 +227,7 @@ const App = () => {
           open={open}
           onDismiss={() => setOpen(false)}
           onClose={() => console.log('we closed')}
+          expandOnContentDrag
           defaultSnap={({ maxHeight }) => maxHeight - maxHeight * 0.1}
           snapPoints={({ maxHeight, minHeight }) => [
             maxHeight - maxHeight * 0.1,
