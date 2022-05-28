@@ -3,6 +3,8 @@
   --backdrop: rgba(0, 0, 0, 0.6);
 
   --background: #f7f8f8;
+  --background-header: #f2f2f6e8;
+  --background-footer: #efefef;
   --handle: #dbdbde;
   --border: #dbdbde;
   --gutter: 0px;
@@ -103,7 +105,7 @@
 .sheet-modal:after {
   content: '';
   pointer-events: none;
-  background: var(--background);
+  background: var(--background-footer);
   height: 1px;
   transform-origin: top;
   transform: scaleY(0);
@@ -114,13 +116,13 @@
 .sheet-header, .modal-header {
   z-index: 1;
   user-select: none;
-  padding-top: calc(20px + env(safe-area-inset-top));
+  padding-top: calc(12px + env(safe-area-inset-top));
   padding-bottom: 8px;
   box-shadow: 0 1px 0 var(--border);
 
   border-top-left-radius: var(--radius);
   border-top-right-radius: var(--radius);
-  background-color: #f2f2f6e8;
+  background-color: var(--background-header);
   backdrop-filter: blur(4px);
   z-index: 300;
   position: absolute;
@@ -131,6 +133,7 @@
 .sheet-header-plain, .modal-header-plain {
   box-shadow: none;
   background-color: rgba(0, 0, 0, 0);
+  backdrop-filter: blur(0px);
 }
 
 .sheet-header:before {
@@ -160,7 +163,7 @@
   overflow: auto;
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
-  background: #f2f2f6;
+  background: var(--background);
   border-top-left-radius: var(--radius);
   border-top-right-radius: var(--radius);
 }
@@ -174,7 +177,7 @@
   overflow: hidden;
   padding-bottom: calc(16px + env(safe-area-inset-bottom));
   box-shadow: 0 -1px 0 var(--border);
-  background: #efefef;
+  background: var(--background-footer);
 }
 
 .sheet-header,
