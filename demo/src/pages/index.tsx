@@ -89,11 +89,13 @@ const Text = styled('div', {
 
 const ButtonText = styled('div', {
   fontFamily: '$title',
-  fontWeight: 600,
+  fontWeight: 500,
   lineHeight: '24px',
   fontSize: '18px',
-  margin: 0,
-  letterSpacing: '0.5px'
+  marginTop: 0,
+  marginBottom: 0,
+  letterSpacing: '0px',
+  flex: 1
 })
 
 const Action = styled('div', {
@@ -232,9 +234,6 @@ const App = () => {
         >
           <Header>
             <HeaderWrapper>
-              <CloseButton as="div" css={{ visibility: 'hidden' }}>
-                <CloseText>x</CloseText>
-              </CloseButton>
               <ButtonText>Online</ButtonText>
               <CloseButton type="button" onClick={() => setOpen(false)}>
                 <CloseText>x</CloseText>
