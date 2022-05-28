@@ -6,6 +6,7 @@
   --border: #eeeeef;
   --gutter: 0px;
   --width: auto;
+  --radius: 16px;
 
   --height: 0px;
   --modal-offset: 0px;
@@ -67,7 +68,7 @@
 .modal-modal {
   max-height: calc(100% - var(--padding) * 2);
   max-width: 492px;
-  border-radius: 16px;
+  border-radius: var(--radius);
   display: flex;
   background: var(--background);
   flex-direction: column;
@@ -80,8 +81,8 @@
 .sheet-modal {
   max-width: var(--width);
   margin: auto calc(var(--gutter) + env(safe-area-inset-right)) auto calc(var(--gutter) + env(safe-area-inset-left));
-  border-top-left-radius: 16px;
-  border-top-right-radius: 16px;
+  border-top-left-radius: var(--radius);
+  border-top-right-radius: var(--radius);
   display: flex;
   background: var(--background);
   flex-direction: column;

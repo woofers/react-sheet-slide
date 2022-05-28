@@ -224,12 +224,11 @@ const App = () => {
         <Sheet
           ref={ref}
           open={open}
-          expandOnContentDrag
           onDismiss={() => setOpen(false)}
           onClose={() => console.log('we closed')}
           defaultSnap={({ minHeight }) => minHeight}
           snapPoints={({ maxHeight, minHeight }) => [
-            minHeight,
+            minHeight / 2,
             maxHeight - maxHeight * 0.1,
             maxHeight - maxHeight * 0.52
           ]}
@@ -255,18 +254,22 @@ const App = () => {
               </Description>
               <Action>Learn More About Online</Action>
             </Container>
+            <Container>
+              <Flex>
+                <Text>Add more storage to keep everything on online</Text>
+                <Box />
+              </Flex>
+              <Description>
+                Online includes plenty of storage to keep all your data safe and
+                features to protect your privacy.
+              </Description>
+              <Action>Learn More About Online</Action>
+            </Container>
           </Content>
           <Footer>
             <FooterWrapper>
               <Button type="button" onClick={() => setOpen(false)}>
                 Close
-              </Button>
-              <Button
-                type="button"
-                theme="secondary"
-                onClick={() => setOpen(false)}
-              >
-                Not Now
               </Button>
             </FooterWrapper>
           </Footer>
