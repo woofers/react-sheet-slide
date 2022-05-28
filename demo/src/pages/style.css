@@ -22,13 +22,8 @@
 ._QLjfS, ._OD8pB {
   border-top-left-radius: var(--radius);
   border-top-right-radius: var(--radius);
-  z-index: 2;
   touch-action: pan-y;
   background: #f2f2f6;
-}
-
-._2Ejye {
-  padding-top: 60px;
 }
 
 ._xlcmb, ._YZRPO {

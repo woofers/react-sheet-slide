@@ -18,7 +18,8 @@ import {
   useOverscrollLock,
   useScrollLock,
   useMediaQuery,
-  useReducedMotion
+  useReducedMotion,
+  useHasScrolled
 } from './hooks'
 import TrapFocus from './trap-focus'
 import classes from './classnames'
@@ -80,6 +81,22 @@ const getItem = (
       child.type === Component
   )
 
+type DragHeaderProps = React.HTMLProps<HTMLDivElement> & { children: React.ReactNode, prefix: string, scrollRef: React.RefObject<Element> }
+const DragHeader = forwardRef<HTMLDivElement, DragHeaderProps>(({ children, prefix, scrollRef, ...props }, ref) => {
+  const hasScrolled = useHasScrolled(scrollRef)
+  return (
+    <div
+      {...props}
+      className={cx(`${prefix}-header`, !hasScrolled ? `${prefix}-header-plain` : false)}
+      ref={ref}
+    >
+      {children}
+    </div>
+  )
+})
+
+DragHeader.displayName = 'DragHeader'
+
 const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
   (
     {
@@ -131,6 +148,8 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
       ready,
       registerReady
     })
+
+
     const minSnapRef = useRef<number>()
     const maxSnapRef = useRef<number>()
     const maxHeightRef = useRef<number>()
@@ -354,13 +373,14 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
             }}
             {...rest}
           >
-            <div
-              className={cx(`${prefix}-header`)}
+            <DragHeader
               {...bindEvents()}
+              prefix={prefix}
               ref={headerRef}
+              scrollRef={scroll}
             >
               {headerContent}
-            </div>
+            </DragHeader>
             <div
               className={cx(`${prefix}-scroll`)}
               {...(expandOnContentDrag

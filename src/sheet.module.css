@@ -1,12 +1,13 @@
 
 .sheet-root, .modal-root {
   --backdrop: rgba(0, 0, 0, 0.6);
-  --background: #fff;
-  --handle: #eeeeef;
-  --border: #eeeeef;
+
+  --background: #f7f8f8;
+  --handle: #dbdbde;
+  --border: #dbdbde;
   --gutter: 0px;
   --width: auto;
-  --radius: 16px;
+  --radius: 12px;
 
   --height: 0px;
   --modal-offset: 0px;
@@ -14,6 +15,7 @@
   --backdrop-opacity: 0;
 
   --padding: 32px;
+  --drag-padding: 16px;
 }
 
 
@@ -22,7 +24,7 @@
 .sheet-header,
 .sheet-footer {
   flex-shrink: 0;
-  padding: 16px;
+  padding: var(--drag-padding);
 }
 
 .modal-root {
@@ -115,6 +117,20 @@
   padding-top: calc(20px + env(safe-area-inset-top));
   padding-bottom: 8px;
   box-shadow: 0 1px 0 var(--border);
+
+  border-top-left-radius: var(--radius);
+  border-top-right-radius: var(--radius);
+  background-color: #f2f2f6e8;
+  backdrop-filter: blur(4px);
+  z-index: 300;
+  position: absolute;
+  width: calc(100% - var(--drag-padding) * 2);
+  transition: background-color 300ms ease-in-out 0s, box-shadow 300ms ease-in-out 0s;
+}
+
+.sheet-header-plain, .modal-header-plain {
+  box-shadow: none;
+  background-color: rgba(0, 0, 0, 0);
 }
 
 .sheet-header:before {
@@ -144,6 +160,9 @@
   overflow: auto;
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
+  background: #f2f2f6;
+  border-top-left-radius: var(--radius);
+  border-top-right-radius: var(--radius);
 }
 
 .sheet-content, .modal-content {
@@ -155,15 +174,17 @@
   overflow: hidden;
   padding-bottom: calc(16px + env(safe-area-inset-bottom));
   box-shadow: 0 -1px 0 var(--border);
+
+  background: #efefef;
+  box-shadow: none;
 }
 
 .sheet-header,
 .sheet-footer {
   cursor: ns-resize;
+  touch-action: none;
 }
 
-.sheet-scroll,
-.sheet-header,
-.sheet-footer {
-  touch-action: none;
+.sheet-scroll {
+  touch-action: pan-y;
 }
