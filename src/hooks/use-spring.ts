@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useMemo, useCallback } from 'react'
 import { useSpring as useReactSpring } from '@react-spring/web'
 import { config } from '../utils'
 import type { SpringConfig } from '../types'
@@ -18,7 +18,8 @@ type AsyncType = { config?: SpringConfig } & Record<string, unknown>
 type SpringSetAsync = (e: AsyncType) => Promise<unknown>
 
 const useSpring = (): [Spring, SpringSet, SpringSetAsync] => {
-  const [spring, set] = useSpringWrapper()
+  const [spring, api] = useSpringWrapper()
+  const set = useMemo(() => api.start.bind(api), [api])
   const asyncSet = useCallback(
     ({ config: { velocity = 1, ...rest } = {}, ...opts }: AsyncType) =>
       new Promise(resolve =>
@@ -48,6 +49,6 @@ const useSpring = (): [Spring, SpringSet, SpringSetAsync] => {
 }
 
 export type Spring = ReturnType<typeof useSpringWrapper>[0]
-export type SpringSet = ReturnType<typeof useSpringWrapper>[1]
+export type SpringSet = ReturnType<typeof useSpringWrapper>[1]['start']
 
 export default useSpring
