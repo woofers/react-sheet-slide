@@ -274,12 +274,13 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
         onDismiss()
         return memo
       }
+      const bottom = 80
       let newY = down
         ? minSnapRef.current === maxSnapRef.current
           ? rawY < minSnapRef.current!
             ? rubberbandIfOutOfBounds(
                 rawY,
-                80,
+                bottom,
                 maxSnapRef.current! * 2,
                 0.55
               )
@@ -291,7 +292,7 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
               )
           : rubberbandIfOutOfBounds(
               rawY,
-              minSnapRef.current!,
+              rawY < minSnapRef.current! ? bottom : minSnapRef.current!,
               maxSnapRef.current!,
               0.55
             )
