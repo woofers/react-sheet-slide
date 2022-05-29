@@ -239,6 +239,12 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
         onClose()
       }
     }, [onClose])
+    useEffect(() => {
+      if (typeof window === 'undefined') return
+      const className = cx('sheet-open')
+      document.body.classList.add(className)
+      return () => document.body.classList.add(className)
+    }, [useModal])
     const handleDrag = ({
       args: [{ closeOnTap = false, isContentDragging = false } = {}] = [],
       cancel,

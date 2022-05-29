@@ -1,4 +1,18 @@
 
+body.sheet-open {
+  overflow: hidden;
+  background: #000;
+}
+
+#_next.sheet-open > div:first-of-type,
+#root.sheet-open > div:first-of-type,
+#___gatsby.sheet-open > div:first-of-type {
+  transform: scale(0.95) translate(0, -1%);
+  border-radius: 12px;
+  overflow-y: hidden;
+  filter: grayscale(26%);
+}
+
 .sheet-root, .modal-root {
   --backdrop: rgba(0, 0, 0, 0.6);
 
