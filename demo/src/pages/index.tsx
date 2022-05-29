@@ -231,9 +231,11 @@ const App = () => {
           open={open}
           onDismiss={() => setOpen(false)}
           onClose={() => console.log('we closed')}
-          defaultSnap={({ maxHeight }) => maxHeight - maxHeight * 0.1}
+          defaultSnap={({ minHeight }) => minHeight}
           snapPoints={({ maxHeight, minHeight }) => [
+            minHeight,
             maxHeight - maxHeight * 0.1,
+            maxHeight - maxHeight * 0.52
           ]}
         >
           <Header>
