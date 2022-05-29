@@ -17,9 +17,9 @@ export const {
       inherit: 'inherit',
       current: 'currentColor',
       transparent: 'transparent',
-      primary: '#62b39c',
+      primary: '#fff',
       primaryHover: '#62b39c',
-      secondary: '#75eeca',
+      secondary: '#1c1c1e',
       blue: '#f1f7ff',
       darkBlue: '#3268ce',
       selection: '#fff9cc'

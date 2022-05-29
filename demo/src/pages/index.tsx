@@ -1,12 +1,25 @@
-import { useState, useRef } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { styled } from 'stitches'
-import {
-  Sheet,
-  Header,
-  Content,
-  Footer,
-  Portal
-} from 'react-swipe-sheet'
+import { Sheet, Header, Content, Footer, Portal } from 'react-swipe-sheet'
+import { animated, useSpring } from '@react-spring/web'
+
+let ticking = false
+
+const FakeBody = animated((props: { style?: Record<string, string> }) => {
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const update = () => {
+      ticking = false
+      Object.entries(props?.style || {}).reduce((acc: unknown, [key, value]) => {
+        document.body.style.setProperty(key, value)
+        return false
+      }, [])
+    }
+    if (!ticking) requestAnimationFrame(update)
+    ticking = true
+  }, [props.style])
+  return null
+})
 
 const Flex = styled('div', {
   width: '100%',
@@ -23,13 +36,6 @@ const HeaderWrapper = styled('div', {
   alignItems: 'center',
   gap: '0 8px',
   color: '#fff'
-})
-
-const HeaderBox = styled('div', {
-  br: '4px',
-  height: '24px',
-  width: '24px',
-  background: '#0b8aff'
 })
 
 const Box = styled('div', {
@@ -51,7 +57,7 @@ const CloseButton = styled('button', {
   justifyContent: 'center',
   position: 'relative',
   backgroundColor: '#5d5d6047',
-  color: '#9f9fa6',
+  color: '#9f9fa6'
 })
 
 const CloseText = styled('span', {
@@ -171,15 +177,15 @@ const WaveWrapper = styled('div', {
   width: '100%',
   position: 'absolute',
   zIndex: -1,
-  height: '300px',
-  '@sm': {
-    height: '400px'
-  }
+  height: '100vh'
 })
 
 const Center = styled('div', {
   display: 'flex',
+  flexDirection: 'column',
   justifyContent: 'center',
+  alignItems: 'center',
+  gap: '32px 0',
   marginTop: '3.5em',
   marginBottom: '1.6em',
   '@sm': {
@@ -213,18 +219,30 @@ const FooterWrapper = styled('div', {
 const App = () => {
   const [open, setOpen] = useState(false)
   const ref = useRef<HTMLDivElement | null>(null)
+  const [spring, api] = useSpring(() => {
+    opacity: 1
+  })
+  useEffect(() => {
+    api.start({
+      '--dim': open ? '26%' : '0%',
+      '--scale': open ? 0.95 : 1,
+      '--down': open ? '-1%' : '0%',
+      '--round': open ? '12px' : '0px'
+    })
+  }, [open, api.start, api])
   return (
     <Fullscreen>
+      <FakeBody style={spring} />
       <WaveWrapper>
         <Center>
           <Link href="https://github.com/woofers/react-swipe-sheet">
             <Text>react-swipe-sheet</Text>
           </Link>
+          <Button type="button" onClick={() => setOpen(v => !v)}>
+            Open sheet
+          </Button>
         </Center>
       </WaveWrapper>
-      <Button type="button" onClick={() => setOpen(v => !v)}>
-        Open sheet
-      </Button>
       <Portal containerRef="#react-swipe-sheet">
         <Sheet
           ref={ref}

@@ -3,6 +3,7 @@ import Global from 'components/global'
 import Meta from 'components/meta'
 import type { AppProps } from 'next/app'
 import 'react-swipe-sheet/lib/style.css'
+import './style.css'
 
 const MyApp = ({ Component, pageProps }: AppProps) => (
   <ThemeProvider>

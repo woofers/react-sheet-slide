@@ -1,32 +1,8 @@
-
-._lVbPX, ._xHshk {
-  --background: #f7f8f8;
-  --border: #dbdbde;
-  --handle: #dbdbde;
-  --radius: 12px;
-}
-
-._7vsRM, ._ASuX0 {
-  border-top-left-radius: var(--radius);
-  border-top-right-radius: var(--radius);
-  background: #f2f2f6e8;
-  backdrop-filter: blur(4px);
-  z-index: 300;
-  position: absolute;
-  width: calc(100% - 32px);
-  overflow: hidden;
-  background: none;
-  box-shadow: none;
-}
-
-._QLjfS, ._OD8pB {
-  border-top-left-radius: var(--radius);
-  border-top-right-radius: var(--radius);
-  touch-action: pan-y;
-  background: #f2f2f6;
-}
-
-._xlcmb, ._YZRPO {
-  background: #efefef;
-  box-shadow: none;
+._8ObI- > #root > div:first-of-type,
+._8ObI- > #__next > div:first-of-type,
+._8ObI- > #___gatsby > div:first-of-type {
+  transform: scale(var(--scale)) translate(0, var(--down));
+  border-radius: var(--round);
+  overflow-y: hidden;
+  filter: grayscale(var(--dim));
 }
