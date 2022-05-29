@@ -18,6 +18,12 @@
 
   --padding: 32px;
   --drag-padding: 16px;
+
+  --background: #1c1c1e;
+  --background-header: #242426db;
+  --background-footer: #2e2e2e;
+  --handle: #424245;
+  --border: #444447;
 }
 
 

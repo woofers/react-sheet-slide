@@ -21,7 +21,8 @@ const HeaderWrapper = styled('div', {
   padding: '0 0 4px',
   justifyContent: 'space-between',
   alignItems: 'center',
-  gap: '0 8px'
+  gap: '0 8px',
+  color: '#fff'
 })
 
 const HeaderBox = styled('div', {
@@ -40,15 +41,17 @@ const Box = styled('div', {
 const CloseButton = styled('button', {
   padding: 0,
   border: 'none',
-  backgroundColor: 'rgba(199, 199, 208, 0.26)',
-  color: '#838388',
+  //backgroundColor: 'rgba(199, 199, 208, 0.26)',
+  //color: '#838388',
   br: '$round',
   width: '28px',
   height: '28px',
   display: 'inline-flex',
   alignItems: 'center',
   justifyContent: 'center',
-  position: 'relative'
+  position: 'relative',
+  backgroundColor: '#5d5d6047',
+  color: '#9f9fa6',
 })
 
 const CloseText = styled('span', {
@@ -149,7 +152,8 @@ const Container = styled('div', {
   padding: '76px 20px 16px',
   display: 'flex',
   flexDirection: 'column',
-  gap: '24px 0'
+  gap: '24px 0',
+  color: '#fff'
 })
 
 const Fullscreen = styled('div', {
