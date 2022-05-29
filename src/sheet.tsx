@@ -240,9 +240,9 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
       }
     }, [onClose])
     useEffect(() => {
-      if (typeof window === 'undefined' || useModal) return
+      if (typeof window === 'undefined') return
       const className = cx('sheet-open')
-      document.body.classList.add(className)
+      if (!useModal) document.body.classList.add(className)
       return () => {
         document.body.classList.remove(className)
       }
