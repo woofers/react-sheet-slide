@@ -314,7 +314,8 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
         if (
           onDismiss &&
           rawY + predictedDistance < minSnapRef.current! / 2 &&
-          snap === minSnapRef.current
+          snap === minSnapRef.current &&
+          !isContentDragging
         ) {
           cancel()
           onDismiss()
