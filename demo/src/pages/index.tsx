@@ -70,11 +70,11 @@ const Description = styled('div', {
 const LargeText = styled('div', {
   fontFamily: '$title',
   fontWeight: 700,
-  lineHeight: '44px',
-  fontSize: '40px',
+  lineHeight: '28px',
+  fontSize: '24px',
   marginTop: 0,
   marginBottom: 0,
-  letterSpacing: '1px'
+  letterSpacing: '0.5px'
 })
 
 const Text = styled('div', {
@@ -155,20 +155,7 @@ const Container = styled('div', {
 })
 
 const Fullscreen = styled('div', {
-  background: '$blue',
-  position: 'fixed',
-  top: 0,
-  bottom: 0,
-  left: 0,
-  right: 0,
-  opacity: 1
-})
-
-const WaveWrapper = styled('div', {
   background: '$secondary',
-  width: '100%',
-  position: 'absolute',
-  zIndex: -1,
   height: '100vh'
 })
 
@@ -208,21 +195,26 @@ const FooterWrapper = styled('div', {
   gap: '8px 0'
 })
 
+const Indent = styled('div', {
+  pt: '24px',
+  pl: '24px',
+})
+
 const App = () => {
   const [open, setOpen] = useState(false)
   const ref = useRef<HTMLDivElement | null>(null)
   return (
     <Fullscreen>
-      <WaveWrapper>
-        <Center>
-          <Link href="https://github.com/woofers/react-swipe-sheet">
-            <LargeText>react-sheet-slide</LargeText>
-          </Link>
-          <Button type="button" onClick={() => setOpen(v => !v)}>
-            Open sheet
-          </Button>
-        </Center>
-      </WaveWrapper>
+      <Indent>
+        <Link href="https://github.com/woofers/react-swipe-sheet">
+          <LargeText>react-sheet-slide</LargeText>
+        </Link>
+      </Indent>
+      <Center>
+        <Button type="button" onClick={() => setOpen(v => !v)}>
+          Open sheet
+        </Button>
+      </Center>
       <Portal containerRef="#react-swipe-sheet">
         <Sheet
           ref={ref}
