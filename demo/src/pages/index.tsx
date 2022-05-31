@@ -68,11 +68,10 @@ const Description = styled('div', {
 })
 
 const LargeText = styled('div', {
-  maxWidth: '700px',
   fontFamily: '$title',
   fontWeight: 700,
-  lineHeight: '64px',
-  fontSize: '60px',
+  lineHeight: '44px',
+  fontSize: '40px',
   marginTop: 0,
   marginBottom: 0,
   letterSpacing: '1px'
@@ -254,8 +253,6 @@ const App = () => {
                 features to protect your privacy.
               </Description>
               <Action>Learn More About Online</Action>
-            </Container>
-            <Container>
               <Flex>
                 <Text>Add more storage to keep everything on online</Text>
                 <Box />
