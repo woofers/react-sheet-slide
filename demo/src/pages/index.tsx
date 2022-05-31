@@ -3,6 +3,13 @@ import { styled } from 'stitches'
 import { Sheet, Header, Content, Footer, Portal } from 'react-swipe-sheet'
 import { animated, useSpring } from '@react-spring/web'
 
+const Split = styled('div', {
+  pl: '24px',
+  width: 'max-content',
+  display: 'flex',
+  gap: '0 4px'
+})
+
 const Flex = styled('div', {
   width: '100%',
   display: 'flex',
@@ -135,8 +142,8 @@ const Button = styled('button', {
         $$hover: '#e02941'
       },
       secondary: {
-        $$background: 'none',
-        $$text: '#2878f4',
+        $$background: '#1c1c1e',
+        $$text: '#ffffff',
         $$hover: 'none'
       }
     }
@@ -220,11 +227,11 @@ const App = () => {
         <Button type="button" onClick={() => setOpen(v => !v)}>
           Open sheet
         </Button>
-        <Flex>
-          <LargeText css={{ flex: '1', textAlign: 'right' }}>☀</LargeText>️
-          <LargeText css={{ flex: '1', textAlign: 'left' }}>🌙</LargeText>
-        </Flex>
-        </Center>
+      </Center>
+      <Split>
+        <Button theme="secondary" css={{ flex: '1', textAlign: 'right' }}>☀</Button>️
+        <Button theme="secondary" css={{ flex: '1', textAlign: 'left' }}>🌙</Button>
+      </Split>
       <Portal containerRef="#react-swipe-sheet">
         <Sheet
           ref={ref}
@@ -246,6 +253,15 @@ const App = () => {
           </Header>
           <Content>
             <Container>
+              <Flex>
+                <Text>Add more storage to keep everything on online</Text>
+                <Box />
+              </Flex>
+              <Description>
+                Online includes plenty of storage to keep all your data safe and
+                features to protect your privacy.
+              </Description>
+              <Action>Learn More About Online</Action>
               <Flex>
                 <Text>Add more storage to keep everything on online</Text>
                 <Box />
