@@ -70,11 +70,11 @@ const Description = styled('div', {
 const LargeText = styled('div', {
   fontFamily: '$title',
   fontWeight: 700,
-  lineHeight: '28px',
-  fontSize: '24px',
+  lineHeight: '36px',
+  fontSize: '32px',
   marginTop: 0,
   marginBottom: 0,
-  letterSpacing: '0.5px'
+  letterSpacing: '1px'
 })
 
 const Text = styled('div', {
@@ -156,7 +156,9 @@ const Container = styled('div', {
 
 const Fullscreen = styled('div', {
   background: '$secondary',
-  height: '100vh'
+  height: '100vh',
+  width: '100vw',
+  color: '#fff'
 })
 
 const Center = styled('div', {
@@ -214,7 +216,11 @@ const App = () => {
         <Button type="button" onClick={() => setOpen(v => !v)}>
           Open sheet
         </Button>
-      </Center>
+        <Flex>
+          <LargeText css={{ flex: '1', textAlign: 'right' }}>☀</LargeText>️
+          <LargeText css={{ flex: '1', textAlign: 'left' }}>🌙</LargeText>
+        </Flex>
+        </Center>
       <Portal containerRef="#react-swipe-sheet">
         <Sheet
           ref={ref}
