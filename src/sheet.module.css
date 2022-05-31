@@ -10,11 +10,11 @@ body.sheet-open {
   transform: scale(var(--scale, 1)) translate(0, var(--down, 0%));
   border-radius: var(--round, 0px);
   overflow-y: hidden;
-  filter: grayscale(var(--dim, 0%));
+  filter: contrast(var(--dim, 1));
 }
 
 .sheet-root, .modal-root {
-  --backdrop: rgba(0, 0, 0, 0.6);
+  --backdrop: rgba(0, 0, 0, 0);
 
   --background: #f7f8f8;
   --background-header: #f2f2f6e8;

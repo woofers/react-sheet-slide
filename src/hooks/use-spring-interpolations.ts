@@ -47,7 +47,7 @@ const useSpringInterpolations = ({
 
   const interpolateDim = interpolate(
     [spring.y, spring.minSnap],
-    (y, minSnap) => (minSnap ? clamp(y / minSnap, 0, 1) : 0) * 26 + '%'
+    (y, minSnap) => (1 - (minSnap ? clamp(y / minSnap, 0, 1) : 0)) * (1 - 0.89) + 0.89
   )
 
   const interpolateScale = interpolate(

@@ -19,7 +19,7 @@ export const {
       transparent: 'transparent',
       primary: '#fff',
       primaryHover: '#62b39c',
-      secondary: '#1c1c1e',
+      secondary: '#070708',
       blue: '#f1f7ff',
       darkBlue: '#3268ce',
       selection: '#fff9cc'
