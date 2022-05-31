@@ -198,6 +198,9 @@ const FooterWrapper = styled('div', {
 })
 
 const Indent = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '16px 0',
   pt: '24px',
   pl: '24px',
 })
@@ -211,6 +214,7 @@ const App = () => {
         <Link href="https://github.com/woofers/react-swipe-sheet">
           <LargeText>react-sheet-slide</LargeText>
         </Link>
+        <LargeText>🏞️ 🎢 🛝</LargeText>
       </Indent>
       <Center>
         <Button type="button" onClick={() => setOpen(v => !v)}>
