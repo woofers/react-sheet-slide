@@ -25,7 +25,7 @@ export const {
       selection: '#fff9cc'
     },
     fonts: {
-      title: `'Inter', sans-serif`
+      title: `system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji"`
     },
     space: {
 

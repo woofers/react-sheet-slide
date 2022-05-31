@@ -64,7 +64,18 @@ const Description = styled('div', {
   fontWeight: 400,
   lineHeight: '20px',
   fontSize: '16px',
-  letterSpacing: '-0.25px'
+  letterSpacing: '0px'
+})
+
+const LargeText = styled('div', {
+  maxWidth: '700px',
+  fontFamily: '$title',
+  fontWeight: 700,
+  lineHeight: '64px',
+  fontSize: '60px',
+  marginTop: 0,
+  marginBottom: 0,
+  letterSpacing: '1px'
 })
 
 const Text = styled('div', {
@@ -75,12 +86,12 @@ const Text = styled('div', {
   fontSize: '20px',
   marginTop: 0,
   marginBottom: 0,
-  letterSpacing: '-0.5px'
+  letterSpacing: '-0.25px'
 })
 
 const ButtonText = styled('div', {
   fontFamily: '$title',
-  fontWeight: 500,
+  fontWeight: 600,
   lineHeight: '24px',
   fontSize: '18px',
   marginTop: 0,
@@ -92,7 +103,7 @@ const ButtonText = styled('div', {
 const Action = styled('div', {
   color: '#2878f4',
   fontFamily: '$title',
-  fontWeight: 400,
+  fontWeight: 500,
   lineHeight: '20px',
   fontSize: '16px',
   width: '100%',
@@ -109,7 +120,7 @@ const Button = styled('button', {
   border: 'none',
   br: '10px',
   fontFamily: '$title',
-  fontWeight: 500,
+  fontWeight: 600,
   lineHeight: '16px',
   fontSize: '16px',
   letterSpacing: '0px',
@@ -206,7 +217,7 @@ const App = () => {
       <WaveWrapper>
         <Center>
           <Link href="https://github.com/woofers/react-swipe-sheet">
-            <Text>react-swipe-sheet</Text>
+            <LargeText>react-sheet-slide</LargeText>
           </Link>
           <Button type="button" onClick={() => setOpen(v => !v)}>
             Open sheet
