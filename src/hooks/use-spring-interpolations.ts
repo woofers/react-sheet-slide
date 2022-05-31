@@ -63,7 +63,7 @@ const useSpringInterpolations = ({
 
   const interpolateRound = interpolate(
     [spring.y, spring.minSnap],
-    (y, minSnap) => (minSnap ? clamp(y / minSnap, 0, 1) : 0) * 12 + 'px'
+    (y, minSnap) => (minSnap ? clamp(y / 80, 0, 1) : 0) * 12 + 'px'
   )
 
   const modal = {
