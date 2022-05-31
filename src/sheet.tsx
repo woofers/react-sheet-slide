@@ -22,6 +22,7 @@ import {
   useHasScrolled
 } from './hooks'
 import TrapFocus from './trap-focus'
+import Body from './body'
 import classes from './classnames'
 import styles from './sheet.module.css'
 import { SnapPointProps, DefaultSnapProps, SnapPoints } from './types'
@@ -143,7 +144,7 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
     const footerRef = useRef<HTMLDivElement | null>(null)
 
     const [spring, set, asyncSet] = useSpring()
-    const interpolations = useSpringInterpolations({ spring })
+    const { modal, backdrop } = useSpringInterpolations({ spring })
 
     const lastSnapRef = useRef<any>(null)
     const heightRef = useRef<number>()
@@ -376,66 +377,75 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
     )
     const prefix = enabled ? 'sheet' : 'modal'
     return (
-      <animated.div
-        className={cx(`${prefix}-root`)}
-        style={{
-          ...interpolations
-        }}
-      >
-        <div
-          className={cx(`${prefix}-backdrop`, `${prefix}-stack`)}
-          {...bindEvents({ closeOnTap: true })}
-        ></div>
-        <TrapFocus>
-          <div
-            ref={ref}
-            className={cx(`${prefix}-modal`, `${prefix}-stack`)}
-            aria-modal="true"
-            role="dialog"
-            tabIndex={-1}
-            onKeyDown={event => {
-              if (event.key === 'Escape') {
-                event.stopPropagation()
-                if (onDismiss) onDismiss()
-              }
+      <>
+        {!useModal && (
+          <Body
+            style={{
+              ...backdrop
             }}
-            {...rest}
-          >
-            <DragHeader
-              {...bindEvents()}
-              prefix={prefix}
-              ref={headerRef}
-              scrollRef={scroll}
-              useModal={useModal}
-            >
-              {headerContent}
-            </DragHeader>
+          />
+        )}
+        <animated.div
+          className={cx(`${prefix}-root`)}
+          style={{
+            ...modal
+          }}
+        >
+          <div
+            className={cx(`${prefix}-backdrop`, `${prefix}-stack`)}
+            {...bindEvents({ closeOnTap: true })}
+          ></div>
+          <TrapFocus>
             <div
-              className={cx(`${prefix}-scroll`)}
-              {...(expandOnContentDrag
-                ? bindEvents({ isContentDragging: true })
-                : empty)}
-              ref={scroll}
+              ref={ref}
+              className={cx(`${prefix}-modal`, `${prefix}-stack`)}
+              aria-modal="true"
+              role="dialog"
               tabIndex={-1}
+              onKeyDown={event => {
+                if (event.key === 'Escape') {
+                  event.stopPropagation()
+                  if (onDismiss) onDismiss()
+                }
+              }}
+              {...rest}
             >
+              <DragHeader
+                {...bindEvents()}
+                prefix={prefix}
+                ref={headerRef}
+                scrollRef={scroll}
+                useModal={useModal}
+              >
+                {headerContent}
+              </DragHeader>
               <div
-                className={cx(`${prefix}-content`)}
-                ref={contentRef}
+                className={cx(`${prefix}-scroll`)}
+                {...(expandOnContentDrag
+                  ? bindEvents({ isContentDragging: true })
+                  : empty)}
+                ref={scroll}
                 tabIndex={-1}
               >
-                {scrollContent}
+                <div
+                  className={cx(`${prefix}-content`)}
+                  ref={contentRef}
+                  tabIndex={-1}
+                >
+                  {scrollContent}
+                </div>
+              </div>
+              <div
+                className={cx(`${prefix}-footer`)}
+                {...bindEvents()}
+                ref={footerRef}
+              >
+                {footerContent}
               </div>
             </div>
-            <div
-              className={cx(`${prefix}-footer`)}
-              {...bindEvents()}
-              ref={footerRef}
-            >
-              {footerContent}
-            </div>
-          </div>
-        </TrapFocus>
-      </animated.div>
+          </TrapFocus>
+        </animated.div>
+      </>
     )
   }
 )

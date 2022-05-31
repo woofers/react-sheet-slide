@@ -1,3 +1,5 @@
+export { default as setRef } from './set-ref'
+
 const getErr = (msg: string) => new TypeError(__isDev__ ? msg : '')
 
 export function clamp(number: number, lower: number, upper: number) {

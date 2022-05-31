@@ -1,8 +1,0 @@
-._8ObI- > #root > div:first-of-type,
-._8ObI- > #__next > div:first-of-type,
-._8ObI- > #___gatsby > div:first-of-type {
-  transform: scale(var(--scale)) translate(0, var(--down));
-  border-radius: var(--round);
-  overflow-y: hidden;
-  filter: grayscale(var(--dim));
-}

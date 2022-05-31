@@ -1,25 +1,7 @@
-import { useEffect, useState, useRef } from 'react'
+import { forwardRef, useEffect, useState, useRef } from 'react'
 import { styled } from 'stitches'
 import { Sheet, Header, Content, Footer, Portal } from 'react-swipe-sheet'
 import { animated, useSpring } from '@react-spring/web'
-
-let ticking = false
-
-const FakeBody = animated((props: { style?: Record<string, string> }) => {
-  useEffect(() => {
-    if (typeof window === 'undefined') return
-    const update = () => {
-      ticking = false
-      Object.entries(props?.style || {}).reduce((acc: unknown, [key, value]) => {
-        document.body.style.setProperty(key, value)
-        return false
-      }, [])
-    }
-    if (!ticking) requestAnimationFrame(update)
-    ticking = true
-  }, [props.style])
-  return null
-})
 
 const Flex = styled('div', {
   width: '100%',
@@ -219,20 +201,8 @@ const FooterWrapper = styled('div', {
 const App = () => {
   const [open, setOpen] = useState(false)
   const ref = useRef<HTMLDivElement | null>(null)
-  const [spring, api] = useSpring(() => {
-    opacity: 1
-  })
-  useEffect(() => {
-    api.start({
-      '--dim': open ? '26%' : '0%',
-      '--scale': open ? 0.95 : 1,
-      '--down': open ? '-1%' : '0%',
-      '--round': open ? '12px' : '0px'
-    })
-  }, [open, api.start, api])
   return (
     <Fullscreen>
-      <FakeBody style={spring} />
       <WaveWrapper>
         <Center>
           <Link href="https://github.com/woofers/react-swipe-sheet">
@@ -252,7 +222,6 @@ const App = () => {
           defaultSnap={({ maxHeight }) => maxHeight - maxHeight * 0.1}
           snapPoints={({ maxHeight }) => [
             maxHeight - maxHeight * 0.1,
-            maxHeight - maxHeight * 0.52
           ]}
         >
           <Header>

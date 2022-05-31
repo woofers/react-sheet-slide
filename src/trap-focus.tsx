@@ -13,24 +13,10 @@ import React, {
   useRef,
   useMemo
 } from 'react'
+import { setRef } from './utils'
 
 const ownerDocument = (node: Node | null | undefined): Document =>
   (node && node.ownerDocument) || document
-
-function setRef<T>(
-  ref:
-    | React.MutableRefObject<T | null>
-    | ((instance: T | null) => void)
-    | null
-    | undefined,
-  value: T | null
-) {
-  if (typeof ref === 'function') {
-    ref(value)
-  } else if (ref) {
-    ref.current = value
-  }
-}
 
 const useForkRef = <InstanceA, InstanceB>(
   refA: React.Ref<InstanceA> | null | undefined,
