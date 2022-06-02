@@ -17,11 +17,17 @@ export const {
       inherit: 'inherit',
       current: 'currentColor',
       transparent: 'transparent',
-      primary: '#fff',
-      primaryHover: '#62b39c',
-      secondary: '#070708',
-      blue: '#f1f7ff',
-      darkBlue: '#3268ce',
+
+      primary: '#f92d48',
+      primaryHover: '#e02941',
+      secondary: '#f7f8f8',
+      text: '#000',
+      textHover: '#78787a',
+      buttonText: '#fff',
+      link: '#2878f4',
+      background: '#f2f2f6',
+      close: 'rgba(199, 199, 208, 0.26)',
+      closeText: '#838388',
       selection: '#fff9cc'
     },
     fonts: {
@@ -189,5 +195,21 @@ export const {
       WebkitBackgroundClip: value,
       backgroundClip: value
     })
+  }
+})
+
+export const darkTheme = createTheme('dark-theme', {
+  colors: {
+    primary: '#f92d48',
+    primaryHover: '#e02941',
+    secondary: '#1c1c1e',
+    text: '#fff',
+    textHover: '#5c5750',
+    buttonText: '#fff',
+    link: '#2878f4',
+    background: '#070708',
+    close: 'rgba(93, 93, 96, 0.28)',
+    closeText: '#9f9fa6',
+    selection: '#fff9cc'
   }
 })

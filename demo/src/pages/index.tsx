@@ -1,7 +1,7 @@
-import { forwardRef, useEffect, useState, useRef } from 'react'
+import { useState, useRef } from 'react'
 import { styled } from 'stitches'
 import { Sheet, Header, Content, Footer, Portal } from 'react-swipe-sheet'
-import { animated, useSpring } from '@react-spring/web'
+import { useTheme } from 'components/theme-provider'
 
 const Split = styled('div', {
   pl: '24px',
@@ -24,20 +24,18 @@ const HeaderWrapper = styled('div', {
   justifyContent: 'space-between',
   alignItems: 'center',
   gap: '0 8px',
-  color: '#fff'
+  color: '$text'
 })
 
 const Box = styled('div', {
   height: '62px',
   width: '92px',
-  background: '#e02941'
+  background: '$primaryHover'
 })
 
 const CloseButton = styled('button', {
   padding: 0,
   border: 'none',
-  //backgroundColor: 'rgba(199, 199, 208, 0.26)',
-  //color: '#838388',
   br: '$round',
   width: '28px',
   height: '28px',
@@ -45,8 +43,8 @@ const CloseButton = styled('button', {
   alignItems: 'center',
   justifyContent: 'center',
   position: 'relative',
-  backgroundColor: '#5d5d6047',
-  color: '#9f9fa6'
+  backgroundColor: '$close',
+  color: '$closeText'
 })
 
 const CloseText = styled('span', {
@@ -107,7 +105,7 @@ const ButtonText = styled('div', {
 })
 
 const Action = styled('div', {
-  color: '#2878f4',
+  color: '$link',
   fontFamily: '$title',
   fontWeight: 500,
   lineHeight: '20px',
@@ -137,13 +135,13 @@ const Button = styled('button', {
   variants: {
     theme: {
       primary: {
-        $$background: '#f92d48',
-        $$text: '#ffffff',
-        $$hover: '#e02941'
+        $$background: '$colors$primary',
+        $$text: '$colors$buttonText',
+        $$hover: '$colors$primaryHover'
       },
       secondary: {
-        $$background: '#1c1c1e',
-        $$text: '#ffffff',
+        $$background: '$colors$secondary',
+        $$text: '$colors$text',
         $$hover: 'none'
       }
     }
@@ -158,14 +156,14 @@ const Container = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   gap: '24px 0',
-  color: '#fff'
+  color: '$text'
 })
 
 const Fullscreen = styled('div', {
-  background: '$secondary',
+  background: '$background',
   height: '100vh',
   width: '100vw',
-  color: '#fff'
+  color: '$text'
 })
 
 const Center = styled('div', {
@@ -185,9 +183,9 @@ const Center = styled('div', {
 const Link = styled('a', {
   textDecoration: 'none',
   fontSize: '0.5em',
-  color: '$primary',
+  color: '$text',
   '&:hover': {
-    color: '$primaryHover'
+    color: '$textHover'
   },
   '@xsm': {
     fontSize: '0.75em'
@@ -215,6 +213,8 @@ const Indent = styled('div', {
 const App = () => {
   const [open, setOpen] = useState(false)
   const ref = useRef<HTMLDivElement | null>(null)
+  const { name } = useTheme()
+  const useDarkMode = name === 'dark'
   return (
     <Fullscreen>
       <Indent>
@@ -242,6 +242,7 @@ const App = () => {
           snapPoints={({ maxHeight }) => [
             maxHeight - maxHeight * 0.1,
           ]}
+          useDarkMode={useDarkMode}
         >
           <Header>
             <HeaderWrapper>

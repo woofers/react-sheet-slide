@@ -6,5 +6,6 @@ export {
   theme,
   createTheme,
   getCssText,
-  config
+  config,
+  darkTheme
 } from '../stitches.config'
