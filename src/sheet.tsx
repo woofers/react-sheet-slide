@@ -19,6 +19,7 @@ import {
   useScrollLock,
   useMediaQuery,
   useReducedMotion,
+  useColorScheme,
   useHasScrolled
 } from './hooks'
 import TrapFocus from './trap-focus'
@@ -64,6 +65,7 @@ type BaseProps = {
   snapPoints?: SnapPoints
   defaultSnap?: number | ((props: DefaultSnapProps) => number)
   useModal?: boolean
+  useDarkMode?: boolean
 }
 
 type InteralSheetProps = Callbacks & BaseProps & { close: () => void }
@@ -120,13 +122,17 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
       defaultSnap: getDefaultSnap = _defaultSnap,
       snapPoints: getSnapPoints = _snapPoints,
       useModal: useModalInitial,
+      useDarkMode: useDarkModeInitial,
       ...rest
     },
     ref
   ) => {
     const bq = useMediaQuery('(max-width: 640px)')
+    const colorScheme = useColorScheme()
     const useModal =
       typeof useModalInitial !== 'undefined' ? useModalInitial : !bq
+    const useDarkMode =
+      typeof useDarkModeInitial !== 'undefined' ? useDarkModeInitial : colorScheme
     const enabled = !useModal
     const prefersReducedMotion = useReducedMotion()
     const content = Children.toArray(children)
@@ -376,6 +382,7 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
       [bind, enabled, onDismiss]
     )
     const prefix = enabled ? 'sheet' : 'modal'
+    const mode = useDarkMode ? 'dark' : 'light'
     return (
       <>
         {!useModal && (
@@ -386,7 +393,7 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
           />
         )}
         <animated.div
-          className={cx(`${prefix}-root`)}
+          className={cx(`${prefix}-root`, `${mode}-root`)}
           style={{
             ...modal
           }}

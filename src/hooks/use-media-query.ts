@@ -37,3 +37,6 @@ export const useMediaQuery = (query: string): boolean => {
 
 export const useReducedMotion = () =>
   useMediaQuery('@media (prefers-reduced-motion)')
+
+export const useColorScheme = () =>
+  useMediaQuery('(prefers-color-scheme: dark)')

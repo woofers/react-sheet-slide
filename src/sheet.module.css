@@ -13,14 +13,26 @@ body.sheet-open {
   filter: contrast(var(--dim, 1));
 }
 
-.sheet-root, .modal-root {
-  --backdrop: rgba(0, 0, 0, 0);
+.dark-root {
+  --background: #1c1c1e;
+  --background-header: #242426db;
+  --background-footer: #2e2e2e;
+  --handle: #424245;
+  --border: #444447;
 
+}
+
+.light-root {
   --background: #f7f8f8;
   --background-header: #f2f2f6e8;
   --background-footer: #efefef;
   --handle: #dbdbde;
   --border: #dbdbde;
+}
+
+.sheet-root, .modal-root {
+  --backdrop: rgba(0, 0, 0, 0);
+
   --gutter: 0px;
   --width: auto;
   --radius: 12px;
@@ -32,12 +44,6 @@ body.sheet-open {
 
   --padding: 32px;
   --drag-padding: 16px;
-
-  --background: #1c1c1e;
-  --background-header: #242426db;
-  --background-footer: #2e2e2e;
-  --handle: #424245;
-  --border: #444447;
 }
 
 
