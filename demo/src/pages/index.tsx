@@ -2,6 +2,7 @@ import { useState, useRef } from 'react'
 import { styled } from 'stitches'
 import { Sheet, Header, Content, Footer, Portal } from 'react-swipe-sheet'
 import { useTheme } from 'components/theme-provider'
+import useIsMounted from 'hooks/use-is-mounted'
 
 const Split = styled('div', {
   pl: '24px',
@@ -132,6 +133,12 @@ const Button = styled('button', {
   '&:hover': {
     backgroundColor: '$$hover'
   },
+  '&[aria-pressed]': {
+    transition: 'none'
+  },
+  '&[aria-pressed="false"]': {
+    backgroundColor: 'rgba(0, 0, 0, 0)'
+  },
   variants: {
     theme: {
       primary: {
@@ -142,7 +149,7 @@ const Button = styled('button', {
       secondary: {
         $$background: '$colors$secondary',
         $$text: '$colors$text',
-        $$hover: 'none'
+        $$hover: '$colors$secondary'
       }
     }
   },
@@ -210,6 +217,18 @@ const Indent = styled('div', {
   pl: '24px',
 })
 
+const ThemeButtons: React.FC<{}> = () => {
+  const mounted = useIsMounted()
+  const { name, setTheme } = useTheme()
+  if (!mounted) return null
+  return (
+    <Split>
+      <Button aria-pressed={name === 'light'} theme="secondary" onClick={() => setTheme('light')} type="button" css={{ flex: '1', textAlign: 'right' }}>☀</Button>️
+      <Button aria-pressed={name === 'dark'} theme="secondary" onClick={() => setTheme('dark')} type="button" css={{ flex: '1', textAlign: 'left' }}>🌙</Button>
+    </Split>
+  )
+}
+
 const App = () => {
   const [open, setOpen] = useState(false)
   const ref = useRef<HTMLDivElement | null>(null)
@@ -228,10 +247,7 @@ const App = () => {
           Open sheet
         </Button>
       </Center>
-      <Split>
-        <Button theme="secondary" css={{ flex: '1', textAlign: 'right' }}>☀</Button>️
-        <Button theme="secondary" css={{ flex: '1', textAlign: 'left' }}>🌙</Button>
-      </Split>
+      <ThemeButtons />
       <Portal containerRef="#react-swipe-sheet">
         <Sheet
           ref={ref}
