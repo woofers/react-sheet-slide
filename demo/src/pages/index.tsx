@@ -254,8 +254,8 @@ const App = () => {
           open={open}
           onDismiss={() => setOpen(false)}
           onClose={() => console.log('we closed')}
-          defaultSnap={({ maxHeight }) => maxHeight - maxHeight * 0.1}
-          snapPoints={({ maxHeight }) => [
+          selectedDetent={({ maxHeight }) => maxHeight - maxHeight * 0.1}
+          detents={({ maxHeight }) => [
             maxHeight - maxHeight * 0.1,
           ]}
           useDarkMode={useDarkMode}

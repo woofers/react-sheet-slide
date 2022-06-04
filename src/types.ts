@@ -1,4 +1,4 @@
-export type SnapPointProps = {
+type DetentsProps = {
   headerHeight: number
   footerHeight: number
   height: number
@@ -6,12 +6,14 @@ export type SnapPointProps = {
   maxHeight: number
 }
 
-export type SnapPoints = (props: SnapPointProps) => number[] | number
+export type DefaultDetentsProps = {
+  detents: number[]
+  lastDetent: number | null
+} & DetentsProps
 
-export type DefaultSnapProps = {
-  snapPoints: number[]
-  lastSnap: number | null
-} & SnapPointProps
+export type Detents = (props: DetentsProps) => number[] | number
+
+export type SelectedDetent = number | ((props: DefaultDetentsProps) => number)
 
 export type SpringConfig = Partial<{
   velocity: number

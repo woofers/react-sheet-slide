@@ -52,7 +52,7 @@ export function processSnapPoints(
     throw getErr('maxSnap is NaN')
   }
   return {
-    snapPoints,
+    detents: snapPoints,
     minSnap,
     maxSnap
   }

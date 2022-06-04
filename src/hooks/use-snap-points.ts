@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import useLayoutEffect from './use-layout-effect'
 import useReady from './use-ready'
 import { processSnapPoints, roundAndCheckForNaN } from '../utils'
-import type { SnapPoints, DefaultSnapProps } from '../types'
+import type { Detents, SelectedDetent } from '../types'
 
 const useSnapPoints = ({
   contentRef,
@@ -21,7 +21,7 @@ const useSnapPoints = ({
   controlledMaxHeight?: number
   footerEnabled?: boolean
   footerRef: React.RefObject<Element>
-  getSnapPoints: SnapPoints
+  getSnapPoints: Detents
   headerEnabled?: boolean
   headerRef: React.RefObject<Element>
   heightRef: React.RefObject<number | undefined>
@@ -39,7 +39,7 @@ const useSnapPoints = ({
     registerReady
   })
 
-  const { snapPoints, minSnap, maxSnap } = processSnapPoints(
+  const { detents, minSnap, maxSnap } = processSnapPoints(
     ready
       ? getSnapPoints({
           height: heightRef.current!,
@@ -54,7 +54,7 @@ const useSnapPoints = ({
 
   // @TODO investigate the gains from memoizing this
   function findSnap(
-    numberOrCallback: number | ((state: DefaultSnapProps) => number)
+    numberOrCallback: SelectedDetent
   ) {
     let unsafeSearch: number
     if (typeof numberOrCallback === 'function') {
@@ -64,14 +64,14 @@ const useSnapPoints = ({
         height: heightRef.current!,
         minHeight,
         maxHeight,
-        snapPoints,
-        lastSnap: lastSnapRef.current!
+        detents,
+        lastDetent: lastSnapRef.current!
       })
     } else {
       unsafeSearch = numberOrCallback
     }
     const querySnap = roundAndCheckForNaN(unsafeSearch)
-    return snapPoints.reduce(
+    return detents.reduce(
       (prev, curr) =>
         Math.abs(curr - querySnap) < Math.abs(prev - querySnap) ? curr : prev,
       minSnap

@@ -26,7 +26,7 @@ import TrapFocus from './trap-focus'
 import Body from './body'
 import classes from './classnames'
 import styles from './sheet.module.css'
-import { SnapPointProps, DefaultSnapProps, SnapPoints } from './types'
+import type { DefaultDetentsProps, Detents, SelectedDetent } from './types'
 
 const empty = {}
 
@@ -48,10 +48,10 @@ export const Footer = makeEmpty('footer')
 
 const cx = classes.bind(styles)
 
-const _defaultSnap = ({ snapPoints, lastSnap }: DefaultSnapProps) =>
-  lastSnap ?? Math.min(...snapPoints)
+const _defaultSnap = ({ detents, lastDetent }: DefaultDetentsProps) =>
+  lastDetent ?? Math.min(...detents)
 
-const _snapPoints = ({ minHeight }: SnapPointProps) => minHeight
+const _detents: Detents = ({ minHeight }) => minHeight
 
 type Callbacks = {
   onClose: () => void
@@ -62,8 +62,8 @@ type BaseProps = {
   open?: boolean
   children?: React.ReactNode
   expandOnContentDrag?: boolean
-  snapPoints?: SnapPoints
-  defaultSnap?: number | ((props: DefaultSnapProps) => number)
+  detents?: Detents
+  selectedDetent?: SelectedDetent
   useModal?: boolean
   useDarkMode?: boolean
 }
@@ -119,8 +119,8 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
       onDismiss,
       onClose,
       close,
-      defaultSnap: getDefaultSnap = _defaultSnap,
-      snapPoints: getSnapPoints = _snapPoints,
+      detents: getDetents = _detents,
+      selectedDetent: getDefaultSnap = _defaultSnap,
       useModal: useModalInitial,
       useDarkMode: useDarkModeInitial,
       ...rest
@@ -152,16 +152,16 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
     const [spring, set, asyncSet] = useSpring()
     const { modal, backdrop } = useSpringInterpolations({ spring })
 
-    const lastSnapRef = useRef<any>(null)
+    const lastDetentRef = useRef<any>(null)
     const heightRef = useRef<number>()
     const { minSnap, maxSnap, maxHeight, findSnap } = useSnapPoints({
       contentRef,
       controlledMaxHeight: undefined,
       footerRef,
-      getSnapPoints,
+      getSnapPoints: getDetents,
       headerRef,
       heightRef,
-      lastSnapRef,
+      lastSnapRef: lastDetentRef,
       ready,
       registerReady
     })
@@ -337,7 +337,7 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
           return memo
         }
         heightRef.current = snap
-        lastSnapRef.current = snap
+        lastDetentRef.current = snap
         set({
           ready: 1,
           maxHeight: maxHeightRef.current,
