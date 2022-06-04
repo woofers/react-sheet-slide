@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react'
 import { styled } from 'stitches'
-import { detents, Sheet, Header, Content, Footer, Portal } from 'react-swipe-sheet'
+import { detents, Sheet, Header, Content, Footer, Portal } from 'react-sheet-slide'
 import { useTheme } from 'components/theme-provider'
 import useIsMounted from 'hooks/use-is-mounted'
 

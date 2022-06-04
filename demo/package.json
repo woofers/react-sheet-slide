@@ -20,8 +20,7 @@
     "next-themes": "^0.2.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
-    "react-spring": "^9.4.5",
-    "react-swipe-sheet": "../."
+    "react-sheet-slide": "^0.1.2"
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^12.1.6",
