@@ -34,3 +34,5 @@ lib/utils/*.ts
 lib/utils/*.tsx
 lib/utils/*.js
 /style.css
+lib/react-swipe-sheet.cjs
+lib/react-swipe-sheet.dev.cjs

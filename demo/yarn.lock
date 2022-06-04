@@ -1447,7 +1447,7 @@
   resolved "https://registry.yarnpkg.com/@use-gesture/core/-/core-10.2.15.tgz#ed55e85211eb6129a7979f177f1831d078087d22"
   integrity sha512-R8k5GHKR6J3n48K1xiWCBSnTsxmfiVCp+MYPMhFaoHT1/oIjrFA6SeMmWDl0REwP/CpBfNdQ0FwOo/0dGjPhwA==
 
-"@use-gesture/react@^10", "@use-gesture/react@^10.2.15":
+"@use-gesture/react@^10":
   version "10.2.15"
   resolved "https://registry.yarnpkg.com/@use-gesture/react/-/react-10.2.15.tgz#67cf755eb15c1a7feaa2d2ecd372bef485486e61"
   integrity sha512-Hdfp17a3iHDo33jasd8GIPlIjM4wxNzn1O9apNX2VrF7X2ewzXp4wCCQ4aPqsnyvBA1WhR8KHMrBS/XWQZxTHQ==
@@ -3079,12 +3079,11 @@ react-is@^16.13.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
 
-react-sheet-slide@^0.1.2:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/react-sheet-slide/-/react-sheet-slide-0.1.2.tgz#5f2f0613436ba430afbdf0b2379d8a4dcfe8ff17"
-  integrity sha512-sVALgA1cR08axVHH7ZfXNWVj9fPaBl1S7pyN5e/fvJn0mEv8w2V4NH/2NN6UI6uPrdrF1HEg/exx0pFAJSB8hg==
+react-sheet-slide@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/react-sheet-slide/-/react-sheet-slide-0.2.0.tgz#306a6befbaafd09d78c6e8be9d06d39f918751d4"
+  integrity sha512-fP5EsD/2pVusotl204xEoXa5k2Jqs8x29z9sGCPtDSCMFjnHVk0U9KXTyYcYvLFz3+paxZaDso6lMPW1XItxeQ==
   dependencies:
-    "@use-gesture/react" "^10.2.15"
     body-scroll-lock "^4.0.0-beta.0"
 
 react@^18.1.0:
