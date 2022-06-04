@@ -35,13 +35,13 @@ It also adds support for a backdrop animation similar to Apple's UIKit.
 **Yarn**
 
 ```yarn
-yarn add react-sheet-slide @react-spring/web
+yarn add react-sheet-slide @react-spring/web@^9 @use-gesture/react@^10
 ```
 
 **npm**
 
 ```npm
-npm install react-sheet-slide @react-spring/web
+npm install react-sheet-slide @react-spring/web@^9 @use-gesture/react@^10
 ```
 
 ## Usage

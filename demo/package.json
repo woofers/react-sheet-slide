@@ -1,7 +1,7 @@
 {
   "name": "react-sheet-slide-demo",
   "homepage": "http://woofers.github.io/react-sheet-slide",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "author": "Jaxson Van Doorn <jaxson.vandoorn@gmail.com>",
   "license": "MIT",
   "scripts": {
@@ -13,8 +13,9 @@
     "format": "prettier --write \"{tests,src}/**/*.{js,mjs,ts,tsx}\""
   },
   "dependencies": {
-    "@react-spring/web": "^9.4.5",
+    "@react-spring/web": "^9",
     "@stitches/react": "^1.2.8",
+    "@use-gesture/react": "^10",
     "framer-motion": "^6.3.3",
     "next": "^12.1.6",
     "next-themes": "^0.2.0",

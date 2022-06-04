@@ -1210,7 +1210,7 @@
   resolved "https://registry.yarnpkg.com/@react-spring/types/-/types-9.4.5.tgz#9c71e5ff866b5484a7ef3db822bf6c10e77bdd8c"
   integrity sha512-mpRIamoHwql0ogxEUh9yr4TP0xU5CWyZxVQeccGkHHF8kPMErtDXJlxyo0lj+telRF35XNihtPTWoflqtyARmg==
 
-"@react-spring/web@^9.4.5":
+"@react-spring/web@^9":
   version "9.4.5"
   resolved "https://registry.yarnpkg.com/@react-spring/web/-/web-9.4.5.tgz#b92f05b87cdc0963a59ee149e677dcaff09f680e"
   integrity sha512-NGAkOtKmOzDEctL7MzRlQGv24sRce++0xAY7KlcxmeVkR7LRSGkoXHaIfm9ObzxPMcPHQYQhf3+X9jepIFNHQA==
@@ -1447,7 +1447,7 @@
   resolved "https://registry.yarnpkg.com/@use-gesture/core/-/core-10.2.15.tgz#ed55e85211eb6129a7979f177f1831d078087d22"
   integrity sha512-R8k5GHKR6J3n48K1xiWCBSnTsxmfiVCp+MYPMhFaoHT1/oIjrFA6SeMmWDl0REwP/CpBfNdQ0FwOo/0dGjPhwA==
 
-"@use-gesture/react@^10.2.15":
+"@use-gesture/react@^10", "@use-gesture/react@^10.2.15":
   version "10.2.15"
   resolved "https://registry.yarnpkg.com/@use-gesture/react/-/react-10.2.15.tgz#67cf755eb15c1a7feaa2d2ecd372bef485486e61"
   integrity sha512-Hdfp17a3iHDo33jasd8GIPlIjM4wxNzn1O9apNX2VrF7X2ewzXp4wCCQ4aPqsnyvBA1WhR8KHMrBS/XWQZxTHQ==
