@@ -1,3 +1,11 @@
+/*
+ * react-spring-bottom-sheet use-spring-interpolations
+ * Modified to support react-spring v9 & backdrop scale animation
+ * ------------------------------
+ * From: https://github.com/stipsan/react-spring-bottom-sheet/blob/main/src/hooks/useSpringInterpolations.tsx
+ * MIT License at https://raw.githubusercontent.com/stipsan/react-spring-bottom-sheet/main/LICENSE
+ */
+
 import { to as interpolate } from '@react-spring/web'
 import type { Spring } from './use-spring'
 import { clamp } from '../utils'

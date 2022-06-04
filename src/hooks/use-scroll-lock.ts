@@ -29,7 +29,7 @@ const useScrollLock = ({ targetRef, enabled }: ScrollLockProps) => {
         if (active || !target) return
         active = true
         disableBodyScroll(target, {
-          allowTouchMove: el => !!el.closest('[data-body-scroll-lock-ignore]'),
+          allowTouchMove: el => !!el.closest('[data-scroll-lock-ignore]'),
           reserveScrollBarGap: true
         })
       },

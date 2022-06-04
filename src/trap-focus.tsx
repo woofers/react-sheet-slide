@@ -1,5 +1,5 @@
 /*
- * mui-base TrapFocus
+ * mui-base - TrapFocus
  * Modified for TypeScript and reduce size
  * ------------------------------
  * From: https://github.com/mui/material-ui/blob/master/packages/mui-base/src/TrapFocus/TrapFocus.js

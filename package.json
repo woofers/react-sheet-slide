@@ -1,7 +1,7 @@
 {
   "name": "react-sheet-slide",
   "version": "0.1.0",
-  "description": "",
+  "description": " A responsive React draggable sheet and dialog component",
   "src": "src/index.tsx",
   "main": "lib/index.js",
   "module": "lib/index.mjs",
@@ -28,6 +28,20 @@
     "test": "echo \"No tests \" && exit 0",
     "format": "prettier --write \"{tests,src}/**/*.{js,mjs,ts,tsx}\""
   },
+  "keywords": [
+    "react",
+    "reactjs",
+    "component",
+    "sheet",
+    "modal",
+    "animation",
+    "uikit",
+    "dialog",
+    "backdrop",
+    "react-modal",
+    "react-spring",
+    "react-use-gesture"
+  ],
   "peerDependencies": {
     "@react-spring/web": "^9.0.0",
     "react": "^16.8.0 || 17.x || 18.x",

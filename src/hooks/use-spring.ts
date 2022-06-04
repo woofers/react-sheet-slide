@@ -1,3 +1,11 @@
+/*
+ * react-spring-bottom-sheet use-spring
+ * Modified to support react-spring v9
+ * ------------------------------
+ * From: https://github.com/stipsan/react-spring-bottom-sheet/blob/main/src/hooks/useSpring.tsx
+ * MIT License at https://raw.githubusercontent.com/stipsan/react-spring-bottom-sheet/main/LICENSE
+ */
+
 import { useMemo, useCallback } from 'react'
 import { useSpring as useReactSpring } from '@react-spring/web'
 import { config } from '../utils'

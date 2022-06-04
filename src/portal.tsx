@@ -30,7 +30,7 @@ const getRef = (ref?: PortalRef): Node | null => {
 const Portal: React.FC<PortalProps> = ({
   children,
   type = 'div',
-  containerRef
+  containerRef = 'body'
 }) => {
   const mountNode = React.useRef<HTMLDivElement | null>(null)
   const portalNode = React.useRef<HTMLElement | null>(null)

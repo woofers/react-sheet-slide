@@ -1,3 +1,11 @@
+/*
+ * react-spring-bottom-sheet use-snap-points
+ * Modified to support denents API
+ * ------------------------------
+ * From: https://github.com/stipsan/react-spring-bottom-sheet/blob/main/src/hooks/useSnapPoints.tsx
+ * MIT License at https://raw.githubusercontent.com/stipsan/react-spring-bottom-sheet/main/LICENSE
+ */
+
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import useLayoutEffect from './use-layout-effect'
 import useReady from './use-ready'
@@ -205,7 +213,6 @@ const useMaxHeight = (
     // Bail if the max height is a controlled prop
     if (controlledMaxHeight) {
       setMaxHeight(roundAndCheckForNaN(controlledMaxHeight))
-
       return
     }
 
@@ -218,7 +225,6 @@ const useMaxHeight = (
       // throttle state changes using rAF
       raf.current = requestAnimationFrame(() => {
         setMaxHeight(window.innerHeight)
-
         raf.current = 0
       })
     }
