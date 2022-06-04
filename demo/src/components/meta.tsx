@@ -10,7 +10,7 @@ const Meta: React.FC<{}> = () => {
         name="viewport"
         content="width=device-width, initial-scale=1, viewport-fit=cover"
       />
-      <link rel="icon" href="/react-swipe-sheet/favicon.ico" />
+      <link rel="icon" href="/react-sheet-slide/favicon.ico" />
       <meta name="apple-mobile-web-app-capable" content="yes" />
       <meta name="apple-mobile-web-app-status-bar-style" content="default" />
       <meta name="theme-color" content="#070708" />

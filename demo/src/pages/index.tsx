@@ -237,7 +237,7 @@ const App = () => {
   return (
     <Fullscreen>
       <Indent>
-        <Link href="https://github.com/woofers/react-swipe-sheet">
+        <Link href="https://github.com/woofers/react-sheet-slide">
           <LargeText>react-sheet-slide</LargeText>
         </Link>
         <LargeText>🏞️ 🎢 🛝</LargeText>
@@ -248,7 +248,7 @@ const App = () => {
         </Button>
       </Center>
       <ThemeButtons />
-      <Portal containerRef="#react-swipe-sheet">
+      <Portal containerRef="#react-sheet-slide">
         <Sheet
           ref={ref}
           open={open}

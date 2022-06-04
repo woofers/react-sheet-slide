@@ -1,5 +1,5 @@
 {
-  "name": "react-swipe-sheet",
+  "name": "react-sheet-slide",
   "version": "0.1.0",
   "description": "",
   "src": "src/index.tsx",
@@ -8,7 +8,7 @@
   "sideEffects": [
     "*.css"
   ],
-  "repository": "https://github.com/woofers/react-swipe-sheet",
+  "repository": "https://github.com/woofers/react-sheet-slide",
   "author": "Jaxson Van Doorn",
   "license": "MIT",
   "files": [

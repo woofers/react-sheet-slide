@@ -34,7 +34,7 @@ module.exports = withBundleAnalyzer({
     })
     return config
   },
-  basePath: '/react-swipe-sheet',
-  assetPrefix: '/react-swipe-sheet/',
+  basePath: '/react-sheet-slide',
+  assetPrefix: '/react-sheet-slide/',
   trailingSlash: true
 })

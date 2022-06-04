@@ -25,7 +25,7 @@ class MyDocument extends Document {
         <body>
           <Main />
           <NextScript />
-          <div id="react-swipe-sheet"></div>
+          <div id="react-sheet-slide"></div>
         </body>
       </Html>
     )
