@@ -53,6 +53,7 @@ import 'react-swipe-sheet/style.css'
 
 const App = () => {
   const [open, setOpen] = useState(false)
+  const ref = useRef()
   return (
     <>
       <button type="button" onClick={() => setOpen(true)}>
@@ -63,28 +64,25 @@ const App = () => {
           ref={ref}
           open={open}
           onDismiss={() => setOpen(false)}
-          onClose={() => console.log('we closed')}
+          onClose={() => {
+            console.log('Component unmounted')
+          }}
           selectedDetent={detents.large}
           detents={props => [
             detents.large(props),
             detents.medium(props)
           ]}
-          useDarkMode={useDarkMode}
+          useDarkMode={false}
           useModal={false}
         >
           <Header>Title</Header>
           <Content>
-            <Container>
-              <Flex>
-                <Text>Add more storage to keep everything on online</Text>
-                <Box />
-              </Flex>
-              <Description>
-                Online includes plenty of storage to keep all your data safe and
-                features to protect your privacy.
-              </Description>
-              <Action>Learn More About Online</Action>
-            </Container>
+            <div>Add more storage to keep everything on online</div>
+            <div>
+              Online includes plenty of storage to keep all your data safe and
+              features to protect your privacy.
+            </div>
+            <div>Learn More About Online</div>
           </Content>
           <Footer>
             <button type="button" onClick={() => setOpen(false)}>
