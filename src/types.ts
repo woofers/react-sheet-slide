@@ -6,14 +6,16 @@ type DetentsProps = {
   maxHeight: number
 }
 
-export type DefaultDetentsProps = {
+export type SelectedDetentsProps = {
   detents: number[]
   lastDetent: number | null
 } & DetentsProps
 
+export type PredefinedDetents = (props: DetentsProps) => number
+
 export type Detents = (props: DetentsProps) => number[] | number
 
-export type SelectedDetent = number | ((props: DefaultDetentsProps) => number)
+export type SelectedDetent = number | ((props: SelectedDetentsProps) => number)
 
 export type SpringConfig = Partial<{
   velocity: number

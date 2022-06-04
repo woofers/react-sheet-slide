@@ -26,7 +26,7 @@ import TrapFocus from './trap-focus'
 import Body from './body'
 import classes from './classnames'
 import styles from './sheet.module.css'
-import type { DefaultDetentsProps, Detents, SelectedDetent } from './types'
+import type { SelectedDetentsProps, Detents, PredefinedDetents, SelectedDetent } from './types'
 
 const empty = {}
 
@@ -48,10 +48,18 @@ export const Footer = makeEmpty('footer')
 
 const cx = classes.bind(styles)
 
-const _selectedDetent = ({ detents, lastDetent }: DefaultDetentsProps) =>
+const _selectedDetent = ({ detents, lastDetent }: SelectedDetentsProps) =>
   lastDetent ?? Math.min(...detents)
 
-const _detents: Detents = ({ minHeight }) => minHeight
+type DetentSize = 'medium' | 'large' | 'fit'
+
+export const detents: Record<DetentSize, PredefinedDetents> = {
+  large: ({ maxHeight }) => maxHeight - maxHeight * 0.1,
+  medium: ({ maxHeight }) => maxHeight - maxHeight * 0.495,
+  fit: ({ minHeight }) => minHeight
+}
+
+const _detents: Detents = props => detents.fit(props)
 
 type Callbacks = {
   onClose: () => void

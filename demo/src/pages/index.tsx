@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react'
 import { styled } from 'stitches'
-import { Sheet, Header, Content, Footer, Portal } from 'react-swipe-sheet'
+import { detents, Sheet, Header, Content, Footer, Portal } from 'react-swipe-sheet'
 import { useTheme } from 'components/theme-provider'
 import useIsMounted from 'hooks/use-is-mounted'
 
@@ -254,9 +254,10 @@ const App = () => {
           open={open}
           onDismiss={() => setOpen(false)}
           onClose={() => console.log('we closed')}
-          selectedDetent={({ maxHeight }) => maxHeight - maxHeight * 0.1}
-          detents={({ maxHeight }) => [
-            maxHeight - maxHeight * 0.1,
+          selectedDetent={detents.large}
+          detents={props => [
+            detents.large(props),
+            detents.medium(props)
           ]}
           useDarkMode={useDarkMode}
         >
