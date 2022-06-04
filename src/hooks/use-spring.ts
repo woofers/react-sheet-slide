@@ -6,7 +6,7 @@
  * MIT License at https://raw.githubusercontent.com/stipsan/react-spring-bottom-sheet/main/LICENSE
  */
 
-import { useMemo, useCallback } from 'react'
+import React, { useMemo, useCallback } from 'react'
 import { useSpring as useReactSpring } from '@react-spring/web'
 import { config } from '../utils'
 import type { SpringConfig } from '../types'

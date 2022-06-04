@@ -15,15 +15,16 @@
     "lib",
     "LICENSE",
     "package.json",
+    "style.css",
     "README.md"
   ],
   "scripts": {
-    "build:style": "mv lib/react-swipe-sheet.css lib/style.css && rimraf lib/react-swipe-sheet.dev.css",
+    "build:style": "mv lib/react-swipe-sheet.css style.css && rimraf lib/react-swipe-sheet.dev.css",
     "build:module": "microbundle --no-pkg-main --no-sourcemap --jsx React.createElement --define __isDev__=false -i src/index.tsx -o lib/react-swipe-sheet.mjs -f es",
     "build:modern": "microbundle --no-pkg-main --no-sourcemap --jsx React.createElement --define __isDev__=false -i src/index.tsx -o lib/react-swipe-sheet.js -f umd",
     "build:dev:module": "microbundle --no-pkg-main --no-sourcemap --jsx React.createElement --define __isDev__=true -i src/index.tsx -o lib/react-swipe-sheet.dev.mjs -f es",
     "build:dev:modern": "microbundle --no-pkg-main --no-sourcemap --jsx React.createElement --define __isDev__=true -i src/index.tsx -o lib/react-swipe-sheet.dev.js -f umd",
-    "clean": "rimraf lib/react-swipe-sheet.mjs lib/react-swipe-sheet.js lib/react-swipe-sheet.dev.mjs lib/react-swipe-sheet.dev.js lib/style.css rimraf lib/*.d.ts",
+    "clean": "rimraf lib/react-swipe-sheet.mjs lib/react-swipe-sheet.js lib/react-swipe-sheet.dev.mjs lib/react-swipe-sheet.dev.js style.css lib/*.d.ts lib/utils lib/hooks",
     "build": "yarn build:dev:module && yarn build:dev:modern && yarn build:module && yarn build:modern && yarn build:style",
     "test": "echo \"No tests \" && exit 0",
     "format": "prettier --write \"{tests,src}/**/*.{js,mjs,ts,tsx}\""

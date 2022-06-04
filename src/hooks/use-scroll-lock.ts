@@ -1,5 +1,5 @@
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
-import { useEffect, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 
 type ScrollLockProps = {
   targetRef: React.RefObject<Element>

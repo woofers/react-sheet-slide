@@ -33,3 +33,4 @@ lib/hooks/*.tsx
 lib/utils/*.ts
 lib/utils/*.tsx
 lib/utils/*.js
+/style.css

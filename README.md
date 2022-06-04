@@ -49,6 +49,7 @@ npm install react-sheet-slide @react-spring/web
 ```jsx
 import React, { useState } from 'react'
 import { Sheet, Header, Content, Footer, detents, Portal } from 'react-swipe-sheet'
+import 'react-swipe-sheet/style.css'
 
 const App = () => {
   const [open, setOpen] = useState(false)

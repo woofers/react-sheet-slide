@@ -6,6 +6,7 @@
  * MIT License at https://raw.githubusercontent.com/stipsan/react-spring-bottom-sheet/main/LICENSE
  */
 
+import React from 'react'
 import { to as interpolate } from '@react-spring/web'
 import type { Spring } from './use-spring'
 import { clamp } from '../utils'

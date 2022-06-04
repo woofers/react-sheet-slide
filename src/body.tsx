@@ -1,4 +1,4 @@
-import { forwardRef, useEffect } from 'react'
+import React, { forwardRef, useEffect } from 'react'
 import { animated } from '@react-spring/web'
 import { setRef } from './utils'
 

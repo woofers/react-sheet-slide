@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 
 const useOverscrollLock = ({ enabled }: { enabled?: boolean }) => {
   const ref = useRef<HTMLDivElement | null>(null)
