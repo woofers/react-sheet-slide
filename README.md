@@ -11,7 +11,7 @@ Alterativly the sheet can be used on desktop as-well if so desired.
 This library is largely based on the fantastic [react-spring-bottom-sheet](https://github.com/stipsan/react-spring-bottom-sheet).  While [react-spring-bottom-sheet](https://github.com/stipsan/react-spring-bottom-sheet) is much more feature-packed than `react-sheet-slide`, supporting more props like many different callbacks on sheet snap start/end.
 However the extra dependencies like `xstate` and the `resize-observer` polyfill can lead to a larger bundle size.
 Also using `react-spring` as a dependencies instead of a peer dependencies limits users of the library from
-controlling they version of `react-spring` they use. It can also lead to 2 versions of `react-spring` being bundled.
+controlling the version of `react-spring` they use. It can also lead to 2 versions of `react-spring` being bundled,
 if the user is using a newer or older major version than the library.
 
 By simplifying the API these libraries can be removed, and by moving `react-spring` to a peer dependencies
@@ -47,7 +47,7 @@ npm install react-sheet-slide @react-spring/web@^9 @use-gesture/react@^10
 ## Usage
 
 ```jsx
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { Sheet, Header, Content, Footer, detents, Portal } from 'react-sheet-slide'
 import 'react-sheet-slide/style.css'
 
