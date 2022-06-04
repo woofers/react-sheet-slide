@@ -1,6 +1,6 @@
 {
   "name": "react-sheet-slide",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": " A responsive React draggable sheet and dialog component",
   "src": "src/index.tsx",
   "main": "lib/index.js",
@@ -11,6 +11,7 @@
   "repository": "https://github.com/woofers/react-sheet-slide",
   "author": "Jaxson Van Doorn",
   "license": "MIT",
+  "homepage": "https://jaxs.onl/react-sheet-slide/",
   "files": [
     "lib",
     "LICENSE",
