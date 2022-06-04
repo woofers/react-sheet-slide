@@ -3079,10 +3079,10 @@ react-is@^16.13.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
 
-react-sheet-slide@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/react-sheet-slide/-/react-sheet-slide-0.2.0.tgz#306a6befbaafd09d78c6e8be9d06d39f918751d4"
-  integrity sha512-fP5EsD/2pVusotl204xEoXa5k2Jqs8x29z9sGCPtDSCMFjnHVk0U9KXTyYcYvLFz3+paxZaDso6lMPW1XItxeQ==
+react-sheet-slide@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/react-sheet-slide/-/react-sheet-slide-0.2.1.tgz#7d8ff5ebe86bff76e78b05976b68339e3a5b6eab"
+  integrity sha512-P2nM0S3IG76jlQvPaUDz3K4sDidsRKTaJmvwIKeR126LDycDt7HHOaSLUfeyo/rp4Ej1xgqyEa/tXDlF4OvCBQ==
   dependencies:
     body-scroll-lock "^4.0.0-beta.0"
 
