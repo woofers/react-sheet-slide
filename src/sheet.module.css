@@ -30,9 +30,15 @@ body.sheet-open {
   --border: #dbdbde;
 }
 
-.sheet-root, .modal-root {
-  --backdrop: rgba(0, 0, 0, 0);
+.modal-root {
+  --backdrop: rgba(0, 0, 0, 0.6);
+}
 
+.sheet-root {
+  --backdrop: rgba(0, 0, 0, 0);
+}
+
+.sheet-root, .modal-root {
   --gutter: 0px;
   --width: auto;
   --radius: 12px;

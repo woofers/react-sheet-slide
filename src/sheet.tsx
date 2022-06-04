@@ -48,7 +48,7 @@ export const Footer = makeEmpty('footer')
 
 const cx = classes.bind(styles)
 
-const _defaultSnap = ({ detents, lastDetent }: DefaultDetentsProps) =>
+const _selectedDetent = ({ detents, lastDetent }: DefaultDetentsProps) =>
   lastDetent ?? Math.min(...detents)
 
 const _detents: Detents = ({ minHeight }) => minHeight
@@ -120,7 +120,7 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
       onClose,
       close,
       detents: getDetents = _detents,
-      selectedDetent: getDefaultSnap = _defaultSnap,
+      selectedDetent: getSelectedDetent = _selectedDetent,
       useModal: useModalInitial,
       useDarkMode: useDarkModeInitial,
       ...rest
@@ -132,7 +132,9 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
     const useModal =
       typeof useModalInitial !== 'undefined' ? useModalInitial : !bq
     const useDarkMode =
-      typeof useDarkModeInitial !== 'undefined' ? useDarkModeInitial : colorScheme
+      typeof useDarkModeInitial !== 'undefined'
+        ? useDarkModeInitial
+        : colorScheme
     const enabled = !useModal
     const prefersReducedMotion = useReducedMotion()
     const content = Children.toArray(children)
@@ -176,8 +178,8 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
       maxSnapRef.current = maxSnap
       minSnapRef.current = minSnap
       findSnapRef.current = findSnap
-      defaultSnapRef.current = findSnap(getDefaultSnap)
-    }, [findSnap, getDefaultSnap, maxHeight, maxSnap, minSnap])
+      defaultSnapRef.current = findSnap(getSelectedDetent)
+    }, [findSnap, getSelectedDetent, maxHeight, maxSnap, minSnap])
 
     useEffect(() => {
       if (!ready) return

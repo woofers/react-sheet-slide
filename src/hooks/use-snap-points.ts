@@ -53,9 +53,7 @@ const useSnapPoints = ({
   )
 
   // @TODO investigate the gains from memoizing this
-  function findSnap(
-    numberOrCallback: SelectedDetent
-  ) {
+  function findSnap(numberOrCallback: SelectedDetent) {
     let unsafeSearch: number
     if (typeof numberOrCallback === 'function') {
       unsafeSearch = numberOrCallback({
