@@ -4,7 +4,7 @@ import Head from 'next/head'
 const Meta: React.FC<{}> = () => {
   return (
     <Head>
-      <title>react-swipe-sheet</title>
+      <title>react-sheet-slide</title>
       <meta charSet="utf-8" />
       <meta
         name="viewport"
