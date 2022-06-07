@@ -21,7 +21,7 @@
     "next-themes": "^0.2.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
-    "react-sheet-slide": "^0.2.1"
+    "react-sheet-slide": "../."
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^12.1.6",
