@@ -165,7 +165,6 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
     useScrollLock({ enabled: true, targetRef: scroll })
 
     const contentRef = useRef<HTMLDivElement | null>(null)
-    const headerRef = useRef<HTMLDivElement | null>(null)
     const footerRef = useRef<HTMLDivElement | null>(null)
 
     const [spring, set, asyncSet] = useSpring()
@@ -178,7 +177,6 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
       controlledMaxHeight: undefined,
       footerRef,
       getSnapPoints: getDetents,
-      headerRef,
       heightRef,
       lastSnapRef: lastDetentRef,
       ready,
@@ -442,7 +440,6 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
               <DragHeader
                 {...bindEvents()}
                 prefix={prefix}
-                ref={headerRef}
                 scrollRef={scroll}
                 useModal={useModal}
               >

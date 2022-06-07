@@ -18,8 +18,6 @@ const useSnapPoints = ({
   footerEnabled = true,
   footerRef,
   getSnapPoints,
-  headerEnabled = true,
-  headerRef,
   heightRef,
   lastSnapRef,
   ready,
@@ -30,8 +28,6 @@ const useSnapPoints = ({
   footerEnabled?: boolean
   footerRef: React.RefObject<Element>
   getSnapPoints: Detents
-  headerEnabled?: boolean
-  headerRef: React.RefObject<Element>
   heightRef: React.RefObject<number | undefined>
   lastSnapRef: React.RefObject<number | undefined>
   ready: boolean
@@ -42,8 +38,6 @@ const useSnapPoints = ({
     controlledMaxHeight,
     footerEnabled,
     footerRef,
-    headerEnabled,
-    headerRef,
     registerReady
   })
 
@@ -92,16 +86,12 @@ function useDimensions({
   controlledMaxHeight,
   footerEnabled,
   footerRef,
-  headerEnabled,
-  headerRef,
   registerReady
 }: {
   contentRef: React.RefObject<Element>
   controlledMaxHeight?: number
   footerEnabled: boolean
   footerRef: React.RefObject<Element>
-  headerEnabled: boolean
-  headerRef: React.RefObject<Element>
   registerReady: ReturnType<typeof useReady>['registerReady']
 }): {
   maxHeight: number
@@ -116,9 +106,7 @@ function useDimensions({
   const maxHeight = useMaxHeight(controlledMaxHeight!, registerReady)
 
   // @TODO probably better to forward props instead of checking refs to decide if it's enabled
-  const headerHeight = useElementSizeObserver(headerRef, {
-    enabled: headerEnabled
-  })
+  const headerHeight = 0
   const contentHeight = useElementSizeObserver(contentRef, {
     enabled: true
   })
