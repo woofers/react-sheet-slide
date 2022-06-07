@@ -1,12 +1,12 @@
 import React, { useEffect, useRef } from 'react'
 
-const useOverscrollLock = ({ enabled }: { enabled?: boolean }) => {
+const useOverscrollLock = ({ enabled, preventScrollingRef }: { enabled?: boolean, preventScrollingRef?: React.RefObject<boolean> }) => {
   const ref = useRef<HTMLDivElement | null>(null)
   useEffect(() => {
     const elem = ref.current
     if (!elem) return
     const preventScrolling = (e: Event) => {
-      if (false) {
+      if (preventScrollingRef?.current) {
         e.preventDefault()
       }
     }

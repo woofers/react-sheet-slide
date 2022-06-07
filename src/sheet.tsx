@@ -142,6 +142,7 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
     },
     ref
   ) => {
+    const preventScrollingRef = useRef(false)
     const bq = useMediaQuery('(max-width: 640px)')
     const colorScheme = useColorScheme()
     const useModal =
@@ -158,7 +159,8 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
     const footerContent = getItem(Footer, content)
     const { ready, registerReady } = useReady()
     const scroll = useOverscrollLock({
-      enabled: expandOnContentDrag && enabled
+      enabled: expandOnContentDrag && enabled,
+      preventScrollingRef
     })
     useScrollLock({ enabled: true, targetRef: scroll })
 
@@ -337,6 +339,9 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
         if (memo === maxSnapRef.current! && scroll.current!.scrollTop > 0) {
           newY = maxSnapRef.current!
         }
+        preventScrollingRef.current = newY < maxSnapRef.current!
+      } else {
+        preventScrollingRef.current = false
       }
       if (first) {
       }
