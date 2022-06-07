@@ -174,11 +174,12 @@ body.sheet-open {
   content: '';
   display: block;
   width: 36px;
-  height: 4px;
-  top: calc(8px + env(safe-area-inset-top));
+  height: 5px;
+  top: calc(5px + env(safe-area-inset-top));
   left: 50%;
   transform: translateX(-50%);
-  border-radius: 2px;
+  border-radius: 999px;
+  clip-path: inset(0% 0% 0% 0% round 999px);
   background-color: var(--handle);
 }
 
