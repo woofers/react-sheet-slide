@@ -158,7 +158,7 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
     const footerContent = getItem(Footer, content)
     const { ready, registerReady } = useReady()
     const scroll = useOverscrollLock({
-      enabled: false
+      enabled: expandOnContentDrag && enabled
     })
     useScrollLock({ enabled: true, targetRef: scroll })
 
