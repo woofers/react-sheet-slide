@@ -69,7 +69,7 @@ body.sheet-open {
   inset: 0;
 }
 
-.sheet-stack, .modal-stack {
+.sheet-stack, .modal-stack, .sheet-modal:after {
   z-index: 3;
   -ms-scroll-chaining: none;
   overscroll-behavior: none;
@@ -81,7 +81,7 @@ body.sheet-open {
   -webkit-touch-callout: none;
 }
 
-.sheet-stack {
+.sheet-stack, .sheet-modal:after {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
