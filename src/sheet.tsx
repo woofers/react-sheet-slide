@@ -30,7 +30,7 @@ import type { SelectedDetentsProps, Detents, PredefinedDetents, SelectedDetent }
 
 const Notch: React.FC<{ className?: string }> = props => (
   <svg xmlns="http://www.w3.org/2000/svg" width="36" height="6" viewBox="0 0 36 6" aria-hidden {...props}>
-   <path d="M 33.33 0 C 34.81 0 36 1.34 36 3 C 36 3 36 3 36 3 C 36 4.66 34.81 6 30 6 C 33.33 6 2.67 6 6 6 C 1.19 6 0 4.66 0 3 C 0 3 0 3 0 3 C 0 1.34 1.19 0 2.67 0 C 2.67 0 33.33 0 33.33 0 Z" fill="currentColor"/>
+   <path d="M 33.33 0 C 34.81 0 36 1.34 36 3 C 36 3 36 3 36 3 C 36 4.66 34.81 5 30 5 C 33.33 5 2.67 5 6 5 C 1.19 5 0 4.66 0 3 C 0 3 0 3 0 3 C 0 1.34 1.19 0 2.67 0 C 2.67 0 33.33 0 33.33 0 Z" fill="currentColor"/>
  </svg>
 )
 
