@@ -331,12 +331,16 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
           )
         : predictedY
 
+
+      let pulledUpOnContentDrag = false
       if (expandOnContentDrag && isContentDragging) {
         if (newY >= maxSnapRef.current!) {
           newY = maxSnapRef.current!
+          pulledUpOnContentDrag = true
         }
         if (memo === maxSnapRef.current! && scroll.current!.scrollTop > 0) {
           newY = maxSnapRef.current!
+          pulledUpOnContentDrag = true
         }
         preventScrollingRef.current = newY < maxSnapRef.current!
       } else {
@@ -347,7 +351,7 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
 
       console.log(newY, maxSnapRef.current!, memo, last)
 
-      if (last) {
+      if (last && !pulledUpOnContentDrag) {
         const snap = findSnapRef.current(newY)
         console.log('snap', snap)
         if (
