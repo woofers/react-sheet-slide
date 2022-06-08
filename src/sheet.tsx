@@ -323,26 +323,12 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
       }
       const bottom = 80
       let newY = down
-        ? !onDismiss && minSnapRef.current === maxSnapRef.current
-          ? rawY < minSnapRef.current!
-            ? rubberbandIfOutOfBounds(
-                rawY,
-                bottom,
-                maxSnapRef.current! * 2,
-                0.55
-              )
-            : rubberbandIfOutOfBounds(
-                rawY,
-                minSnapRef.current! / 2,
-                maxSnapRef.current!,
-                0.55
-              )
-          : rubberbandIfOutOfBounds(
-              rawY,
-              rawY < minSnapRef.current! ? bottom : minSnapRef.current!,
-              maxSnapRef.current!,
-              0.55
-            )
+        ? rubberbandIfOutOfBounds(
+            rawY,
+            rawY < minSnapRef.current! ? bottom : minSnapRef.current!,
+            maxSnapRef.current!,
+            0.55
+          )
         : predictedY
 
       if (expandOnContentDrag && isContentDragging) {
