@@ -291,6 +291,7 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
       cancel,
       direction: [, direction],
       down,
+      first,
       last,
       memo = spring.y.get() as number,
       movement: [, _my],
@@ -345,9 +346,14 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
       } else {
         preventScrollingRef.current = false
       }
+      if (first) {
+      }
+
+      console.log(newY, maxSnapRef.current!, memo, last)
 
       if (last && !pulledUpOnContentDrag) {
         const snap = findSnapRef.current(newY)
+        console.log('snap', snap)
         if (
           onDismiss &&
           rawY + predictedDistance < minSnapRef.current! / 2 &&
