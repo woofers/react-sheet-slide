@@ -365,7 +365,7 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
       if (first) {
       }
 
-      console.log(newY, maxSnapRef.current!, last, down, memo)
+      console.log(newY, maxSnapRef.current!, last, down, memo, velocity)
 
       if (last) {
         const snap = findSnapRef.current(newY)
