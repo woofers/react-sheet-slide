@@ -347,6 +347,10 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
             )
         : predictedY
 
+      if (newY >= maxSnapRef.current!) {
+        newY = maxSnapRef.current!
+      }
+
       if (expandOnContentDrag && isContentDragging) {
         if (newY >= maxSnapRef.current!) {
           newY = maxSnapRef.current!
