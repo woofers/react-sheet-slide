@@ -244,8 +244,7 @@ const App = () => {
           onClose={() => console.log('we closed')}
           selectedDetent={detents.large}
           detents={props => [
-            detents.large(props),
-            detents.medium(props)
+            detents.large(props)
           ]}
           useDarkMode={useDarkMode}
           expandOnContentDrag
