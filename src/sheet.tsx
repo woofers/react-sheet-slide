@@ -295,7 +295,7 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
       down,
       first,
       last,
-      memo = spring.y.get() as number,
+      memo = { memo: spring.y.get() as number, last: spring.y.get() as number },
       movement: [, _my],
       tap,
       velocity: [, velocity]
@@ -303,7 +303,7 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
       if (onDismiss && closeOnTap && tap) {
         cancel()
         setTimeout(() => onDismiss(), 0)
-        return memo
+        return { memo, last: memo }
       }
       if (tap) return memo
       const my = _my * -1
@@ -321,7 +321,7 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
       ) {
         cancel()
         onDismiss()
-        return memo
+        return { memo, last: memo }
       }
       const bottom = 80
       let newY = down
@@ -355,7 +355,7 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
         if (newY >= maxSnapRef.current!) {
           newY = maxSnapRef.current!
         }
-        if (memo === maxSnapRef.current! && scroll.current!.scrollTop > 0) {
+        if (memo.memo === maxSnapRef.current! && scroll.current!.scrollTop > 0) {
           newY = maxSnapRef.current!
         }
         preventScrollingRef.current = newY < maxSnapRef.current!
@@ -376,7 +376,7 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
         ) {
           cancel()
           onDismiss()
-          return memo
+          return { memo, last: memo }
         }
         heightRef.current = snap
         lastDetentRef.current = snap
@@ -389,7 +389,7 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
           y: snap,
           config: { velocity: velocity > 0.05 ? velocity : 1 }
         })
-        return memo
+        return { memo, last: snap }
       }
       set({
         y: newY,
@@ -400,7 +400,7 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
         immediate: true,
         config: { velocity }
       })
-      return memo
+      return { memo, last: newY }
     }
     const bind = useDrag(handleDrag, {
       filterTaps: true
