@@ -368,6 +368,10 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
       console.log(newY, maxSnapRef.current!, last, down, memo, velocity)
 
       if (last) {
+        if (memo.last >= memo.memo) {
+          cancel()
+          return { memo: memo.memo, last: memo.memo }
+        }
         const snap = findSnapRef.current(newY)
         if (
           onDismiss &&
