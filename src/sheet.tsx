@@ -307,7 +307,7 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
       }
       if (tap) return memo
       const my = _my * -1
-      const rawY = memo + my
+      const rawY = memo.memo + my
       const predictedDistance = my * velocity
       const predictedY = Math.max(
         minSnapRef.current!,
