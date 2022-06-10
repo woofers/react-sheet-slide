@@ -300,6 +300,7 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
       tap,
       velocity: [, velocity]
     }: any) => {
+      if (!open) return memo
       if (onDismiss && closeOnTap && tap) {
         cancel()
         setTimeout(() => onDismiss(), 0)
