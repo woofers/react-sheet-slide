@@ -362,7 +362,6 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
       if (first) {
       }
 
-      console.log(memo, newY, maxSnapRef.current!, last)
       if (last) {
         const fudge = 5
         if (memo.last >= memo.memo && memo.last >= maxSnapRef.current! - fudge) {

@@ -245,9 +245,9 @@ const App = () => {
           selectedDetent={detents.large}
           detents={props => [
             detents.large(props)
+            detents.medium(props)
           ]}
           useDarkMode={useDarkMode}
-          expandOnContentDrag
         >
           <Header>
             <HeaderWrapper>
