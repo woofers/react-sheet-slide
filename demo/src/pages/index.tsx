@@ -248,6 +248,7 @@ const App = () => {
             detents.medium(props)
           ]}
           useDarkMode={useDarkMode}
+          scrollingExpands
         >
           <Header>
             <HeaderWrapper>

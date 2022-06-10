@@ -90,7 +90,7 @@ type BaseProps = {
   onDismiss?: () => void
   open?: boolean
   children?: React.ReactNode
-  expandOnContentDrag?: boolean
+  scrollingExpands?: boolean
   detents?: Detents
   selectedDetent?: SelectedDetent
   useModal?: boolean
@@ -145,7 +145,7 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
     {
       open,
       children,
-      expandOnContentDrag,
+      scrollingExpands,
       onDismiss,
       onClose,
       close,
@@ -174,7 +174,7 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
     const footerContent = getItem(Footer, content)
     const { ready, registerReady } = useReady()
     const scroll = useOverscrollLock({
-      enabled: expandOnContentDrag && enabled,
+      enabled: scrollingExpands && enabled,
       preventScrollingRef
     })
     useScrollLock({ enabled: true, targetRef: scroll })
@@ -352,7 +352,7 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
         newY = maxSnapRef.current!
       }
 
-      if (expandOnContentDrag && isContentDragging) {
+      if (scrollingExpands && isContentDragging) {
         if (memo.memo === maxSnapRef.current! && scroll.current!.scrollTop > 0) {
           newY = maxSnapRef.current!
         }
@@ -471,7 +471,7 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
               </DragHeader>
               <div
                 className={cx(`${prefix}-scroll`)}
-                {...(expandOnContentDrag
+                {...(scrollingExpands
                   ? bindEvents({ isContentDragging: true })
                   : empty)}
                 ref={scroll}
