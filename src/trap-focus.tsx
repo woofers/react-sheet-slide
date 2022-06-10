@@ -13,10 +13,7 @@ import React, {
   useRef,
   useMemo
 } from 'react'
-import { setRef } from './utils'
-
-const ownerDocument = (node: Node | null | undefined): Document =>
-  (node && node.ownerDocument) || document
+import { setRef, getOwnerDocument } from './utils'
 
 const useForkRef = <InstanceA, InstanceB>(
   refA: React.Ref<InstanceA> | null | undefined,
@@ -145,7 +142,7 @@ const TrapFocus: React.FC<TrapFocusProps> = ({ children }) => {
     if (!rootRef.current) {
       return
     }
-    const doc = ownerDocument(rootRef.current)
+    const doc = getOwnerDocument(rootRef.current)!
     if (!rootRef.current.contains(doc.activeElement)) {
       if (activated.current) {
         rootRef.current.focus()
@@ -166,7 +163,7 @@ const TrapFocus: React.FC<TrapFocusProps> = ({ children }) => {
 
   useEffect(() => {
     if (!rootRef.current) return
-    const doc = ownerDocument(rootRef.current)
+    const doc = getOwnerDocument(rootRef.current)!
     const contain = (nativeEvent?: Event) => {
       const { current: rootElement } = rootRef
       // Cleanup functions are executed lazily in React 17.
