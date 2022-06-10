@@ -17,13 +17,17 @@ function createAriaHider(dialogNode: HTMLElement) {
     return noop
   }
 
+  let sheetNode = dialogNode
+  let index = 4
+  while (index > 0 && sheetNode) {
+    if (!sheetNode.parentNode || (sheetNode as HTMLElement).tagName === 'BODY') break
+    sheetNode = (sheetNode as any).parentNode
+    index --
+  }
   Array.prototype.forEach.call(
     ownerDocument.querySelectorAll('body > *'),
     (node) => {
-      const portalNode = dialogNode.parentNode?.parentNode?.parentNode
-      if (node === portalNode) {
-        return
-      }
+      if (node === sheetNode || ['SCRIPT', 'NEXT-ROUTE-ANNOUNCER'].indexOf((sheetNode as HTMLElement).tagName) >= 0) return
       let attr = node.getAttribute('aria-hidden')
       let alreadyHidden = attr !== null && attr !== 'false'
       if (alreadyHidden) return
