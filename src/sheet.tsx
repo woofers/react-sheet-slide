@@ -303,7 +303,7 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
       if (onDismiss && closeOnTap && tap) {
         cancel()
         setTimeout(() => onDismiss(), 0)
-        return { memo: memo.memo, last: memo }
+        return { memo: memo.memo, last: memo.memo }
       }
       if (tap) return memo
       const my = _my * -1
@@ -321,7 +321,7 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
       ) {
         cancel()
         onDismiss()
-        return { memo: memo.memo, last: memo }
+        return { memo: memo.memo, last: memo.memo }
       }
       const bottom = 80
       let newY = down
@@ -376,7 +376,7 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
         ) {
           cancel()
           onDismiss()
-          return { memo: memo.memo, last: memo }
+          return { memo: memo.memo, last: memo.memo }
         }
         heightRef.current = snap
         lastDetentRef.current = snap
