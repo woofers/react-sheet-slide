@@ -352,9 +352,6 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
       }
 
       if (expandOnContentDrag && isContentDragging) {
-        if (newY >= maxSnapRef.current!) {
-          newY = maxSnapRef.current!
-        }
         if (memo.memo === maxSnapRef.current! && scroll.current!.scrollTop > 0) {
           newY = maxSnapRef.current!
         }
@@ -364,8 +361,6 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
       }
       if (first) {
       }
-
-      console.log(newY, maxSnapRef.current!, last, down, memo, velocity)
 
       if (last) {
         if (memo.last >= memo.memo) {
