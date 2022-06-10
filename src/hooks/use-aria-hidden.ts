@@ -8,15 +8,6 @@ function createAriaHider(dialogNode: HTMLElement) {
   let rootNodes: HTMLElement[] = []
   let ownerDocument = getOwnerDocument(dialogNode)!
 
-  if (!dialogNode) {
-    if (__isDev__) {
-      console.warn(
-        'A ref has not yet been attached to a dialog node when attempting to call `createAriaHider`.'
-      )
-    }
-    return noop
-  }
-
   let sheetNode = dialogNode
   let index = 4
   while (index > 0 && sheetNode) {
@@ -27,7 +18,7 @@ function createAriaHider(dialogNode: HTMLElement) {
   Array.prototype.forEach.call(
     ownerDocument.querySelectorAll('body > *'),
     (node) => {
-      if (node === sheetNode || ['SCRIPT', 'NEXT-ROUTE-ANNOUNCER'].indexOf((sheetNode as HTMLElement).tagName) >= 0) return
+      if (node === sheetNode || ['SCRIPT', 'NEXT-ROUTE-ANNOUNCER'].indexOf(node.tagName) >= 0) return
       let attr = node.getAttribute('aria-hidden')
       let alreadyHidden = attr !== null && attr !== 'false'
       if (alreadyHidden) return
