@@ -1,18 +1,4 @@
+export { detents, Sheet, Header, Content, Footer } from './sheet'
+export { default as Portal } from './portal'
 
-export type Number = {
-  op: string
-  value: number
-}
-
-export type Variable = {
-  symbol: string
-  sign: '+' | '-'
-}
-
-type Result = Variable & Number & { result: 'ok' | 'bad' }
-
-const merge = (x: Number, y: Variable): Result => {
-  return { ...x, ...y, result: __isDev__ ? 'bad' : 'ok' }
-}
-
-export default merge
+export type { SheetProps } from './sheet'

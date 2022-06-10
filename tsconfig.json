@@ -14,8 +14,9 @@
     "preserveConstEnums": true,
     "removeComments": false,
     "sourceMap": false,
+    "noUnusedLocals": false,
     "strict": true,
-    "baseUrl": "."
+    "baseUrl": "./src"
   },
   "include": [
     "src/**/*.ts",
