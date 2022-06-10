@@ -11,3 +11,4 @@ export {
   useReducedMotion,
   useColorScheme
 } from './use-media-query'
+export { default as useAriaHidden } from './use-aria-hidden'
