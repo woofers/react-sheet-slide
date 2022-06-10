@@ -248,7 +248,6 @@ const App = () => {
             detents.medium(props)
           ]}
           useDarkMode={useDarkMode}
-          expandOnContentDrag
         >
           <Header>
             <HeaderWrapper>
