@@ -20,7 +20,8 @@ import {
   useMediaQuery,
   useReducedMotion,
   useColorScheme,
-  useHasScrolled
+  useHasScrolled,
+  useAriaHidden
 } from './hooks'
 import TrapFocus from './trap-focus'
 import Body from './body'
@@ -178,6 +179,7 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
       preventScrollingRef
     })
     useScrollLock({ enabled: true, targetRef: scroll })
+    useAriaHidden(scroll)
 
     const contentRef = useRef<HTMLDivElement | null>(null)
     const headerRef = useRef<HTMLDivElement | null>(null)
