@@ -1,40 +1,45 @@
 import { useEffect } from 'react'
 import { getOwnerDocument } from '../utils'
 
-const noop = () => {}
+const MAX_DEPTH = 2
 
-function createAriaHider(dialogNode: HTMLElement) {
-  let originalValues: any[] = []
-  let rootNodes: HTMLElement[] = []
-  let ownerDocument = getOwnerDocument(dialogNode)!
-
-  let sheetNode = dialogNode
-  let index = 4
+const getParentFromBody = (node: HTMLElement) => {
+  let sheetNode: HTMLElement = node
+  let index = MAX_DEPTH + 2 // Add 2 to get root of sheet
   while (index > 0 && sheetNode) {
-    if (!sheetNode.parentNode || (sheetNode as HTMLElement).tagName === 'BODY') break
-    sheetNode = (sheetNode as any).parentNode
+    if (!sheetNode.parentNode || sheetNode.tagName === 'BODY') break
+    sheetNode = (sheetNode.parentNode as HTMLElement)
     index --
   }
+  return sheetNode
+}
+
+const HIDDEN = 'aria-hidden'
+
+const createAriaHider = (node: HTMLElement) => {
+  const originalValues: string[] = []
+  const rootNodes: HTMLElement[] = []
+  const ownerDocument = getOwnerDocument(node)!
+  const sheetNode = getParentFromBody(node)
   Array.prototype.forEach.call(
     ownerDocument.querySelectorAll('body > *'),
     (node) => {
-      if (node === sheetNode || ['SCRIPT', 'NEXT-ROUTE-ANNOUNCER'].indexOf(node.tagName) >= 0) return
-      let attr = node.getAttribute('aria-hidden')
-      let alreadyHidden = attr !== null && attr !== 'false'
+      if (node === sheetNode || ['SCRIPT', 'NEXT-ROUTE-ANNOUNCER', 'NOSCRIPT'].indexOf(node.tagName) >= 0) return
+      const attr = node.getAttribute(HIDDEN)
+      const alreadyHidden = attr !== null && attr !== 'false'
       if (alreadyHidden) return
       originalValues.push(attr)
       rootNodes.push(node)
-      node.setAttribute('aria-hidden', 'true')
+      node.setAttribute(HIDDEN, 'true')
     }
   )
-
   return () => {
     rootNodes.forEach((node, index) => {
-      let originalValue = originalValues[index]
+      const originalValue = originalValues[index]
       if (originalValue === null) {
-        node.removeAttribute('aria-hidden')
+        node.removeAttribute(HIDDEN)
       } else {
-        node.setAttribute('aria-hidden', originalValue)
+        node.setAttribute(HIDDEN, originalValue)
       }
     })
   }
