@@ -1,4 +1,7 @@
-import { useState, useRef } from 'react'
+import { useMemo, useState, useRef } from 'react'
+import { bundleMDX } from 'mdx-bundler'
+import { getMDXComponent } from 'mdx-bundler/client'
+import { getMarkdownFile } from 'data/local'
 import { styled } from 'stitches'
 import { detents, Sheet, Header, Content, Footer, Portal } from 'react-sheet-slide'
 import { useTheme } from 'components/theme-provider'
@@ -156,8 +159,7 @@ const Container = styled('div', {
 
 const Fullscreen = styled('div', {
   background: '$background',
-  height: '100vh',
-  width: '100vw',
+  minHeight: '100vh',
   color: '$text'
 })
 
@@ -205,6 +207,12 @@ const Indent = styled('div', {
   pl: '24px',
 })
 
+const Docs = styled('div', {
+  maxWidth: '1280px',
+  margin: '0 auto',
+  padding: '0 16px'
+})
+
 const ThemeButtons: React.FC<{}> = () => {
   const mounted = useIsMounted()
   const { name, setTheme } = useTheme()
@@ -217,7 +225,8 @@ const ThemeButtons: React.FC<{}> = () => {
   )
 }
 
-const App = () => {
+const App: React.FC<{ code: string }> = ({ code }) => {
+  const Component = useMemo(() => getMDXComponent(code), [code])
   const [open, setOpen] = useState(false)
   const ref = useRef<HTMLDivElement | null>(null)
   const { name } = useTheme()
@@ -298,8 +307,19 @@ const App = () => {
           </Footer>
         </Sheet>
       </Portal>
+      <Docs>
+        <Component />
+      </Docs>
     </Fullscreen>
   )
+}
+
+export const getStaticProps = async () => {
+  const { content } = getMarkdownFile('../', 'README')
+  const { code, frontmatter } = await bundleMDX({ source: content, files: {} })
+  return {
+    props: { code, frontmatter }
+  }
 }
 
 export default App
