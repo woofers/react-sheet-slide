@@ -8,8 +8,8 @@ const getParentFromBody = (node: HTMLElement) => {
   let index = MAX_DEPTH + 2 // Add 2 to get root of sheet
   while (index > 0 && sheetNode) {
     if (!sheetNode.parentNode || sheetNode.tagName === 'BODY') break
-    sheetNode = (sheetNode.parentNode as HTMLElement)
-    index --
+    sheetNode = sheetNode.parentNode as HTMLElement
+    index--
   }
   return sheetNode
 }
@@ -23,8 +23,13 @@ const createAriaHider = (node: HTMLElement) => {
   const sheetNode = getParentFromBody(node)
   Array.prototype.forEach.call(
     ownerDocument.querySelectorAll('body > *'),
-    (node) => {
-      if (node === sheetNode || ['SCRIPT', 'NEXT-ROUTE-ANNOUNCER', 'NOSCRIPT'].indexOf(node.tagName) >= 0) return
+    node => {
+      if (
+        node === sheetNode ||
+        ['SCRIPT', 'NEXT-ROUTE-ANNOUNCER', 'NOSCRIPT'].indexOf(node.tagName) >=
+          0
+      )
+        return
       const attr = node.getAttribute(HIDDEN)
       const alreadyHidden = attr !== null && attr !== 'false'
       if (alreadyHidden) return
@@ -47,9 +52,7 @@ const createAriaHider = (node: HTMLElement) => {
 
 const useAriaHidden = (ref: React.RefObject<HTMLElement>) => {
   useEffect(() => {
-    return ref.current
-      ? createAriaHider(ref.current)
-      : void null
+    return ref.current ? createAriaHider(ref.current) : void null
   }, [])
 }
 

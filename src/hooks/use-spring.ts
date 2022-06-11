@@ -11,7 +11,7 @@ import { useSpring as useReactSpring } from '@react-spring/web'
 import { config } from '../utils'
 import type { SpringConfig } from '../types'
 
-const { tension, friction } = config.default
+const { tension, friction } = config
 
 const useSpringWrapper = () =>
   useReactSpring(() => ({

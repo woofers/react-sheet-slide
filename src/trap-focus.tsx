@@ -42,15 +42,17 @@ const candidatesSelector = [
   '[contenteditable]:not([contenteditable="false"])'
 ].join(',')
 
+const tabIndex = 'tabindex'
+
 const getTabIndex = (node: HTMLElement) => {
-  const tabindexAttr = parseInt(node.getAttribute('tabindex') ?? '', 10)
+  const tabindexAttr = parseInt(node.getAttribute(tabIndex) ?? '', 10)
   if (!Number.isNaN(tabindexAttr)) return tabindexAttr
   if (
     node.contentEditable === 'true' ||
     ((node.nodeName === 'AUDIO' ||
       node.nodeName === 'VIDEO' ||
       node.nodeName === 'DETAILS') &&
-      node.getAttribute('tabindex') === null)
+      node.getAttribute(tabIndex) === null)
   ) {
     return 0
   }

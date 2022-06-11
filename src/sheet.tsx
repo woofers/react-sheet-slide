@@ -355,7 +355,10 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
       }
 
       if (scrollingExpands && isContentDragging) {
-        if (memo.memo === maxSnapRef.current! && scroll.current!.scrollTop > 0) {
+        if (
+          memo.memo === maxSnapRef.current! &&
+          scroll.current!.scrollTop > 0
+        ) {
           newY = maxSnapRef.current!
         }
         preventScrollingRef.current = newY < maxSnapRef.current!
@@ -367,7 +370,10 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
 
       if (last) {
         const fudge = 5
-        if (memo.last >= memo.memo && memo.last >= maxSnapRef.current! - fudge) {
+        if (
+          memo.last >= memo.memo &&
+          memo.last >= maxSnapRef.current! - fudge
+        ) {
           cancel()
           return { memo: memo.memo, last: memo.last }
         }
