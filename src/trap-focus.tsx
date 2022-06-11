@@ -42,15 +42,17 @@ const candidatesSelector = [
   '[contenteditable]:not([contenteditable="false"])'
 ].join(',')
 
+const tabIndex = 'tabindex'
+
 const getTabIndex = (node: HTMLElement) => {
-  const tabindexAttr = parseInt(node.getAttribute('tabindex') ?? '', 10)
+  const tabindexAttr = parseInt(node.getAttribute(tabIndex) ?? '', 10)
   if (!Number.isNaN(tabindexAttr)) return tabindexAttr
   if (
     node.contentEditable === 'true' ||
     ((node.nodeName === 'AUDIO' ||
       node.nodeName === 'VIDEO' ||
       node.nodeName === 'DETAILS') &&
-      node.getAttribute('tabindex') === null)
+      node.getAttribute(tabIndex) === null)
   ) {
     return 0
   }
@@ -132,16 +134,12 @@ const TrapFocus: React.FC<TrapFocusProps> = ({ children }) => {
   const lastKeydown = useRef<KeyboardEvent | null>(null)
 
   useEffect(() => {
-    if (!rootRef.current) {
-      return
-    }
+    if (!rootRef.current) return
     activated.current = true
   }, [])
 
   useEffect(() => {
-    if (!rootRef.current) {
-      return
-    }
+    if (!rootRef.current) return
     const doc = getOwnerDocument(rootRef.current)!
     if (!rootRef.current.contains(doc.activeElement)) {
       if (activated.current) {
@@ -149,10 +147,6 @@ const TrapFocus: React.FC<TrapFocusProps> = ({ children }) => {
       }
     }
     return () => {
-      // In IE11 it is possible for document.activeElement to be null resulting
-      // in nodeToRestore.current being null.
-      // Not all elements in IE11 have a focus method.
-      // Once IE11 support is dropped the focus() call can be unconditional.
       if (nodeToRestore.current && nodeToRestore.current.focus) {
         ignoreNextEnforceFocus.current = true
         nodeToRestore.current.focus()
@@ -216,9 +210,7 @@ const TrapFocus: React.FC<TrapFocusProps> = ({ children }) => {
 
     const loopFocus = (nativeEvent: KeyboardEvent) => {
       lastKeydown.current = nativeEvent
-      if (nativeEvent.key !== 'Tab') {
-        return
-      }
+      if (nativeEvent.key !== 'Tab') return
       // Make sure the next tab starts from the right place.
       // doc.activeElement referes to the origin.
       if (doc.activeElement === rootRef.current && nativeEvent.shiftKey) {
@@ -278,6 +270,10 @@ const TrapFocus: React.FC<TrapFocusProps> = ({ children }) => {
       <div tabIndex={0} onFocus={handleFocusSentinel} ref={sentinelEnd} />
     </Fragment>
   )
+}
+
+if (__isDev__) {
+  TrapFocus.displayName = 'TrapFocus'
 }
 
 export default TrapFocus

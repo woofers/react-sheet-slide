@@ -1,5 +1,6 @@
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 import React, { useEffect, useRef } from 'react'
+import { noop } from '../utils'
 
 type ScrollLockProps = {
   targetRef: React.RefObject<Element>
@@ -7,11 +8,11 @@ type ScrollLockProps = {
 }
 
 type ScrollLockRefs = {
-  activate: () => void
-  deactivate: () => void
+  a: () => void
+  d: () => void
 }
 
-const noops = { activate: () => {}, deactivate: () => {} }
+const noops = { a: noop, d: noop }
 
 const useScrollLock = ({ targetRef, enabled }: ScrollLockProps) => {
   const ref = useRef<ScrollLockRefs>(noops)
@@ -19,13 +20,13 @@ const useScrollLock = ({ targetRef, enabled }: ScrollLockProps) => {
     const target = targetRef.current
     if (!target) return
     if (!enabled) {
-      ref.current.deactivate()
+      ref.current.d()
       ref.current = noops
       return
     }
     let active = false
     ref.current = {
-      activate: () => {
+      a: () => {
         if (active || !target) return
         active = true
         disableBodyScroll(target, {
@@ -33,15 +34,15 @@ const useScrollLock = ({ targetRef, enabled }: ScrollLockProps) => {
           reserveScrollBarGap: true
         })
       },
-      deactivate: () => {
+      d: () => {
         if (!active || !target) return
         active = false
         enableBodyScroll(target)
       }
     }
-    ref.current.activate()
+    ref.current.a()
     return () => {
-      ref.current.deactivate()
+      ref.current.d()
     }
   }, [enabled, targetRef])
 }

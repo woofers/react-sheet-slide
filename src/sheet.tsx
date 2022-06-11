@@ -27,7 +27,9 @@ import TrapFocus from './trap-focus'
 import Body from './body'
 import classes from './classnames'
 import styles from './sheet.module.css'
+import { noop, hasWindow } from './utils'
 import type {
+  ResizeSource,
   SelectedDetentsProps,
   Detents,
   PredefinedDetents,
@@ -56,17 +58,19 @@ type WrapperProps = {
   children?: React.ReactNode
 }
 
-const makeEmpty = (name: string) => {
+const makeEmpty = (name?: string) => {
   const val: React.FC<WrapperProps> = ({ children }) => (
     <Fragment>{children}</Fragment>
   )
-  val.displayName = name
+  if (__isDev__) {
+    val.displayName = name
+  }
   return val
 }
 
-export const Header = makeEmpty('header')
-export const Content = makeEmpty('content')
-export const Footer = makeEmpty('footer')
+export const Header = __isDev__ ? makeEmpty('Header') : makeEmpty()
+export const Content = __isDev__ ? makeEmpty('Content') : makeEmpty()
+export const Footer = __isDev__ ? makeEmpty('Footer') : makeEmpty()
 
 const cx = classes.bind(styles)
 
@@ -139,7 +143,9 @@ const DragHeader = forwardRef<HTMLDivElement, DragHeaderProps>(
   }
 )
 
-DragHeader.displayName = 'DragHeader'
+if (__isDev__) {
+  DragHeader.displayName = 'DragHeader'
+}
 
 const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
   (
@@ -188,6 +194,7 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
     const [spring, set, asyncSet] = useSpring()
     const { modal, backdrop } = useSpringInterpolations({ spring })
 
+    const resizeSourceRef = useRef<ResizeSource>()
     const lastDetentRef = useRef<any>(null)
     const heightRef = useRef<number>()
     const { minSnap, maxSnap, maxHeight, findSnap } = useSnapPoints({
@@ -199,7 +206,8 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
       heightRef,
       lastSnapRef: lastDetentRef,
       ready,
-      registerReady
+      registerReady,
+      resizeSourceRef
     })
 
     const minSnapRef = useRef<number>()
@@ -282,8 +290,26 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
         onClose()
       }
     }, [onClose])
+    useLayoutEffect(() => {
+      if (maxHeight || maxSnap || minSnap) {
+        const snap = findSnapRef.current(heightRef.current)
+        heightRef.current = snap
+        lastDetentRef.current = snap
+        set({
+          y: snap,
+          ready: 1,
+          maxHeight: maxHeightRef.current,
+          maxSnap: maxSnapRef.current,
+          minSnap: minSnapRef.current,
+          immediate:
+            resizeSourceRef.current === 'element'
+              ? prefersReducedMotion
+              : true,
+        })
+      }
+    }, [maxHeight, maxSnap, minSnap, set])
     useEffect(() => {
-      if (typeof window === 'undefined') return
+      if (!hasWindow()) return
       const className = cx('sheet-open')
       if (!useModal) document.body.classList.add(className)
       return () => {
@@ -295,7 +321,6 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
       cancel,
       direction: [, direction],
       down,
-      first,
       last,
       memo = { memo: spring.y.get() as number, last: spring.y.get() as number },
       movement: [, _my],
@@ -306,7 +331,7 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
       if (onDismiss && closeOnTap && tap) {
         cancel()
         setTimeout(() => onDismiss(), 0)
-        return { memo: memo.memo, last: memo.last }
+        return memo
       }
       if (tap) return memo
       const my = _my * -1
@@ -324,7 +349,7 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
       ) {
         cancel()
         onDismiss()
-        return { memo: memo.memo, last: memo.last }
+        return memo
       }
       const bottom = 80
       let newY = down
@@ -355,21 +380,37 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
       }
 
       if (scrollingExpands && isContentDragging) {
-        if (memo.memo === maxSnapRef.current! && scroll.current!.scrollTop > 0) {
+        if (
+          memo.memo === maxSnapRef.current! &&
+          scroll.current!.scrollTop > 0
+        ) {
           newY = maxSnapRef.current!
         }
         preventScrollingRef.current = newY < maxSnapRef.current!
       } else {
         preventScrollingRef.current = false
       }
-      if (first) {
-      }
 
+      const animate = (y: number, immediate: boolean, velocity: number) => {
+        set({
+          ready: 1,
+          maxHeight: maxHeightRef.current,
+          maxSnap: maxSnapRef.current,
+          minSnap: minSnapRef.current,
+          immediate,
+          y,
+          config: { velocity }
+        })
+        return { memo: memo.memo, last: y }
+      }
       if (last) {
         const fudge = 5
-        if (memo.last >= memo.memo && memo.last >= maxSnapRef.current! - fudge) {
+        if (
+          memo.last >= memo.memo &&
+          memo.last >= maxSnapRef.current! - fudge
+        ) {
           cancel()
-          return { memo: memo.memo, last: memo.last }
+          return memo
         }
         const snap = findSnapRef.current(newY)
         if (
@@ -383,27 +424,13 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
         }
         heightRef.current = snap
         lastDetentRef.current = snap
-        set({
-          ready: 1,
-          maxHeight: maxHeightRef.current,
-          maxSnap: maxSnapRef.current,
-          minSnap: minSnapRef.current,
-          immediate: prefersReducedMotion,
-          y: snap,
-          config: { velocity: velocity > 0.05 ? velocity : 1 }
-        })
-        return { memo: memo.memo, last: snap }
+        return animate(
+          snap,
+          prefersReducedMotion,
+          velocity > 0.05 ? velocity : 1
+        )
       }
-      set({
-        y: newY,
-        ready: 1,
-        maxHeight: maxHeightRef.current,
-        maxSnap: maxSnapRef.current,
-        minSnap: minSnapRef.current,
-        immediate: true,
-        config: { velocity }
-      })
-      return { memo: memo.memo, last: newY }
+      return animate(newY, true, velocity)
     }
     const bind = useDrag(handleDrag, {
       filterTaps: true
@@ -502,9 +529,9 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
   }
 )
 
-BaseSheet.displayName = 'BaseSheet'
-
-const noop = () => empty
+if (__isDev__) {
+  BaseSheet.displayName = 'BaseSheet'
+}
 
 export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
   ({ open, onDismiss, onClose: onCloseProp = noop, ...rest }, ref) => {
@@ -533,4 +560,6 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
   }
 )
 
-Sheet.displayName = 'Sheet'
+if (__isDev__) {
+  Sheet.displayName = 'Sheet'
+}

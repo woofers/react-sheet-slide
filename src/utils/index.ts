@@ -1,6 +1,8 @@
 export { default as setRef } from './set-ref'
 export { default as canUseDOM } from './can-use-dom'
 export { default as getOwnerDocument } from './get-owner-document'
+export { default as hasWindow } from './has-window'
+
 
 const getErr = (msg: string) => new TypeError(__isDev__ ? msg : '')
 
@@ -60,11 +62,9 @@ export function processSnapPoints(
   }
 }
 
+export const noop = () => {}
+
 export const config = {
-  default: { tension: 170, friction: 26 },
-  gentle: { tension: 120, friction: 14 },
-  wobbly: { tension: 180, friction: 12 },
-  stiff: { tension: 210, friction: 20 },
-  slow: { tension: 280, friction: 60 },
-  molasses: { tension: 280, friction: 120 }
+  tension: 170,
+  friction: 26
 }

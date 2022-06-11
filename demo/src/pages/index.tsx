@@ -1,9 +1,13 @@
-import { useState, useRef } from 'react'
+import { Children, useMemo, useState, useRef } from 'react'
+import { bundleMDX } from 'mdx-bundler'
+import { getMDXComponent, MDXContentProps } from 'mdx-bundler/client'
+import { getMarkdownFile } from 'data/local'
 import { styled } from 'stitches'
 import { detents, Sheet, Header, Content, Footer, Portal } from 'react-sheet-slide'
 import { useTheme } from 'components/theme-provider'
 import { CloseIcon } from 'icons'
 import useIsMounted from 'hooks/use-is-mounted'
+import CodeBlock from 'components/code-block'
 
 const Split = styled('div', {
   pl: '24px',
@@ -94,6 +98,7 @@ const ButtonText = styled('div', {
 })
 
 const Action = styled('div', {
+  textDecoration: 'none',
   color: '$link',
   fontFamily: '$title',
   fontWeight: 500,
@@ -156,8 +161,7 @@ const Container = styled('div', {
 
 const Fullscreen = styled('div', {
   background: '$background',
-  height: '100vh',
-  width: '100vw',
+  minHeight: '100vh',
   color: '$text'
 })
 
@@ -205,6 +209,12 @@ const Indent = styled('div', {
   pl: '24px',
 })
 
+const Docs = styled('div', {
+  maxWidth: '1280px',
+  margin: '0 auto',
+  padding: '0 16px'
+})
+
 const ThemeButtons: React.FC<{}> = () => {
   const mounted = useIsMounted()
   const { name, setTheme } = useTheme()
@@ -217,7 +227,35 @@ const ThemeButtons: React.FC<{}> = () => {
   )
 }
 
-const App = () => {
+const components: MDXContentProps['components'] = {
+  pre: ({ children, ...rest }) => {
+    const single = Children.count(children) === 1
+    if (single) {
+      const el: React.ReactElement = children as React.ReactElement
+      if (typeof children !== 'string' && children && el.type === 'code') {
+        const { children: content, ...rest } = el.props
+        if (typeof content === 'string') {
+          const { className } = rest
+          return <CodeBlock lang={className}>{content}</CodeBlock>
+        }
+      }
+    }
+    return <pre {...rest}>{children}</pre>
+  },
+  a: ({ href, children }) => (
+    <Action
+      href={href}
+      as="a"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      {children}
+    </Action>
+  )
+}
+
+const App: React.FC<{ code: string }> = ({ code }) => {
+  const Component = useMemo(() => getMDXComponent(code), [code])
   const [open, setOpen] = useState(false)
   const ref = useRef<HTMLDivElement | null>(null)
   const { name } = useTheme()
@@ -298,8 +336,24 @@ const App = () => {
           </Footer>
         </Sheet>
       </Portal>
+      <Docs>
+        <Component components={components} />
+      </Docs>
+      <Center>
+        <Button type="button" onClick={() => setOpen(v => !v)}>
+          Open sheet
+        </Button>
+      </Center>
     </Fullscreen>
   )
+}
+
+export const getStaticProps = async () => {
+  const { content } = getMarkdownFile('../', 'README')
+  const { code, frontmatter } = await bundleMDX({ source: content, files: {} })
+  return {
+    props: { code, frontmatter }
+  }
 }
 
 export default App

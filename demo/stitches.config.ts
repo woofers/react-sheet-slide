@@ -28,10 +28,14 @@ export const {
       background: '#f2f2f6',
       close: 'rgba(199, 199, 208, 0.26)',
       closeText: '#838388',
-      selection: '#fff9cc'
+      selection: '#fff9cc',
+      codeBackground: '#ebebf4',
+      codeKeyword: '#ad3da4',
+      codeFunction: '#703daa'
     },
     fonts: {
-      title: `system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji"`
+      title: `system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji"`,
+      code: 'ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace'
     },
     space: {
 
@@ -210,6 +214,9 @@ export const darkTheme = createTheme('dark-theme', {
     background: '#070708',
     close: 'rgba(93, 93, 96, 0.28)',
     closeText: '#9f9fa6',
-    selection: '#fff9cc'
+    selection: '#fff9cc',
+    codeBackground: '#333336',
+    codeKeyword: '#ff7ab2',
+    codeFunction: '#dabaff'
   }
 })

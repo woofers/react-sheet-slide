@@ -7,10 +7,11 @@ body.sheet-open {
 :global(#root) > div:first-of-type,
 :global(#__next) > div:first-of-type,
 :global(#___gatsby) > div:first-of-type {
-  transform: scale(var(--scale, 1)) translate(0, var(--down, 0%));
+  transform: scale(var(--scale, 1)) translate(0, calc(var(--down, 0%) + var(--scroll, 0px)));
   border-radius: var(--round, 0px);
   overflow-y: hidden;
   filter: contrast(var(--dim, 1));
+  transform-origin: top;
 }
 
 .dark-root {
@@ -159,7 +160,7 @@ body.sheet-open {
   backdrop-filter: saturate(180%) blur(20px);
   z-index: 300;
   position: absolute;
-  width: calc(100% - var(--drag-padding) * 2);
+  width: 100%;
   transition: background-color .5s cubic-bezier(.28,.11,.32,1) 0s, box-shadow .5s cubic-bezier(.28,.11,.32,1) 0s;
 }
 
