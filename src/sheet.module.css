@@ -11,6 +11,7 @@ body.sheet-open {
   border-radius: var(--round, 0px);
   overflow-y: hidden;
   filter: contrast(var(--dim, 1));
+  transform-origin: top;
 }
 
 .dark-root {
@@ -59,6 +60,7 @@ body.sheet-open {
 .sheet-footer {
   flex-shrink: 0;
   padding: var(--drag-padding);
+  width: 100%;
 }
 
 .modal-root {
