@@ -1,6 +1,6 @@
 import React, { forwardRef, useEffect } from 'react'
 import { animated } from '@react-spring/web'
-import { setRef } from './utils'
+import { hasWindow, setRef } from './utils'
 
 const values = ['--dim', '--scale', '--down', '--round']
 
@@ -8,7 +8,7 @@ type BodyProxyProps = { style?: Record<string, string> }
 
 const BodyProxy = forwardRef<HTMLBodyElement, BodyProxyProps>((_, ref) => {
   useEffect(() => {
-    if (typeof window === 'undefined') return
+    if (!hasWindow()) return
     const elem = document.body as HTMLBodyElement
     setRef(ref, elem)
     return () => {

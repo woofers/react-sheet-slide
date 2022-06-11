@@ -8,6 +8,7 @@
 import React, { useState, useCallback } from 'react'
 import { createPortal } from 'react-dom'
 import { useLayoutEffect } from './hooks'
+import { hasWindow } from './utils'
 
 const useForceUpdate = () => {
   const [, dispatch] = useState<{}>(Object.create(null))
@@ -18,7 +19,7 @@ const useForceUpdate = () => {
 
 const getRef = (ref?: PortalRef): Node | null => {
   if (typeof ref === 'string') {
-    if (typeof window !== 'undefined') {
+    if (hasWindow()) {
       const value = document.querySelector(ref)
       if (value) return value
     }
@@ -55,6 +56,10 @@ const Portal: React.FC<PortalProps> = ({
   ) : (
     <span ref={mountNode} />
   )
+}
+
+if (__isDev__) {
+  Portal.displayName = 'Portal'
 }
 
 type PortalRef = React.RefObject<Node> | string

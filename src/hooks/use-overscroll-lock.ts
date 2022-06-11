@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react'
+import { hasWindow } from '../utils'
 
 const useOverscrollLock = ({
   enabled,
@@ -17,7 +18,7 @@ const useOverscrollLock = ({
       }
     }
     const preventSafariOverscroll = (e: Event) => {
-      if (typeof window === 'undefined') return
+      if (!hasWindow()) return
       if (elem.scrollTop < 0) {
         window.requestAnimationFrame(() => {
           elem.style.overflow = 'hidden'

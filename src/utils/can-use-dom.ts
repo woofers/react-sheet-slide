@@ -1,6 +1,8 @@
+import hasWindow from './has-window'
+
 const canUseDOM = () =>
   !!(
-    typeof window !== 'undefined' &&
+    hasWindow() &&
     window.document &&
     window.document.createElement
   )

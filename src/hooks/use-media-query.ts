@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useState } from 'react'
+import { hasWindow } from '../utils'
 
 const getMedia = (query: string) => {
-  if (typeof window === 'undefined') return
+  if (!hasWindow()) return
   return window.matchMedia(query)
 }
 
