@@ -9,7 +9,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import useLayoutEffect from './use-layout-effect'
 import useReady from './use-ready'
-import { processSnapPoints, roundAndCheckForNaN } from '../utils'
+import { hasWindow, processSnapPoints, roundAndCheckForNaN } from '../utils'
 import type { Detents, SelectedDetent } from '../types'
 
 const useSnapPoints = ({
@@ -196,7 +196,7 @@ const useMaxHeight = (
 ): number => {
   const setReady = useMemo(() => registerReady('maxHeight'), [registerReady])
   const [maxHeight, setMaxHeight] = useState(() =>
-    roundAndCheckForNaN(controlledMaxHeight) || typeof window !== 'undefined'
+    roundAndCheckForNaN(controlledMaxHeight) || hasWindow()
       ? window.innerHeight
       : 0
   )

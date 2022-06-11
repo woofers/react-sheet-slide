@@ -1,6 +1,8 @@
 export { default as setRef } from './set-ref'
 export { default as canUseDOM } from './can-use-dom'
 export { default as getOwnerDocument } from './get-owner-document'
+export { default as hasWindow } from './has-window'
+
 
 const getErr = (msg: string) => new TypeError(__isDev__ ? msg : '')
 

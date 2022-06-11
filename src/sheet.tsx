@@ -27,7 +27,7 @@ import TrapFocus from './trap-focus'
 import Body from './body'
 import classes from './classnames'
 import styles from './sheet.module.css'
-import { noop } from './utils'
+import { noop, hasWindow } from './utils'
 import type {
   SelectedDetentsProps,
   Detents,
@@ -57,17 +57,19 @@ type WrapperProps = {
   children?: React.ReactNode
 }
 
-const makeEmpty = (name: string) => {
+const makeEmpty = (name?: string) => {
   const val: React.FC<WrapperProps> = ({ children }) => (
     <Fragment>{children}</Fragment>
   )
-  val.displayName = name
+  if (__isDev__) {
+    val.displayName = name
+  }
   return val
 }
 
-export const Header = makeEmpty('header')
-export const Content = makeEmpty('content')
-export const Footer = makeEmpty('footer')
+export const Header = __isDev__ ? makeEmpty('Header') : makeEmpty()
+export const Content = __isDev__ ? makeEmpty('Content') : makeEmpty()
+export const Footer = __isDev__ ? makeEmpty('Footer') : makeEmpty()
 
 const cx = classes.bind(styles)
 
@@ -140,7 +142,9 @@ const DragHeader = forwardRef<HTMLDivElement, DragHeaderProps>(
   }
 )
 
-DragHeader.displayName = 'DragHeader'
+if (__isDev__) {
+  DragHeader.displayName = 'DragHeader'
+}
 
 const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
   (
@@ -284,7 +288,7 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
       }
     }, [onClose])
     useEffect(() => {
-      if (typeof window === 'undefined') return
+      if (!hasWindow()) return
       const className = cx('sheet-open')
       if (!useModal) document.body.classList.add(className)
       return () => {
@@ -504,7 +508,9 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
   }
 )
 
-BaseSheet.displayName = 'BaseSheet'
+if (__isDev__) {
+  BaseSheet.displayName = 'BaseSheet'
+}
 
 export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
   ({ open, onDismiss, onClose: onCloseProp = noop, ...rest }, ref) => {
@@ -533,4 +539,6 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
   }
 )
 
-Sheet.displayName = 'Sheet'
+if (__isDev__) {
+  Sheet.displayName = 'Sheet'
+}
