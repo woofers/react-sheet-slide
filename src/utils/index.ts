@@ -60,6 +60,8 @@ export function processSnapPoints(
   }
 }
 
+export const noop = () => {}
+
 export const config = {
   tension: 170,
   friction: 26

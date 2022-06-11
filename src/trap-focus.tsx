@@ -134,16 +134,12 @@ const TrapFocus: React.FC<TrapFocusProps> = ({ children }) => {
   const lastKeydown = useRef<KeyboardEvent | null>(null)
 
   useEffect(() => {
-    if (!rootRef.current) {
-      return
-    }
+    if (!rootRef.current) return
     activated.current = true
   }, [])
 
   useEffect(() => {
-    if (!rootRef.current) {
-      return
-    }
+    if (!rootRef.current) return
     const doc = getOwnerDocument(rootRef.current)!
     if (!rootRef.current.contains(doc.activeElement)) {
       if (activated.current) {
@@ -151,14 +147,8 @@ const TrapFocus: React.FC<TrapFocusProps> = ({ children }) => {
       }
     }
     return () => {
-      // In IE11 it is possible for document.activeElement to be null resulting
-      // in nodeToRestore.current being null.
-      // Not all elements in IE11 have a focus method.
-      // Once IE11 support is dropped the focus() call can be unconditional.
-      if (nodeToRestore.current && nodeToRestore.current.focus) {
-        ignoreNextEnforceFocus.current = true
-        nodeToRestore.current.focus()
-      }
+      ignoreNextEnforceFocus.current = true
+      nodeToRestore.current!.focus()
       nodeToRestore.current = null
     }
   }, [])
@@ -218,9 +208,7 @@ const TrapFocus: React.FC<TrapFocusProps> = ({ children }) => {
 
     const loopFocus = (nativeEvent: KeyboardEvent) => {
       lastKeydown.current = nativeEvent
-      if (nativeEvent.key !== 'Tab') {
-        return
-      }
+      if (nativeEvent.key !== 'Tab') return
       // Make sure the next tab starts from the right place.
       // doc.activeElement referes to the origin.
       if (doc.activeElement === rootRef.current && nativeEvent.shiftKey) {

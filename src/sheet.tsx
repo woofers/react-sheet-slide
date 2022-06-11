@@ -27,6 +27,7 @@ import TrapFocus from './trap-focus'
 import Body from './body'
 import classes from './classnames'
 import styles from './sheet.module.css'
+import { noop } from './utils'
 import type {
   SelectedDetentsProps,
   Detents,
@@ -295,7 +296,6 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
       cancel,
       direction: [, direction],
       down,
-      first,
       last,
       memo = { memo: spring.y.get() as number, last: spring.y.get() as number },
       movement: [, _my],
@@ -306,7 +306,7 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
       if (onDismiss && closeOnTap && tap) {
         cancel()
         setTimeout(() => onDismiss(), 0)
-        return { memo: memo.memo, last: memo.last }
+        return memo
       }
       if (tap) return memo
       const my = _my * -1
@@ -324,7 +324,7 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
       ) {
         cancel()
         onDismiss()
-        return { memo: memo.memo, last: memo.last }
+        return memo
       }
       const bottom = 80
       let newY = down
@@ -365,9 +365,19 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
       } else {
         preventScrollingRef.current = false
       }
-      if (first) {
-      }
 
+      const animate = (y: number, immediate: boolean, velocity: number) => {
+        set({
+          ready: 1,
+          maxHeight: maxHeightRef.current,
+          maxSnap: maxSnapRef.current,
+          minSnap: minSnapRef.current,
+          immediate,
+          y,
+          config: { velocity }
+        })
+        return { memo: memo.memo, last: y }
+      }
       if (last) {
         const fudge = 5
         if (
@@ -375,7 +385,7 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
           memo.last >= maxSnapRef.current! - fudge
         ) {
           cancel()
-          return { memo: memo.memo, last: memo.last }
+          return memo
         }
         const snap = findSnapRef.current(newY)
         if (
@@ -389,27 +399,13 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
         }
         heightRef.current = snap
         lastDetentRef.current = snap
-        set({
-          ready: 1,
-          maxHeight: maxHeightRef.current,
-          maxSnap: maxSnapRef.current,
-          minSnap: minSnapRef.current,
-          immediate: prefersReducedMotion,
-          y: snap,
-          config: { velocity: velocity > 0.05 ? velocity : 1 }
-        })
-        return { memo: memo.memo, last: snap }
+        return animate(
+          snap,
+          prefersReducedMotion,
+          velocity > 0.05 ? velocity : 1
+        )
       }
-      set({
-        y: newY,
-        ready: 1,
-        maxHeight: maxHeightRef.current,
-        maxSnap: maxSnapRef.current,
-        minSnap: minSnapRef.current,
-        immediate: true,
-        config: { velocity }
-      })
-      return { memo: memo.memo, last: newY }
+      return animate(newY, true, velocity)
     }
     const bind = useDrag(handleDrag, {
       filterTaps: true
@@ -509,8 +505,6 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
 )
 
 BaseSheet.displayName = 'BaseSheet'
-
-const noop = () => empty
 
 export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
   ({ open, onDismiss, onClose: onCloseProp = noop, ...rest }, ref) => {
