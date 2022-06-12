@@ -10,7 +10,7 @@ const BodyProxy = forwardRef<HTMLBodyElement, BodyProxyProps>((_, ref) => {
   useEffect(() => {
     if (!hasWindow()) return
     const elem = document.body as HTMLBodyElement
-    const scroll = window.scrollY ?? 0
+    const scroll = window.pageYOffset ?? 0
     elem.style.setProperty('--scroll', `${scroll}px`)
     setRef(ref, elem)
     return () => {
