@@ -7,7 +7,7 @@ body.sheet-open {
 :global(#root) > div:first-of-type,
 :global(#__next) > div:first-of-type,
 :global(#___gatsby) > div:first-of-type {
-  transform: scale(var(--scale, 1)) translate(0, calc(var(--down, 0%) + var(--scroll, 0px)));
+  transform: scale(var(--scale, 1)) translate(0, calc(var(--down, 0%) + 0px));
   border-radius: var(--round, 0px);
   overflow-y: hidden;
   filter: contrast(var(--dim, 1));
