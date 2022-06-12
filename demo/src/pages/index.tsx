@@ -1,4 +1,4 @@
-import { useMemo, useState, useRef } from 'react'
+import { Children, useMemo, useState, useRef } from 'react'
 import { bundleMDX } from 'mdx-bundler'
 import { getMDXComponent } from 'mdx-bundler/client'
 import { getMarkdownFile } from 'data/local'
@@ -7,6 +7,7 @@ import { detents, Sheet, Header, Content, Footer, Portal } from 'react-sheet-sli
 import { useTheme } from 'components/theme-provider'
 import { CloseIcon } from 'icons'
 import useIsMounted from 'hooks/use-is-mounted'
+import CodeBlock from 'components/code-block'
 
 const Split = styled('div', {
   pl: '24px',
@@ -225,6 +226,23 @@ const ThemeButtons: React.FC<{}> = () => {
   )
 }
 
+const components = {
+  pre: ({ children, ...rest }: { children?: React.ReactNode }) => {
+    const single = Children.count(children) === 1
+    if (single) {
+      const el: React.ReactElement = children as React.ReactElement
+      if (typeof children !== 'string' && children && el.type === 'code') {
+        const { children: content, ...rest } = el.props
+        if (typeof content === 'string') {
+          const { className } = rest
+          return <CodeBlock lang={className}>{content}</CodeBlock>
+        }
+      }
+    }
+    return <pre {...rest}>{children}</pre>
+  }
+}
+
 const App: React.FC<{ code: string }> = ({ code }) => {
   const Component = useMemo(() => getMDXComponent(code), [code])
   const [open, setOpen] = useState(false)
@@ -308,7 +326,7 @@ const App: React.FC<{ code: string }> = ({ code }) => {
         </Sheet>
       </Portal>
       <Docs>
-        <Component />
+        <Component components={components} />
       </Docs>
       <Center>
         <Button type="button" onClick={() => setOpen(v => !v)}>
