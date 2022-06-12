@@ -22,3 +22,5 @@ export type SpringConfig = Partial<{
   tension: number
   friction: number
 }>
+
+export type ResizeSource = 'window' | 'maxheightprop' | 'element' | undefined

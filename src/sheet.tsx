@@ -29,6 +29,7 @@ import classes from './classnames'
 import styles from './sheet.module.css'
 import { noop, hasWindow } from './utils'
 import type {
+  ResizeSource,
   SelectedDetentsProps,
   Detents,
   PredefinedDetents,
@@ -193,6 +194,7 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
     const [spring, set, asyncSet] = useSpring()
     const { modal, backdrop } = useSpringInterpolations({ spring })
 
+    const resizeSourceRef = useRef<ResizeSource>()
     const lastDetentRef = useRef<any>(null)
     const heightRef = useRef<number>()
     const { minSnap, maxSnap, maxHeight, findSnap } = useSnapPoints({
@@ -204,7 +206,8 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
       heightRef,
       lastSnapRef: lastDetentRef,
       ready,
-      registerReady
+      registerReady,
+      resizeSourceRef
     })
 
     const minSnapRef = useRef<number>()
@@ -287,6 +290,24 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
         onClose()
       }
     }, [onClose])
+    useLayoutEffect(() => {
+      if (maxHeight || maxSnap || minSnap) {
+        const snap = findSnapRef.current(heightRef.current)
+        heightRef.current = snap
+        lastDetentRef.current = snap
+        set({
+          y: snap,
+          ready: 1,
+          maxHeight: maxHeightRef.current,
+          maxSnap: maxSnapRef.current,
+          minSnap: minSnapRef.current,
+          immediate:
+            resizeSourceRef.current === 'element'
+              ? prefersReducedMotion
+              : true,
+        })
+      }
+    }, [maxHeight, maxSnap, minSnap, set])
     useEffect(() => {
       if (!hasWindow()) return
       const className = cx('sheet-open')
