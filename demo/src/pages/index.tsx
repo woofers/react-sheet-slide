@@ -1,6 +1,6 @@
 import { Children, useMemo, useState, useRef } from 'react'
 import { bundleMDX } from 'mdx-bundler'
-import { getMDXComponent } from 'mdx-bundler/client'
+import { getMDXComponent, MDXContentProps } from 'mdx-bundler/client'
 import { getMarkdownFile } from 'data/local'
 import { styled } from 'stitches'
 import { detents, Sheet, Header, Content, Footer, Portal } from 'react-sheet-slide'
@@ -98,6 +98,7 @@ const ButtonText = styled('div', {
 })
 
 const Action = styled('div', {
+  textDecoration: 'none',
   color: '$link',
   fontFamily: '$title',
   fontWeight: 500,
@@ -226,8 +227,8 @@ const ThemeButtons: React.FC<{}> = () => {
   )
 }
 
-const components = {
-  pre: ({ children, ...rest }: { children?: React.ReactNode }) => {
+const components: MDXContentProps['components'] = {
+  pre: ({ children, ...rest }) => {
     const single = Children.count(children) === 1
     if (single) {
       const el: React.ReactElement = children as React.ReactElement
@@ -240,7 +241,17 @@ const components = {
       }
     }
     return <pre {...rest}>{children}</pre>
-  }
+  },
+  a: ({ href, children }) => (
+    <Action
+      href={href}
+      as="a"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      {children}
+    </Action>
+  )
 }
 
 const App: React.FC<{ code: string }> = ({ code }) => {
