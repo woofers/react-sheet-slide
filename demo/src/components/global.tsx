@@ -11,8 +11,7 @@ const useGlobalStyles = globalCss({
   body: {
     fontFamily: '$title',
     lineHeight: '1.5',
-    '-webkit-font-smoothing': 'antialiased',
-    overflowX: 'hidden',
+    '-webkit-font-smoothing': 'antialiased'
   },
   'img, picture, video, canvas, svg': {
     display: 'block',
@@ -25,7 +24,8 @@ const useGlobalStyles = globalCss({
     overflowWrap: 'break-word'
   },
   code: {
-    fontFamily: '$code'
+    fontFamily: '$code',
+    whiteSpace: 'pre-wrap'
   },
   '#root, #__next': {
     isolation: 'isolate'
