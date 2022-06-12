@@ -310,6 +310,11 @@ const App: React.FC<{ code: string }> = ({ code }) => {
       <Docs>
         <Component />
       </Docs>
+      <Center>
+        <Button type="button" onClick={() => setOpen(v => !v)}>
+          Open sheet
+        </Button>
+      </Center>
     </Fullscreen>
   )
 }
