@@ -135,7 +135,7 @@ const TrapFocus: React.FC<TrapFocusProps> = ({ children }) => {
 
   useEffect(() => {
     if (!rootRef.current) return
-    activated.current = true
+    activated.current = false
   }, [])
 
   useEffect(() => {
