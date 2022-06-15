@@ -142,7 +142,7 @@ const TrapFocus: React.FC<TrapFocusProps> = ({ children }) => {
 
   useEffect(() => {
     if (!rootRef.current) return
-    activated.current = false
+    activated.current = !isIosDevice()
   }, [])
 
   useEffect(() => {
@@ -187,9 +187,7 @@ const TrapFocus: React.FC<TrapFocusProps> = ({ children }) => {
         } else if (reactFocusEventTarget.current !== null) {
           return
         }
-        if (!activated.current) {
-          return
-        }
+        if (!activated.current) return
         let tabbable: HTMLElement[] = []
         if (
           doc.activeElement === sentinelStart.current ||
@@ -254,7 +252,7 @@ const TrapFocus: React.FC<TrapFocusProps> = ({ children }) => {
     if (nodeToRestore.current === null) {
       nodeToRestore.current = event.relatedTarget as HTMLElement
     }
-    activated.current = false
+    activated.current = !isIosDevice()
     reactFocusEventTarget.current = event.target
 
     const childrenPropsHandler = children.props.onFocus
@@ -268,7 +266,7 @@ const TrapFocus: React.FC<TrapFocusProps> = ({ children }) => {
     if (nodeToRestore.current === null) {
       nodeToRestore.current = event.relatedTarget as HTMLElement
     }
-    activated.current = false
+    activated.current = !isIosDevice()
   }
   return (
     <Fragment>
