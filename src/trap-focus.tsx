@@ -13,7 +13,14 @@ import React, {
   useRef,
   useMemo
 } from 'react'
-import { setRef, getOwnerDocument } from './utils'
+import { setRef, getOwnerDocument, hasWindow } from './utils'
+
+const isIosDevice = () =>
+  hasWindow() &&
+  window.navigator &&
+  window.navigator.platform &&
+  (/iP(ad|hone|od)/.test(window.navigator.platform) ||
+    (window.navigator.platform === 'MacIntel' && window.navigator.maxTouchPoints > 1))
 
 const useForkRef = <InstanceA, InstanceB>(
   refA: React.Ref<InstanceA> | null | undefined,
@@ -247,7 +254,7 @@ const TrapFocus: React.FC<TrapFocusProps> = ({ children }) => {
     if (nodeToRestore.current === null) {
       nodeToRestore.current = event.relatedTarget as HTMLElement
     }
-    activated.current = true
+    activated.current = false
     reactFocusEventTarget.current = event.target
 
     const childrenPropsHandler = children.props.onFocus
@@ -261,7 +268,7 @@ const TrapFocus: React.FC<TrapFocusProps> = ({ children }) => {
     if (nodeToRestore.current === null) {
       nodeToRestore.current = event.relatedTarget as HTMLElement
     }
-    activated.current = true
+    activated.current = false
   }
   return (
     <Fragment>
