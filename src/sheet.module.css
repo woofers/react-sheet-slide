@@ -6,11 +6,12 @@ body.sheet-open {
 :global(#root) > div:first-of-type,
 :global(#__next) > div:first-of-type,
 :global(#___gatsby) > div:first-of-type {
-  transform: scale(var(--scale, 1)) translate(0, calc(var(--down, 0%) + 0px));
-  border-radius: var(--round, 0px);
+  clip-path: inset(calc(4.7vh * var(--down, 0) + var(--scroll)) 0px 0% 0px round var(--round, 0px));
+  transform: scale(var(--scale, 1));
   overflow-y: hidden;
   filter: contrast(var(--dim, 1));
-  transform-origin: top;
+  padding-top: calc(4.7vh * var(--down, 0));
+  transform-origin: center var(--scroll, 0);
 }
 
 .dark-root {
