@@ -106,7 +106,7 @@ function useDimensions({
   footerRef: React.RefObject<Element>
   headerEnabled: boolean
   headerRef: React.RefObject<Element>
-  registerReady: ReturnType<typeof useReady>['registerReady'],
+  registerReady: ReturnType<typeof useReady>['registerReady']
   resizeSourceRef: React.MutableRefObject<ResizeSource>
 }): {
   maxHeight: number
@@ -118,7 +118,11 @@ function useDimensions({
     () => registerReady('contentHeight'),
     [registerReady]
   )
-  const maxHeight = useMaxHeight(controlledMaxHeight!, registerReady, resizeSourceRef)
+  const maxHeight = useMaxHeight(
+    controlledMaxHeight!,
+    registerReady,
+    resizeSourceRef
+  )
 
   // @TODO probably better to forward props instead of checking refs to decide if it's enabled
   const headerHeight = useElementSizeObserver(headerRef, {
@@ -172,7 +176,7 @@ function useElementSizeObserver(
     enabled,
     resizeSourceRef
   }: {
-    enabled: boolean,
+    enabled: boolean
     resizeSourceRef: React.MutableRefObject<ResizeSource>
   }
 ): number {
@@ -181,8 +185,8 @@ function useElementSizeObserver(
   const handleResize = useCallback((entries: ResizeObserverEntry[]) => {
     // we only observe one element, so accessing the first entry here is fine
     setSize(entries[0].borderBoxSize[0].blockSize)
-      setSize(entries[0].borderBoxSize[0].blockSize)
-      resizeSourceRef.current = 'element'
+    setSize(entries[0].borderBoxSize[0].blockSize)
+    resizeSourceRef.current = 'element'
   }, [])
 
   useLayoutEffect(() => {
