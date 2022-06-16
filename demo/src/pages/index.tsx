@@ -1,4 +1,5 @@
 import { Children, useMemo, useState, useRef } from 'react'
+import Head from 'next/head'
 import { bundleMDX } from 'mdx-bundler'
 import { getMDXComponent, MDXContentProps } from 'mdx-bundler/client'
 import { getMarkdownFile } from 'data/local'
@@ -258,93 +259,102 @@ const App: React.FC<{ code: string }> = ({ code }) => {
   const Component = useMemo(() => getMDXComponent(code), [code])
   const [open, setOpen] = useState(false)
   const ref = useRef<HTMLDivElement | null>(null)
-  const { name } = useTheme()
+  const { name, theme } = useTheme()
   const useDarkMode = name === 'dark'
+  const lightMeta = '#f2f2f6'
+  const darkMeta = '#070708'
+  const meta = open || useDarkMode ? darkMeta : lightMeta
   return (
-    <Fullscreen>
-      <Indent>
-        <Link href="https://github.com/woofers/react-sheet-slide">
-          <LargeText>react-sheet-slide</LargeText>
-        </Link>
-        <LargeText>🏞️ 🎢 🛝</LargeText>
-      </Indent>
-      <Center>
-        <Button type="button" onClick={() => setOpen(v => !v)}>
-          Open sheet
-        </Button>
-      </Center>
-      <ThemeButtons />
-      <Portal containerRef="#react-sheet-slide">
-        <Sheet
-          ref={ref}
-          open={open}
-          onDismiss={() => setOpen(false)}
-          onClose={() => console.log('we closed')}
-          selectedDetent={detents.large}
-          detents={props => [
-            detents.large(props),
-            detents.medium(props)
-          ]}
-          useDarkMode={useDarkMode}
-          scrollingExpands
-        >
-          <Header>
-            <HeaderWrapper>
-              <ButtonText>Online</ButtonText>
-              <CloseButton type="button" onClick={() => setOpen(false)}>
-                <CloseIcon />
-              </CloseButton>
-            </HeaderWrapper>
-          </Header>
-          <Content>
-            <Container>
-              <Flex>
-                <Text>Add more storage to keep everything on online</Text>
-                <Box />
-              </Flex>
-              <Description>
-                Online includes plenty of storage to keep all your data safe and
-                features to protect your privacy.
-              </Description>
-              <Action>Learn More About Online</Action>
-              <Flex>
-                <Text>Add more storage to keep everything on online</Text>
-                <Box />
-              </Flex>
-              <Description>
-                Online includes plenty of storage to keep all your data safe and
-                features to protect your privacy.
-              </Description>
-              <Action>Learn More About Online</Action>
-              <Flex>
-                <Text>Add more storage to keep everything on online</Text>
-                <Box />
-              </Flex>
-              <Description>
-                Online includes plenty of storage to keep all your data safe and
-                features to protect your privacy.
-              </Description>
-              <Action>Learn More About Online</Action>
-            </Container>
-          </Content>
-          <Footer>
-            <FooterWrapper>
-              <Button type="button" onClick={() => setOpen(false)}>
-                Close
-              </Button>
-            </FooterWrapper>
-          </Footer>
-        </Sheet>
-      </Portal>
-      <Docs>
-        <Component components={components} />
-      </Docs>
-      <Center>
-        <Button type="button" onClick={() => setOpen(v => !v)}>
-          Open sheet
-        </Button>
-      </Center>
-    </Fullscreen>
+    <>
+      <Head>
+        <meta name="theme-color" content={meta} />
+        <meta name="msapplication-navbutton-color" content={meta} />
+      </Head>
+      <Fullscreen>
+        <Indent>
+          <Link href="https://github.com/woofers/react-sheet-slide">
+            <LargeText>react-sheet-slide</LargeText>
+          </Link>
+          <LargeText>🏞️ 🎢 🛝</LargeText>
+        </Indent>
+        <Center>
+          <Button type="button" onClick={() => setOpen(v => !v)}>
+            Open sheet
+          </Button>
+        </Center>
+        <ThemeButtons />
+        <Portal containerRef="#react-sheet-slide">
+          <Sheet
+            ref={ref}
+            open={open}
+            onDismiss={() => setOpen(false)}
+            onClose={() => console.log('we closed')}
+            selectedDetent={detents.large}
+            detents={props => [
+              detents.large(props),
+              detents.medium(props)
+            ]}
+            useDarkMode={useDarkMode}
+            scrollingExpands
+          >
+            <Header>
+              <HeaderWrapper>
+                <ButtonText>Online</ButtonText>
+                <CloseButton type="button" onClick={() => setOpen(false)}>
+                  <CloseIcon />
+                </CloseButton>
+              </HeaderWrapper>
+            </Header>
+            <Content>
+              <Container>
+                <Flex>
+                  <Text>Add more storage to keep everything on online</Text>
+                  <Box />
+                </Flex>
+                <Description>
+                  Online includes plenty of storage to keep all your data safe and
+                  features to protect your privacy.
+                </Description>
+                <Action>Learn More About Online</Action>
+                <Flex>
+                  <Text>Add more storage to keep everything on online</Text>
+                  <Box />
+                </Flex>
+                <Description>
+                  Online includes plenty of storage to keep all your data safe and
+                  features to protect your privacy.
+                </Description>
+                <Action>Learn More About Online</Action>
+                <Flex>
+                  <Text>Add more storage to keep everything on online</Text>
+                  <Box />
+                </Flex>
+                <Description>
+                  Online includes plenty of storage to keep all your data safe and
+                  features to protect your privacy.
+                </Description>
+                <Action>Learn More About Online</Action>
+              </Container>
+            </Content>
+            <Footer>
+              <FooterWrapper>
+                <Button type="button" onClick={() => setOpen(false)}>
+                  Close
+                </Button>
+              </FooterWrapper>
+            </Footer>
+          </Sheet>
+        </Portal>
+        <Docs>
+          <Component components={components} />
+        </Docs>
+        <Center>
+          <Button type="button" onClick={() => setOpen(v => !v)}>
+            Open sheet
+          </Button>
+        </Center>
+      </Fullscreen>
+    </>
   )
 }
 
