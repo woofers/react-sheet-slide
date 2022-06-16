@@ -1,4 +1,5 @@
 import hasWindow from './has-window'
+import memoize from './memoize'
 
 const isIosDevice = () =>
   hasWindow() &&
@@ -7,4 +8,6 @@ const isIosDevice = () =>
   (/iP(ad|hone|od)/.test(window.navigator.platform) ||
     (window.navigator.platform === 'MacIntel' && window.navigator.maxTouchPoints > 1))
 
-export default isIosDevice
+const memoized = memoize(isIosDevice)
+
+export default memoized

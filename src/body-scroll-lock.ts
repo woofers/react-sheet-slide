@@ -18,19 +18,6 @@ type Lock = {
   options: BodyScrollOptions
 }
 
-// Older browsers don't support event options, feature detect it.
-let hasPassiveEvents = false
-if (typeof window !== 'undefined') {
-  const passiveTestOptions = {
-    get passive() {
-      hasPassiveEvents = true
-      return undefined
-    },
-  }
-  window.addEventListener('testPassive' as any, null as any, passiveTestOptions as any)
-  window.removeEventListener('testPassive' as any, null as any, passiveTestOptions as any)
-}
-
 type HandleScrollEvent = TouchEvent
 
 let locks: Array<Lock> = []
@@ -197,7 +184,7 @@ export const disableBodyScroll = (targetElement: HTMLElement | Element, options?
     }
 
     if (!documentListenerAdded) {
-      document.addEventListener('touchmove', preventDefault, hasPassiveEvents ? { passive: false } : undefined)
+      document.addEventListener('touchmove', preventDefault, { passive: false })
       documentListenerAdded = true
     }
   }
@@ -213,7 +200,7 @@ export const enableBodyScroll = (targetElement: HTMLElement | Element): void => 
     el.ontouchmove = null
 
     if (documentListenerAdded && locks.length === 0) {
-      document.removeEventListener('touchmove', preventDefault, (hasPassiveEvents ? { passive: false } : undefined) as any)
+      document.removeEventListener('touchmove', preventDefault, { passive: false } as any)
       documentListenerAdded = false
     }
   }
