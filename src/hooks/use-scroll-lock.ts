@@ -1,4 +1,4 @@
-import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
+import { disableBodyScroll, enableBodyScroll } from '../body-scroll-lock'
 import React, { useEffect, useRef } from 'react'
 import { noop } from '../utils'
 
@@ -16,7 +16,6 @@ const noops = { a: noop, d: noop }
 
 const useScrollLock = ({ targetRef, enabled }: ScrollLockProps) => {
   const ref = useRef<ScrollLockRefs>(noops)
-  const lastScrollRef = useRef(0)
   useEffect(() => {
     const target = targetRef.current
     if (!target) return
@@ -30,19 +29,15 @@ const useScrollLock = ({ targetRef, enabled }: ScrollLockProps) => {
       a: () => {
         if (active || !target) return
         active = true
-        lastScrollRef.current = window.scrollY
         disableBodyScroll(target, {
           allowTouchMove: el => !!el.closest('[data-scroll-lock-ignore]'),
           reserveScrollBarGap: true
         })
-        document.body.style.setProperty('top', `${window.scrollY * -1}px`)
       },
       d: () => {
         if (!active || !target) return
         active = false
         enableBodyScroll(target)
-        document.body.style.setProperty('top', '')
-        document.body.scrollTo(0, lastScrollRef.current)
       }
     }
     ref.current.a()
