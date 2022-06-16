@@ -1,6 +1,9 @@
 
 body.sheet-open {
   background: #000;
+}
+
+body.sheet-open[style] {
   padding-right: 0px !imporant;
 }
 
