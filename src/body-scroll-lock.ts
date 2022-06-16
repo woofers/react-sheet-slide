@@ -8,12 +8,12 @@
 
 import { setRef, getOwnerDocument, isIosDevice } from './utils'
 
-interface BodyScrollOptions {
+type BodyScrollOptions = {
   reserveScrollBarGap?: boolean
   allowTouchMove?: ((el: HTMLElement | Element) => boolean) | undefined
 }
 
-interface Lock {
+type Lock = {
   targetElement: any
   options: BodyScrollOptions
 }
@@ -42,12 +42,7 @@ let previousBodyPaddingRight: any
 
 // returns true if `el` should be allowed to receive touchmove events.
 const allowTouchMove = (el: any): boolean =>
-  locks.some(lock => {
-    if (lock.options.allowTouchMove && lock.options.allowTouchMove(el)) {
-      return true
-    }
-    return false
-  })
+  locks.some(lock => lock.options.allowTouchMove && lock.options.allowTouchMove(el))
 
 const preventDefault = (rawEvent: HandleScrollEvent): boolean => {
   const e = rawEvent || window.event
@@ -154,37 +149,25 @@ const isTargetElementTotallyScrolled = (targetElement: HTMLElement | Element): b
 
 const handleScroll = (event: HandleScrollEvent, targetElement: HTMLElement | Element): boolean => {
   const clientY = event.targetTouches[0].clientY - initialClientY
-
   if (allowTouchMove(event.target!)) return false
-
   if (targetElement && targetElement.scrollTop === 0 && clientY > 0) {
     // element is at the top of its scroll.
     return preventDefault(event)
   }
-
   if (isTargetElementTotallyScrolled(targetElement) && clientY < 0) {
     // element is at the bottom of its scroll.
     return preventDefault(event)
   }
-
   event.stopPropagation()
   return true
 }
 
 export const disableBodyScroll = (targetElement: HTMLElement | Element, options?: BodyScrollOptions): void => {
   // targetElement must be provided
-  if (!targetElement) {
-    // eslint-disable-next-line no-console
-    console.error(
-      'disableBodyScroll unsuccessful - targetElement must be provided when calling disableBodyScroll on IOS devices.'
-    )
-    return
-  }
+  if (!targetElement) return
 
   // disableBodyScroll must not have been called on this targetElement before
-  if (locks.some(lock => lock.targetElement === targetElement)) {
-    return
-  }
+  if (locks.some(lock => lock.targetElement === targetElement)) return
 
   const lock = {
     targetElement,
