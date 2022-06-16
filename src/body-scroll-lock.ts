@@ -14,22 +14,35 @@ type BodyScrollOptions = {
 }
 
 type Lock = {
-  targetElement: any
+  targetElement: HTMLElement | Element
   options: BodyScrollOptions
 }
 
 type HandleScrollEvent = TouchEvent
 
+type StyleUnit = string | undefined
+
 let locks: Array<Lock> = []
 let documentListenerAdded: boolean = false
 let initialClientY: number = -1
-let previousBodyOverflowSetting: any
-let previousBodyPosition: any
-let previousBodyPaddingRight: any
+let previousBodyOverflowSetting: StyleUnit
+let previousBodyPaddingRight: StyleUnit
+let previousBodyPosition: {
+  position: string
+  top: string
+  left: string
+} | undefined
+
+const isElement = (target: EventTarget | null | undefined): target is Element => !!target && target instanceof Element
 
 // returns true if `el` should be allowed to receive touchmove events.
-const allowTouchMove = (el: any): boolean =>
+const allowTouchMove = (el: HTMLElement | Element): boolean =>
   locks.some(lock => lock.options.allowTouchMove && lock.options.allowTouchMove(el))
+
+const canMove = (event?: HandleScrollEvent): boolean => {
+  if (!event) return false
+  return isElement(event.target) && allowTouchMove(event.target)
+}
 
 const preventDefault = (rawEvent: HandleScrollEvent): boolean => {
   const e = rawEvent || window.event
@@ -38,7 +51,7 @@ const preventDefault = (rawEvent: HandleScrollEvent): boolean => {
   // Recall that we do document.addEventListener('touchmove', preventDefault, { passive: false })
   // in disableBodyScroll - so if we provide this opportunity to allowTouchMove, then
   // the touchmove event on document will break.
-  if (allowTouchMove(e.target!)) return true
+  if (canMove(e)) return true
 
   // Do not prevent if the event has more than one touch (usually meaning this is a multi touch gesture like pinch to zoom).
   if (e.touches.length > 1) return true
@@ -70,7 +83,7 @@ const setOverflowHidden = (options?: BodyScrollOptions) => {
 
 const restoreOverflowSetting = () => {
   if (previousBodyPaddingRight !== undefined) {
-    document.body.style.paddingRight = previousBodyPaddingRight as any
+    document.body.style.paddingRight = previousBodyPaddingRight
 
     // Restore previousBodyPaddingRight to undefined so setOverflowHidden knows it
     // can be set again.
@@ -136,7 +149,7 @@ const isTargetElementTotallyScrolled = (targetElement: HTMLElement | Element): b
 
 const handleScroll = (event: HandleScrollEvent, targetElement: HTMLElement | Element): boolean => {
   const clientY = event.targetTouches[0].clientY - initialClientY
-  if (allowTouchMove(event.target!)) return false
+  if (canMove(event)) return false
   if (targetElement && targetElement.scrollTop === 0 && clientY > 0) {
     // element is at the top of its scroll.
     return preventDefault(event)
@@ -200,7 +213,7 @@ export const enableBodyScroll = (targetElement: HTMLElement | Element): void => 
     el.ontouchmove = null
 
     if (documentListenerAdded && locks.length === 0) {
-      document.removeEventListener('touchmove', preventDefault, { passive: false } as any)
+      document.removeEventListener('touchmove', preventDefault)
       documentListenerAdded = false
     }
   }
