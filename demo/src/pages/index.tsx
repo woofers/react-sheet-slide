@@ -276,13 +276,13 @@ const components: MDXContentProps['components'] = {
 
 const App: React.FC<{ code: string }> = ({ code }) => {
   const Component = useMemo(() => getMDXComponent(code), [code])
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState<boolean | undefined>(false)
   const ref = useRef<HTMLDivElement | null>(null)
   const { name, theme } = useTheme()
   const useDarkMode = name === 'dark'
   const lightMeta = '#f2f2f6'
   const darkMeta = '#070708'
-  const meta = open || useDarkMode ? darkMeta : lightMeta
+  const meta = useDarkMode || (open || typeof open === 'undefined') ? darkMeta : lightMeta
   return (
     <>
       <Head>
@@ -306,8 +306,8 @@ const App: React.FC<{ code: string }> = ({ code }) => {
           <Sheet
             ref={ref}
             open={open}
-            onDismiss={() => setOpen(false)}
-            onClose={() => console.log('we closed')}
+            onDismiss={() => setOpen(undefined)}
+            onClose={() => setOpen(false)}
             selectedDetent={detents.large}
             detents={props => [detents.large(props), detents.medium(props)]}
             useDarkMode={useDarkMode}
@@ -316,7 +316,7 @@ const App: React.FC<{ code: string }> = ({ code }) => {
             <Header>
               <HeaderWrapper>
                 <ButtonText>Online</ButtonText>
-                <CloseButton type="button" onClick={() => setOpen(false)}>
+                <CloseButton type="button" onClick={() => setOpen(undefined)}>
                   <CloseIcon />
                 </CloseButton>
               </HeaderWrapper>
@@ -354,7 +354,7 @@ const App: React.FC<{ code: string }> = ({ code }) => {
             </Content>
             <Footer>
               <FooterWrapper>
-                <Button type="button" onClick={() => setOpen(false)}>
+                <Button type="button" onClick={() => setOpen(undefined)}>
                   Close
                 </Button>
               </FooterWrapper>

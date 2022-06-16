@@ -3,8 +3,8 @@ body.sheet-open {
   background: #000;
 }
 
-body.sheet-open[style] {
-  padding-right: 0px !imporant;
+body[style].sheet-open {
+  padding-right: 0px !important;
 }
 
 :global(#root) > div:first-of-type,
