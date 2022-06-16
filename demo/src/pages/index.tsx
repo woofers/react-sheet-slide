@@ -4,7 +4,14 @@ import { bundleMDX } from 'mdx-bundler'
 import { getMDXComponent, MDXContentProps } from 'mdx-bundler/client'
 import { getMarkdownFile } from 'data/local'
 import { styled } from 'stitches'
-import { detents, Sheet, Header, Content, Footer, Portal } from 'react-sheet-slide'
+import {
+  detents,
+  Sheet,
+  Header,
+  Content,
+  Footer,
+  Portal
+} from 'react-sheet-slide'
 import { useTheme } from 'components/theme-provider'
 import { CloseIcon } from 'icons'
 import useIsMounted from 'hooks/use-is-mounted'
@@ -207,7 +214,7 @@ const Indent = styled('div', {
   flexDirection: 'column',
   gap: '16px 0',
   pt: '24px',
-  pl: '24px',
+  pl: '24px'
 })
 
 const Docs = styled('div', {
@@ -222,8 +229,25 @@ const ThemeButtons: React.FC<{}> = () => {
   if (!mounted) return null
   return (
     <Split>
-      <Button aria-pressed={name === 'light'} theme="secondary" onClick={() => setTheme('light')} type="button" css={{ flex: '1', textAlign: 'right' }}>☀</Button>️
-      <Button aria-pressed={name === 'dark'} theme="secondary" onClick={() => setTheme('dark')} type="button" css={{ flex: '1', textAlign: 'left' }}>🌙</Button>
+      <Button
+        aria-pressed={name === 'light'}
+        theme="secondary"
+        onClick={() => setTheme('light')}
+        type="button"
+        css={{ flex: '1', textAlign: 'right' }}
+      >
+        ☀
+      </Button>
+      ️
+      <Button
+        aria-pressed={name === 'dark'}
+        theme="secondary"
+        onClick={() => setTheme('dark')}
+        type="button"
+        css={{ flex: '1', textAlign: 'left' }}
+      >
+        🌙
+      </Button>
     </Split>
   )
 }
@@ -244,12 +268,7 @@ const components: MDXContentProps['components'] = {
     return <pre {...rest}>{children}</pre>
   },
   a: ({ href, children }) => (
-    <Action
-      href={href}
-      as="a"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
+    <Action href={href} as="a" target="_blank" rel="noopener noreferrer">
       {children}
     </Action>
   )
@@ -290,10 +309,7 @@ const App: React.FC<{ code: string }> = ({ code }) => {
             onDismiss={() => setOpen(false)}
             onClose={() => console.log('we closed')}
             selectedDetent={detents.large}
-            detents={props => [
-              detents.large(props),
-              detents.medium(props)
-            ]}
+            detents={props => [detents.large(props), detents.medium(props)]}
             useDarkMode={useDarkMode}
             scrollingExpands
           >
@@ -312,8 +328,8 @@ const App: React.FC<{ code: string }> = ({ code }) => {
                   <Box />
                 </Flex>
                 <Description>
-                  Online includes plenty of storage to keep all your data safe and
-                  features to protect your privacy.
+                  Online includes plenty of storage to keep all your data safe
+                  and features to protect your privacy.
                 </Description>
                 <Action>Learn More About Online</Action>
                 <Flex>
@@ -321,8 +337,8 @@ const App: React.FC<{ code: string }> = ({ code }) => {
                   <Box />
                 </Flex>
                 <Description>
-                  Online includes plenty of storage to keep all your data safe and
-                  features to protect your privacy.
+                  Online includes plenty of storage to keep all your data safe
+                  and features to protect your privacy.
                 </Description>
                 <Action>Learn More About Online</Action>
                 <Flex>
@@ -330,8 +346,8 @@ const App: React.FC<{ code: string }> = ({ code }) => {
                   <Box />
                 </Flex>
                 <Description>
-                  Online includes plenty of storage to keep all your data safe and
-                  features to protect your privacy.
+                  Online includes plenty of storage to keep all your data safe
+                  and features to protect your privacy.
                 </Description>
                 <Action>Learn More About Online</Action>
               </Container>

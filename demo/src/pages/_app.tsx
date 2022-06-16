@@ -5,7 +5,6 @@ import Meta from 'components/meta'
 import type { AppProps } from 'next/app'
 import 'react-sheet-slide/style.css'
 
-
 function ErrorFallback({ error, resetErrorBoundary }: any) {
   return (
     <div role="alert">

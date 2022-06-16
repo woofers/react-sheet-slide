@@ -1,4 +1,3 @@
-
 function memoize<T>(func: () => T): () => T {
   let saved: Partial<Record<'l', T>> = {}
   return () => {
