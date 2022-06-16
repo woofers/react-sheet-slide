@@ -10,7 +10,7 @@ import { setRef, getOwnerDocument, isIosDevice } from './utils'
 
 interface BodyScrollOptions {
   reserveScrollBarGap?: boolean
-  allowTouchMove?: (el: any) => boolean
+  allowTouchMove?: ((el: HTMLElement | Element) => boolean) | undefined
 }
 
 interface Lock {
@@ -41,7 +41,7 @@ let previousBodyPosition: any
 let previousBodyPaddingRight: any
 
 // returns true if `el` should be allowed to receive touchmove events.
-const allowTouchMove = (el: EventTarget): boolean =>
+const allowTouchMove = (el: any): boolean =>
   locks.some(lock => {
     if (lock.options.allowTouchMove && lock.options.allowTouchMove(el)) {
       return true
@@ -149,10 +149,10 @@ const restorePositionSetting = () => {
 }
 
 // https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollHeight#Problems_and_solutions
-const isTargetElementTotallyScrolled = (targetElement: any): boolean =>
+const isTargetElementTotallyScrolled = (targetElement: HTMLElement | Element): boolean =>
   targetElement ? targetElement.scrollHeight - targetElement.scrollTop <= targetElement.clientHeight : false
 
-const handleScroll = (event: HandleScrollEvent, targetElement: any): boolean => {
+const handleScroll = (event: HandleScrollEvent, targetElement: HTMLElement | Element): boolean => {
   const clientY = event.targetTouches[0].clientY - initialClientY
 
   if (allowTouchMove(event.target!)) return false
@@ -171,7 +171,7 @@ const handleScroll = (event: HandleScrollEvent, targetElement: any): boolean => 
   return true
 }
 
-export const disableBodyScroll = (targetElement: any, options?: BodyScrollOptions): void => {
+export const disableBodyScroll = (targetElement: HTMLElement | Element, options?: BodyScrollOptions): void => {
   // targetElement must be provided
   if (!targetElement) {
     // eslint-disable-next-line no-console
@@ -200,13 +200,13 @@ export const disableBodyScroll = (targetElement: any, options?: BodyScrollOption
   }
 
   if (isIosDevice()) {
-    targetElement.ontouchstart = (event: HandleScrollEvent) => {
+    (targetElement as HTMLElement).ontouchstart = (event: HandleScrollEvent) => {
       if (event.targetTouches.length === 1) {
         // detect single touch.
         initialClientY = event.targetTouches[0].clientY
       }
     }
-    targetElement.ontouchmove = (event: HandleScrollEvent) => {
+    (targetElement as HTMLElement).ontouchmove = (event: HandleScrollEvent) => {
       if (event.targetTouches.length === 1) {
         // detect single touch.
         handleScroll(event, targetElement)
@@ -220,39 +220,14 @@ export const disableBodyScroll = (targetElement: any, options?: BodyScrollOption
   }
 }
 
-export const clearAllBodyScrollLocks = (): void => {
-  if (isIosDevice()) {
-    // Clear all locks ontouchstart/ontouchmove handlers, and the references.
-    locks.forEach((lock: Lock) => {
-      lock.targetElement.ontouchstart = null
-      lock.targetElement.ontouchmove = null
-    })
-
-    if (documentListenerAdded) {
-      document.removeEventListener('touchmove', preventDefault, (hasPassiveEvents ? { passive: false } : undefined) as any)
-      documentListenerAdded = false
-    }
-
-    // Reset initial clientY.
-    initialClientY = -1
-  }
-
-  if (isIosDevice()) {
-    restorePositionSetting()
-  } else {
-    restoreOverflowSetting()
-  }
-
-  locks = []
-}
-
-export const enableBodyScroll = (targetElement: any): void => {
+export const enableBodyScroll = (targetElement: HTMLElement | Element): void => {
   if (!targetElement) return
   locks = locks.filter(lock => lock.targetElement !== targetElement)
 
   if (isIosDevice()) {
-    targetElement.ontouchstart = null
-    targetElement.ontouchmove = null
+    const el: any = targetElement
+    el.ontouchstart = null
+    el.ontouchmove = null
 
     if (documentListenerAdded && locks.length === 0) {
       document.removeEventListener('touchmove', preventDefault, (hasPassiveEvents ? { passive: false } : undefined) as any)
