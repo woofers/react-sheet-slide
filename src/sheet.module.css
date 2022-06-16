@@ -1,6 +1,7 @@
 
 body.sheet-open {
   background: #000;
+  padding-right: 0px !imporant;
 }
 
 :global(#root) > div:first-of-type,
