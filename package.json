@@ -8,7 +8,8 @@
   "types": "lib/index.d.ts",
   "type": "module",
   "sideEffects": [
-    "*.css"
+    "*.css",
+    "src/body-scroll-lock.js"
   ],
   "repository": "https://github.com/woofers/react-sheet-slide",
   "author": "Jaxson Van Doorn",

@@ -13,14 +13,7 @@ import React, {
   useRef,
   useMemo
 } from 'react'
-import { setRef, getOwnerDocument, hasWindow } from './utils'
-
-const isIosDevice = () =>
-  hasWindow() &&
-  window.navigator &&
-  window.navigator.platform &&
-  (/iP(ad|hone|od)/.test(window.navigator.platform) ||
-    (window.navigator.platform === 'MacIntel' && window.navigator.maxTouchPoints > 1))
+import { setRef, getOwnerDocument, isIosDevice } from './utils'
 
 const useForkRef = <InstanceA, InstanceB>(
   refA: React.Ref<InstanceA> | null | undefined,
