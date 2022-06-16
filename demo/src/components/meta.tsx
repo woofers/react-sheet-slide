@@ -13,8 +13,6 @@ const Meta: React.FC<{}> = () => {
       <link rel="icon" href="/react-sheet-slide/favicon.ico" />
       <meta name="apple-mobile-web-app-capable" content="yes" />
       <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-      <meta name="theme-color" content="#070708" />
-      <meta name="msapplication-navbutton-color" content="#070708" />
     </Head>
   )
 }

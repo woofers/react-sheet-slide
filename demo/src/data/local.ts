@@ -43,7 +43,8 @@ export const getFileNames = (path: string, glob: RegExp | string) => {
   return files.map(name => name.replace(glob, ''))
 }
 
-export const getMarkdownFile = (path: string, name: string) => getFile(path, name, 'md')
+export const getMarkdownFile = (path: string, name: string) =>
+  getFile(path, name, 'md')
 
 export const getMarkdownFiles = (path: string) => getFiles(path, 'md')
 

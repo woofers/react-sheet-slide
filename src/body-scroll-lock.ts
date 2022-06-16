@@ -27,17 +27,22 @@ let documentListenerAdded: boolean = false
 let initialClientY: number = -1
 let previousBodyOverflowSetting: StyleUnit
 let previousBodyPaddingRight: StyleUnit
-let previousBodyPosition: {
-  position: string
-  top: string
-  left: string
-} | undefined
+let previousBodyPosition:
+  | {
+      position: string
+      top: string
+      left: string
+    }
+  | undefined
 
-const isElement = (target: EventTarget | null | undefined): target is Element => !!target && target instanceof Element
+const isElement = (target: EventTarget | null | undefined): target is Element =>
+  !!target && target instanceof Element
 
 // returns true if `el` should be allowed to receive touchmove events.
 const allowTouchMove = (el: HTMLElement | Element): boolean =>
-  locks.some(lock => lock.options.allowTouchMove && lock.options.allowTouchMove(el))
+  locks.some(
+    lock => lock.options.allowTouchMove && lock.options.allowTouchMove(el)
+  )
 
 const canMove = (event?: HandleScrollEvent): boolean => {
   if (!event) return false
@@ -64,13 +69,22 @@ const preventDefault = (rawEvent: HandleScrollEvent): boolean => {
 const setOverflowHidden = (options?: BodyScrollOptions) => {
   // If previousBodyPaddingRight is already set, don't set it again.
   if (previousBodyPaddingRight === undefined) {
-    const reserveScrollBarGap = !!options && options.reserveScrollBarGap === true
-    const scrollBarGap = window.innerWidth - document.documentElement.clientWidth
+    const reserveScrollBarGap =
+      !!options && options.reserveScrollBarGap === true
+    const scrollBarGap =
+      window.innerWidth - document.documentElement.clientWidth
 
     if (reserveScrollBarGap && scrollBarGap > 0) {
-      const computedBodyPaddingRight = parseInt(window.getComputedStyle(document.body).getPropertyValue('padding-right'), 10)
+      const computedBodyPaddingRight = parseInt(
+        window
+          .getComputedStyle(document.body)
+          .getPropertyValue('padding-right'),
+        10
+      )
       previousBodyPaddingRight = document.body.style.paddingRight
-      document.body.style.paddingRight = `${computedBodyPaddingRight + scrollBarGap}px`
+      document.body.style.paddingRight = `${
+        computedBodyPaddingRight + scrollBarGap
+      }px`
     }
   }
 
@@ -99,31 +113,36 @@ const restoreOverflowSetting = () => {
   }
 }
 
-const setPositionFixed = () => window.requestAnimationFrame(() => {
-  // If previousBodyPosition is already set, don't set it again.
-  if (previousBodyPosition === undefined) {
-    previousBodyPosition = {
-      position: document.body.style.position,
-      top: document.body.style.top,
-      left: document.body.style.left
-    }
-
-    // Update the dom inside an animation frame
-    const { scrollY, scrollX, innerHeight } = window
-    document.body.style.position = 'fixed'
-    document.body.style.top = `${-scrollY}px`
-    document.body.style.left = `${-scrollX}px`
-
-    setTimeout(() => window.requestAnimationFrame(() => {
-      // Attempt to check if the bottom bar appeared due to the position change
-      const bottomBarHeight = innerHeight - window.innerHeight
-      if (bottomBarHeight && scrollY >= innerHeight) {
-        // Move the content further up so that the bottom bar doesn't hide it
-        document.body.style.top = `-${(scrollY + bottomBarHeight)}px`
+const setPositionFixed = () =>
+  window.requestAnimationFrame(() => {
+    // If previousBodyPosition is already set, don't set it again.
+    if (previousBodyPosition === undefined) {
+      previousBodyPosition = {
+        position: document.body.style.position,
+        top: document.body.style.top,
+        left: document.body.style.left
       }
-    }), 300)
-  }
-})
+
+      // Update the dom inside an animation frame
+      const { scrollY, scrollX, innerHeight } = window
+      document.body.style.position = 'fixed'
+      document.body.style.top = `${-scrollY}px`
+      document.body.style.left = `${-scrollX}px`
+
+      setTimeout(
+        () =>
+          window.requestAnimationFrame(() => {
+            // Attempt to check if the bottom bar appeared due to the position change
+            const bottomBarHeight = innerHeight - window.innerHeight
+            if (bottomBarHeight && scrollY >= innerHeight) {
+              // Move the content further up so that the bottom bar doesn't hide it
+              document.body.style.top = `-${scrollY + bottomBarHeight}px`
+            }
+          }),
+        300
+      )
+    }
+  })
 
 const restorePositionSetting = () => {
   if (previousBodyPosition !== undefined) {
@@ -144,10 +163,18 @@ const restorePositionSetting = () => {
 }
 
 // https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollHeight#Problems_and_solutions
-const isTargetElementTotallyScrolled = (targetElement: HTMLElement | Element): boolean =>
-  targetElement ? targetElement.scrollHeight - targetElement.scrollTop <= targetElement.clientHeight : false
+const isTargetElementTotallyScrolled = (
+  targetElement: HTMLElement | Element
+): boolean =>
+  targetElement
+    ? targetElement.scrollHeight - targetElement.scrollTop <=
+      targetElement.clientHeight
+    : false
 
-const handleScroll = (event: HandleScrollEvent, targetElement: HTMLElement | Element): boolean => {
+const handleScroll = (
+  event: HandleScrollEvent,
+  targetElement: HTMLElement | Element
+): boolean => {
   const clientY = event.targetTouches[0].clientY - initialClientY
   if (canMove(event)) return false
   if (targetElement && targetElement.scrollTop === 0 && clientY > 0) {
@@ -162,7 +189,10 @@ const handleScroll = (event: HandleScrollEvent, targetElement: HTMLElement | Ele
   return true
 }
 
-export const disableBodyScroll = (targetElement: HTMLElement | Element, options?: BodyScrollOptions): void => {
+export const disableBodyScroll = (
+  targetElement: HTMLElement | Element,
+  options?: BodyScrollOptions
+): void => {
   // targetElement must be provided
   if (!targetElement) return
 
@@ -171,7 +201,7 @@ export const disableBodyScroll = (targetElement: HTMLElement | Element, options?
 
   const lock = {
     targetElement,
-    options: options || {},
+    options: options || {}
   }
 
   locks = [...locks, lock]
@@ -183,13 +213,17 @@ export const disableBodyScroll = (targetElement: HTMLElement | Element, options?
   }
 
   if (isIosDevice()) {
-    (targetElement as HTMLElement).ontouchstart = (event: HandleScrollEvent) => {
+    ;(targetElement as HTMLElement).ontouchstart = (
+      event: HandleScrollEvent
+    ) => {
       if (event.targetTouches.length === 1) {
         // detect single touch.
         initialClientY = event.targetTouches[0].clientY
       }
     }
-    (targetElement as HTMLElement).ontouchmove = (event: HandleScrollEvent) => {
+    ;(targetElement as HTMLElement).ontouchmove = (
+      event: HandleScrollEvent
+    ) => {
       if (event.targetTouches.length === 1) {
         // detect single touch.
         handleScroll(event, targetElement)
@@ -203,7 +237,9 @@ export const disableBodyScroll = (targetElement: HTMLElement | Element, options?
   }
 }
 
-export const enableBodyScroll = (targetElement: HTMLElement | Element): void => {
+export const enableBodyScroll = (
+  targetElement: HTMLElement | Element
+): void => {
   if (!targetElement) return
   locks = locks.filter(lock => lock.targetElement !== targetElement)
 

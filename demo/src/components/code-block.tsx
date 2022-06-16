@@ -37,8 +37,13 @@ type CodeProps = {
   lang?: string
 }
 
-const CodeBlock: React.FC<CodeProps> = ({ children, lang = 'language-jsx', ...rest }) => {
-  const la = lang === 'language-npm' || lang === 'language-yarn' ? 'language-jsx' : lang
+const CodeBlock: React.FC<CodeProps> = ({
+  children,
+  lang = 'language-jsx',
+  ...rest
+}) => {
+  const la =
+    lang === 'language-npm' || lang === 'language-yarn' ? 'language-jsx' : lang
   const shortLang = la.replace(/language-/g, '')
   const [id, setId] = useState(false)
   useEffect(() => {

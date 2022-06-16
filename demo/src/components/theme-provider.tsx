@@ -9,7 +9,7 @@ type ThemeType = typeof theme | typeof darkTheme
 
 type UseThemeProps = ReturnType<typeof useThemeKey>
 
-type UseTheme =  Omit<UseThemeProps, 'theme' | 'setTheme'> & {
+type UseTheme = Omit<UseThemeProps, 'theme' | 'setTheme'> & {
   name: UseThemeProps['resolvedTheme']
   key: UseThemeProps['theme']
   theme: ThemeType
