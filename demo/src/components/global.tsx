@@ -11,7 +11,8 @@ const useGlobalStyles = globalCss({
   body: {
     fontFamily: '$title',
     lineHeight: '1.5',
-    '-webkit-font-smoothing': 'antialiased'
+    '-webkit-font-smoothing': 'antialiased',
+    background: '$background'
   },
   'img, picture, video, canvas, svg': {
     display: 'block',
