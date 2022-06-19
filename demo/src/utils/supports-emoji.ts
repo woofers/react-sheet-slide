@@ -11,5 +11,4 @@ const supportEmoji = (emoji: string) => {
 
 const supportsEmoji = memoize(supportEmoji)
 
-
 export default supportsEmoji

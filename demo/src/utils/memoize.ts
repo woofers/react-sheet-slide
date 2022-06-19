@@ -1,4 +1,6 @@
-function memoize<T, K extends Array<unknown>>(func: (...args: K) => T): (...args: K) => T {
+function memoize<T, K extends Array<unknown>>(
+  func: (...args: K) => T
+): (...args: K) => T {
   let saved: Partial<Record<string, T>> = {}
   return (...args: K) => {
     const key = args.join('-') ?? '-'

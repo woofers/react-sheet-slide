@@ -170,7 +170,7 @@ const Container = styled('div', {
   padding: '76px 20px 16px',
   display: 'flex',
   flexDirection: 'column',
-  gap: '24px 0',
+  gap: '20px 0',
   color: '$text'
 })
 
@@ -259,13 +259,12 @@ const ThemeButtons: React.FC<{}> = () => {
   )
 }
 
-
 const emojis = [`🏞️`, `🎢`, `🛝`]
 
 const Emojis: React.FC<{}> = () => {
   const mounted = useIsMounted()
   if (!mounted) return <Spacer />
-  return <LargeText>{emojis.filter(supportsEmoji).join(' ')}</LargeText>
+  return <LargeText>{emojis.join(' ')}</LargeText>
 }
 
 const components: MDXContentProps['components'] = {
@@ -348,32 +347,51 @@ const App: React.FC<{ code: string }> = ({ code }) => {
               <Container>
                 <Flex>
                   <Text>Draggable</Text>
-                  <Box><Text>⬆</Text>️</Box>
+                  <Box>
+                    <Text>⬆</Text>️
+                  </Box>
                 </Flex>
                 <Description>
                   Can be expanded up and down by dragging the header. Or if{' '}
-                  <code>scrollingExpands</code>
-                  prop is set, the body of the sheet can be used to expand or
-                  dismiss the sheet.
+                  <code>scrollingExpands</code> prop is set, the body of the
+                  sheet can be used to expand or dismiss the popup.
                 </Description>
                 <Flex>
                   <Text>Accessible</Text>
-                  <Box><Text>👪</Text></Box>
+                  <Box>
+                    <Text>👪</Text>
+                  </Box>
                 </Flex>
                 <Description>
-                  Prevents focus from background elements when sheet is open.
+                  Prevents focus of background elements when sheet is open.
                   Restores focus to prior selected element once sheet is closed.
                   Sets <code>aria-modal</code> on sheet and sets{' '}
-                  <code>aria-hidden</code> on background elements.
+                  <code>aria-hidden</code> on background elements.{' '}
                   <code>Esc</code> closes sheet or dialog on desktop.
                 </Description>
                 <Flex>
                   <Text>Styled with CSS Modules</Text>
-                  <Box><Text>💅</Text></Box>
+                  <Box>
+                    <Text>💅</Text>
+                  </Box>
                 </Flex>
                 <Description>
                   No need for large styled-in-js libaries, just bundle the small
                   CSS file and sheet component along with your project.
+                </Description>
+                <Flex>
+                  <Text>Customizable Detents</Text>
+                  <Box>
+                    <Text>⚙️</Text>
+                  </Box>
+                </Flex>
+                <Description>
+                  Comes with preset detents that can be used to catch the sheet
+                  upon user intereaction. Import{' '}
+                  <code>{'{ detents }'}</code> with options of{' '}
+                  <code>large</code>, <code>medium</code> or <code>fit</code>.
+                  Or use a custom callback to determine detents depending on
+                  <code>maxHeight</code>, and <code>minHeight</code> of device.
                 </Description>
               </Container>
             </Content>
