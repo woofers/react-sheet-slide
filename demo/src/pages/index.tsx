@@ -16,6 +16,11 @@ import { useTheme } from 'components/theme-provider'
 import { CloseIcon } from 'icons'
 import useIsMounted from 'hooks/use-is-mounted'
 import CodeBlock from 'components/code-block'
+import supportsEmoji from 'utils/supports-emoji'
+
+const Spacer = styled('div', {
+  minHeight: '36px'
+})
 
 const Split = styled('div', {
   pl: '24px',
@@ -42,9 +47,13 @@ const HeaderWrapper = styled('div', {
 })
 
 const Box = styled('div', {
-  height: '62px',
-  width: '92px',
-  background: '$primaryHover'
+  height: '32px',
+  display: 'flex',
+  justifyContent: 'flex-end',
+  alignItems: 'center',
+  '> div': {
+    fontSize: '28px'
+  }
 })
 
 const CloseButton = styled('button', {
@@ -63,9 +72,7 @@ const CloseButton = styled('button', {
 
 const Description = styled('div', {
   margin: '0 auto',
-  textAlign: 'center',
   width: '100%',
-  maxWidth: '328px',
   fontFamily: '$title',
   fontWeight: 400,
   lineHeight: '20px',
@@ -163,7 +170,7 @@ const Container = styled('div', {
   padding: '76px 20px 16px',
   display: 'flex',
   flexDirection: 'column',
-  gap: '24px 0',
+  gap: '20px 0',
   color: '$text'
 })
 
@@ -220,13 +227,13 @@ const Indent = styled('div', {
 const Docs = styled('div', {
   maxWidth: '1280px',
   margin: '0 auto',
-  padding: '0 16px'
+  padding: '28px 16px 0'
 })
 
 const ThemeButtons: React.FC<{}> = () => {
   const mounted = useIsMounted()
   const { name, setTheme } = useTheme()
-  if (!mounted) return null
+  if (!mounted) return <Spacer css={{ minHeight: '44px' }} />
   return (
     <Split>
       <Button
@@ -252,6 +259,14 @@ const ThemeButtons: React.FC<{}> = () => {
   )
 }
 
+const emojis = [`🏞️`, `🎢`, `🛝`]
+
+const Emojis: React.FC<{}> = () => {
+  const mounted = useIsMounted()
+  if (!mounted) return <Spacer />
+  return <LargeText>{emojis.join(' ')}</LargeText>
+}
+
 const components: MDXContentProps['components'] = {
   pre: ({ children, ...rest }) => {
     const single = Children.count(children) === 1
@@ -271,7 +286,12 @@ const components: MDXContentProps['components'] = {
     <Action href={href} as="a" target="_blank" rel="noopener noreferrer">
       {children}
     </Action>
-  )
+  ),
+  h1: () => null,
+  p: ({ children, ...rest }) => {
+    if (typeof children === 'string' && children.startsWith('🏞️')) return null
+    return <p {...rest}>{children}</p>
+  }
 }
 
 const App: React.FC<{ code: string }> = ({ code }) => {
@@ -282,7 +302,8 @@ const App: React.FC<{ code: string }> = ({ code }) => {
   const useDarkMode = name === 'dark'
   const lightMeta = '#f2f2f6'
   const darkMeta = '#070708'
-  const meta = useDarkMode || (open || typeof open === 'undefined') ? darkMeta : lightMeta
+  const meta =
+    useDarkMode || open || typeof open === 'undefined' ? darkMeta : lightMeta
   return (
     <>
       <Head>
@@ -294,7 +315,7 @@ const App: React.FC<{ code: string }> = ({ code }) => {
           <Link href="https://github.com/woofers/react-sheet-slide">
             <LargeText>react-sheet-slide</LargeText>
           </Link>
-          <LargeText>🏞️ 🎢 🛝</LargeText>
+          <Emojis />
         </Indent>
         <Center>
           <Button type="button" onClick={() => setOpen(v => !v)}>
@@ -312,10 +333,11 @@ const App: React.FC<{ code: string }> = ({ code }) => {
             detents={props => [detents.large(props), detents.medium(props)]}
             useDarkMode={useDarkMode}
             scrollingExpands
+            useModal={false}
           >
             <Header>
               <HeaderWrapper>
-                <ButtonText>Online</ButtonText>
+                <ButtonText>Sheet</ButtonText>
                 <CloseButton type="button" onClick={() => setOpen(undefined)}>
                   <CloseIcon />
                 </CloseButton>
@@ -324,32 +346,53 @@ const App: React.FC<{ code: string }> = ({ code }) => {
             <Content>
               <Container>
                 <Flex>
-                  <Text>Add more storage to keep everything on online</Text>
-                  <Box />
+                  <Text>Draggable</Text>
+                  <Box>
+                    <Text>⬆</Text>️
+                  </Box>
                 </Flex>
                 <Description>
-                  Online includes plenty of storage to keep all your data safe
-                  and features to protect your privacy.
+                  Can be expanded up and down by dragging the header. Or if{' '}
+                  <code>scrollingExpands</code> prop is set, the body of the
+                  sheet can be used to expand or dismiss the popup.
                 </Description>
-                <Action>Learn More About Online</Action>
                 <Flex>
-                  <Text>Add more storage to keep everything on online</Text>
-                  <Box />
+                  <Text>Accessible</Text>
+                  <Box>
+                    <Text>👪</Text>
+                  </Box>
                 </Flex>
                 <Description>
-                  Online includes plenty of storage to keep all your data safe
-                  and features to protect your privacy.
+                  Prevents focus of background elements when sheet is open.
+                  Restores focus to prior selected element once sheet is closed.
+                  Sets <code>aria-modal</code> on sheet and sets{' '}
+                  <code>aria-hidden</code> on background elements.{' '}
+                  <code>Esc</code> closes sheet or dialog on desktop.
                 </Description>
-                <Action>Learn More About Online</Action>
                 <Flex>
-                  <Text>Add more storage to keep everything on online</Text>
-                  <Box />
+                  <Text>Styled with CSS Modules</Text>
+                  <Box>
+                    <Text>💅</Text>
+                  </Box>
                 </Flex>
                 <Description>
-                  Online includes plenty of storage to keep all your data safe
-                  and features to protect your privacy.
+                  No need for large styled-in-js libaries, just bundle the small
+                  CSS file and sheet component along with your project.
                 </Description>
-                <Action>Learn More About Online</Action>
+                <Flex>
+                  <Text>Customizable Detents</Text>
+                  <Box>
+                    <Text>⚙️</Text>
+                  </Box>
+                </Flex>
+                <Description>
+                  Comes with preset detents that can be used to catch the sheet
+                  upon user intereaction. Import{' '}
+                  <code>{'{ detents }'}</code> with options of{' '}
+                  <code>large</code>, <code>medium</code> or <code>fit</code>.
+                  Or use a custom callback to determine detents depending on{' '}
+                  <code>maxHeight</code>, and <code>minHeight</code> of device.
+                </Description>
               </Container>
             </Content>
             <Footer>
