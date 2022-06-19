@@ -20,6 +20,8 @@ Alterativly the sheet can be used on desktop as-well if so desired.
 
 ## Screenshots
 
+https://raw.githubusercontent.com/woofers/react-sheet-slide/main/screenshots/demo.webm.mov
+
 <h3>Light Mode</h3>
 <p align="center">
   <img src="/screenshots/light-mode-1.png" width="45%" alt="react-sheet-slide fully expanded and scrolled up in light mode." style="margin-left: 16px" />    <img src="/screenshots/light-mode-2.png" width="45%" alt="react-sheet-slide fully expanded and scrolled down in light mode." />
