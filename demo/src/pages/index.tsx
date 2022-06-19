@@ -390,7 +390,7 @@ const App: React.FC<{ code: string }> = ({ code }) => {
                   upon user intereaction. Import{' '}
                   <code>{'{ detents }'}</code> with options of{' '}
                   <code>large</code>, <code>medium</code> or <code>fit</code>.
-                  Or use a custom callback to determine detents depending on
+                  Or use a custom callback to determine detents depending on{' '}
                   <code>maxHeight</code>, and <code>minHeight</code> of device.
                 </Description>
               </Container>
