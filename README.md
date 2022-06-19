@@ -34,19 +34,6 @@ https://user-images.githubusercontent.com/7284672/174498349-04c57aba-9a94-41a5-a
 
 https://user-images.githubusercontent.com/7284672/174498361-39b9196a-93ab-45ea-bba8-31cc48c02025.mov
 
-## Motivation
-
-This library is largely based on the fantastic [react-spring-bottom-sheet](https://github.com/stipsan/react-spring-bottom-sheet).  While [react-spring-bottom-sheet](https://github.com/stipsan/react-spring-bottom-sheet) is much more feature-packed than `react-sheet-slide`, supporting more props like many different callbacks on sheet snap start/end.
-However the extra dependencies like `xstate` and the `resize-observer` polyfill can lead to a larger bundle size.
-Also using `react-spring` as a dependencies instead of a peer dependencies limits users of the library from
-controlling the version of `react-spring` they use. It can also lead to 2 versions of `react-spring` being bundled,
-if the user is using a newer or older major version than the library.
-
-By simplifying the API these libraries can be removed, and by moving `react-spring` to a peer dependencies
-makes the library have a much lighther footprint.  Also `react-sheet-slide` includes a
-dark mode and a fully-featured desktop modal that can be enabled for non-mobile users.
-It also adds support for a backdrop animation similar to Apple's UIKit.
-
 ## Installation
 
 **Yarn**
@@ -60,6 +47,19 @@ yarn add react-sheet-slide @react-spring/web@^9 @use-gesture/react@^10
 ```npm
 npm install react-sheet-slide @react-spring/web@^9 @use-gesture/react@^10
 ```
+
+## Motivation
+
+This library is largely based on the fantastic [react-spring-bottom-sheet](https://github.com/stipsan/react-spring-bottom-sheet).  While [react-spring-bottom-sheet](https://github.com/stipsan/react-spring-bottom-sheet) is much more feature-packed than `react-sheet-slide`, supporting more props like many different callbacks on sheet snap start/end.
+However the extra dependencies like `xstate` and the `resize-observer` polyfill can lead to a larger bundle size.
+Also using `react-spring` as a dependencies instead of a peer dependencies limits users of the library from
+controlling the version of `react-spring` they use. It can also lead to 2 versions of `react-spring` being bundled,
+if the user is using a newer or older major version than the library.
+
+By simplifying the API these libraries can be removed, and by moving `react-spring` to a peer dependencies
+makes the library have a much lighther footprint.  Also `react-sheet-slide` includes a
+dark mode and a fully-featured desktop modal that can be enabled for non-mobile users.
+It also adds support for a backdrop animation similar to Apple's UIKit.
 
 ## Usage
 
