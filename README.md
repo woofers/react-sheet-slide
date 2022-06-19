@@ -20,7 +20,10 @@ Alterativly the sheet can be used on desktop as-well if so desired.
 
 ## Screenshots
 
-https://raw.githubusercontent.com/woofers/react-sheet-slide/main/screenshots/demo.webm.mov
+https://user-images.githubusercontent.com/7284672/174497654-c9608ab7-4feb-4772-9694-bdcdc45bc667.mov
+
+
+https://user-images.githubusercontent.com/7284672/174497668-a982a5a5-294d-4de2-b848-47fd45d23155.mov
 
 <h3>Light Mode</h3>
 <p align="center">
