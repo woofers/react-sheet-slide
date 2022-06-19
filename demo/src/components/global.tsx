@@ -31,6 +31,9 @@ const useGlobalStyles = globalCss({
   '#root, #__next': {
     isolation: 'isolate'
   },
+  '#react-sheet-slide > div > div': {
+    '--width': 'min(100%, 640px)'
+  },
   '::selection': {
     background: '$selection'
   }

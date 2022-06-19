@@ -295,15 +295,15 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
         const snap = findSnapRef.current(heightRef.current)
         heightRef.current = snap
         lastDetentRef.current = snap
-        set({
-          y: snap,
-          ready: 1,
-          maxHeight: maxHeightRef.current,
-          maxSnap: maxSnapRef.current,
-          minSnap: minSnapRef.current,
-          immediate:
-            resizeSourceRef.current === 'element' ? prefersReducedMotion : true
-        })
+        // set({
+        //   y: snap,
+        //   ready: 1,
+        //   maxHeight: maxHeightRef.current,
+        //   maxSnap: maxSnapRef.current,
+        //   minSnap: minSnapRef.current,
+        //   immediate:
+        //     resizeSourceRef.current === 'element' ? prefersReducedMotion : true
+        // })
       }
     }, [maxHeight, maxSnap, minSnap, set])
     const handleDrag = ({
