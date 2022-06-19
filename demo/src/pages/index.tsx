@@ -16,6 +16,11 @@ import { useTheme } from 'components/theme-provider'
 import { CloseIcon } from 'icons'
 import useIsMounted from 'hooks/use-is-mounted'
 import CodeBlock from 'components/code-block'
+import supportsEmoji from 'utils/supports-emoji'
+
+const Spacer = styled('div', {
+  minHeight: '36px'
+})
 
 const Split = styled('div', {
   pl: '24px',
@@ -222,7 +227,7 @@ const Indent = styled('div', {
 const Docs = styled('div', {
   maxWidth: '1280px',
   margin: '0 auto',
-  padding: '0 16px'
+  padding: '28px 16px 0'
 })
 
 const ThemeButtons: React.FC<{}> = () => {
@@ -254,6 +259,15 @@ const ThemeButtons: React.FC<{}> = () => {
   )
 }
 
+
+const emojis = [`🏞️`, `🎢`, `🛝`]
+
+const Emojis: React.FC<{}> = () => {
+  const mounted = useIsMounted()
+  if (!mounted) return <Spacer />
+  return <LargeText>{emojis.filter(supportsEmoji).join(' ')}</LargeText>
+}
+
 const components: MDXContentProps['components'] = {
   pre: ({ children, ...rest }) => {
     const single = Children.count(children) === 1
@@ -273,7 +287,12 @@ const components: MDXContentProps['components'] = {
     <Action href={href} as="a" target="_blank" rel="noopener noreferrer">
       {children}
     </Action>
-  )
+  ),
+  h1: () => null,
+  p: ({ children, ...rest }) => {
+    if (typeof children === 'string' && children.startsWith('🏞️')) return null
+    return <p {...rest}>{children}</p>
+  }
 }
 
 const App: React.FC<{ code: string }> = ({ code }) => {
@@ -297,7 +316,7 @@ const App: React.FC<{ code: string }> = ({ code }) => {
           <Link href="https://github.com/woofers/react-sheet-slide">
             <LargeText>react-sheet-slide</LargeText>
           </Link>
-          <LargeText>🏞️ 🎢 🛝</LargeText>
+          <Emojis />
         </Indent>
         <Center>
           <Button type="button" onClick={() => setOpen(v => !v)}>
