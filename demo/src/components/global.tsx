@@ -26,7 +26,6 @@ const useGlobalStyles = globalCss({
   },
   code: {
     fontFamily: '$code',
-    whiteSpace: 'pre-wrap'
   },
   '#root, #__next': {
     isolation: 'isolate'
