@@ -43,7 +43,10 @@ const HeaderWrapper = styled('div', {
 
 const Box = styled('div', {
   height: '62px',
-  width: '92px'
+  width: '92px',
+  display: 'flex',
+  justifyContent: 'flex-end',
+  alignItems: 'center'
 })
 
 const CloseButton = styled('button', {
@@ -83,7 +86,6 @@ const LargeText = styled('div', {
 })
 
 const Text = styled('div', {
-  maxWidth: '300px',
   fontFamily: '$title',
   fontWeight: 500,
   lineHeight: '24px',
@@ -326,7 +328,7 @@ const App: React.FC<{ code: string }> = ({ code }) => {
               <Container>
                 <Flex>
                   <Text>Draggable</Text>
-                  <Box />
+                  <Box><Text>⬆</Text>️</Box>
                 </Flex>
                 <Description>
                   Can be expanded up and down by dragging the header. Or if{' '}
@@ -336,7 +338,7 @@ const App: React.FC<{ code: string }> = ({ code }) => {
                 </Description>
                 <Flex>
                   <Text>Accessible</Text>
-                  <Box />
+                  <Box><Text>👪</Text></Box>
                 </Flex>
                 <Description>
                   Prevents focus from background elements when sheet is open.
@@ -347,7 +349,7 @@ const App: React.FC<{ code: string }> = ({ code }) => {
                 </Description>
                 <Flex>
                   <Text>Styled with CSS Modules</Text>
-                  <Box />
+                  <Box><Text>💅</Text></Box>
                 </Flex>
                 <Description>
                   No need for large styled-in-js libaries, just bundle the small
