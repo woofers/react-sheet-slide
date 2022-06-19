@@ -43,8 +43,7 @@ const HeaderWrapper = styled('div', {
 
 const Box = styled('div', {
   height: '62px',
-  width: '92px',
-  background: '$primaryHover'
+  width: '92px'
 })
 
 const CloseButton = styled('button', {
@@ -282,7 +281,8 @@ const App: React.FC<{ code: string }> = ({ code }) => {
   const useDarkMode = name === 'dark'
   const lightMeta = '#f2f2f6'
   const darkMeta = '#070708'
-  const meta = useDarkMode || (open || typeof open === 'undefined') ? darkMeta : lightMeta
+  const meta =
+    useDarkMode || open || typeof open === 'undefined' ? darkMeta : lightMeta
   return (
     <>
       <Head>
@@ -312,10 +312,11 @@ const App: React.FC<{ code: string }> = ({ code }) => {
             detents={props => [detents.large(props), detents.medium(props)]}
             useDarkMode={useDarkMode}
             scrollingExpands
+            useModal={false}
           >
             <Header>
               <HeaderWrapper>
-                <ButtonText>Online</ButtonText>
+                <ButtonText>Sheet</ButtonText>
                 <CloseButton type="button" onClick={() => setOpen(undefined)}>
                   <CloseIcon />
                 </CloseButton>
@@ -324,32 +325,34 @@ const App: React.FC<{ code: string }> = ({ code }) => {
             <Content>
               <Container>
                 <Flex>
-                  <Text>Add more storage to keep everything on online</Text>
+                  <Text>Draggable</Text>
                   <Box />
                 </Flex>
                 <Description>
-                  Online includes plenty of storage to keep all your data safe
-                  and features to protect your privacy.
+                  Can be expanded up and down by dragging the header. Or if{' '}
+                  <code>scrollingExpands</code>
+                  prop is set, the body of the sheet can be used to expand or
+                  dismiss the sheet.
                 </Description>
-                <Action>Learn More About Online</Action>
                 <Flex>
-                  <Text>Add more storage to keep everything on online</Text>
+                  <Text>Accessible</Text>
                   <Box />
                 </Flex>
                 <Description>
-                  Online includes plenty of storage to keep all your data safe
-                  and features to protect your privacy.
+                  Prevents focus from background elements when sheet is open.
+                  Restores focus to prior selected element once sheet is closed.
+                  Sets <code>aria-modal</code> on sheet and sets{' '}
+                  <code>aria-hidden</code> on background elements.
+                  <code>Esc</code> closes sheet or dialog on desktop.
                 </Description>
-                <Action>Learn More About Online</Action>
                 <Flex>
-                  <Text>Add more storage to keep everything on online</Text>
+                  <Text>Styled with CSS Modules</Text>
                   <Box />
                 </Flex>
                 <Description>
-                  Online includes plenty of storage to keep all your data safe
-                  and features to protect your privacy.
+                  No need for large styled-in-js libaries, just bundle the small
+                  CSS file and sheet component along with your project.
                 </Description>
-                <Action>Learn More About Online</Action>
               </Container>
             </Content>
             <Footer>
