@@ -233,7 +233,7 @@ const Docs = styled('div', {
 const ThemeButtons: React.FC<{}> = () => {
   const mounted = useIsMounted()
   const { name, setTheme } = useTheme()
-  if (!mounted) return null
+  if (!mounted) return <Spacer css={{ minHeight: '44px' }} />
   return (
     <Split>
       <Button
