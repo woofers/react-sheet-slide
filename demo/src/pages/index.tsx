@@ -42,11 +42,13 @@ const HeaderWrapper = styled('div', {
 })
 
 const Box = styled('div', {
-  height: '62px',
-  width: '92px',
+  height: '32px',
   display: 'flex',
   justifyContent: 'flex-end',
-  alignItems: 'center'
+  alignItems: 'center',
+  '> div': {
+    fontSize: '28px'
+  }
 })
 
 const CloseButton = styled('button', {
@@ -65,9 +67,7 @@ const CloseButton = styled('button', {
 
 const Description = styled('div', {
   margin: '0 auto',
-  textAlign: 'center',
   width: '100%',
-  maxWidth: '328px',
   fontFamily: '$title',
   fontWeight: 400,
   lineHeight: '20px',
@@ -86,6 +86,7 @@ const LargeText = styled('div', {
 })
 
 const Text = styled('div', {
+  maxWidth: '300px',
   fontFamily: '$title',
   fontWeight: 500,
   lineHeight: '24px',
