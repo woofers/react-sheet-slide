@@ -418,7 +418,7 @@ const App: React.FC<{ code: string }> = ({ code }) => {
 }
 
 export const getStaticProps = async () => {
-  const { content } = getMarkdownFile('../', 'README')
+  const { content } = getMarkdownFile('./', 'CONTENT')
   const { code, frontmatter } = await bundleMDX({ source: content, files: {} })
   return {
     props: { code, frontmatter }

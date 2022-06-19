@@ -18,22 +18,6 @@ Alterativly the sheet can be used on desktop as-well if so desired.
 - Supports Server-Side rendering.
 - Built with css-modules (no styled-in-js library needed)
 
-## Screenshots
-
-<h3>Light Mode</h3>
-<p align="center">
-  <img src="/screenshots/light-mode-1.png" width="45%" alt="react-sheet-slide fully expanded and scrolled up in light mode." />    <img src="/screenshots/light-mode-2.png" width="45%" alt="react-sheet-slide fully expanded and scrolled down in light mode." />
-</p>
-<h3>Dark Mode</h3>
-<p align="center">
-  <img src="/screenshots/dark-mode-1.png" width="45%" alt="react-sheet-slide fully expanded and scrolled up in dark mode." />    <img src="/screenshots/dark-mode-2.png" width="45%" alt="react-sheet-slide fully expanded and scrolled down in dark mode." />
-</p>
-
-
-https://user-images.githubusercontent.com/7284672/174498349-04c57aba-9a94-41a5-ac46-92206120ff9e.mov
-
-https://user-images.githubusercontent.com/7284672/174498361-39b9196a-93ab-45ea-bba8-31cc48c02025.mov
-
 ## Motivation
 
 This library is largely based on the fantastic [react-spring-bottom-sheet](https://github.com/stipsan/react-spring-bottom-sheet).  While [react-spring-bottom-sheet](https://github.com/stipsan/react-spring-bottom-sheet) is much more feature-packed than `react-sheet-slide`, supporting more props like many different callbacks on sheet snap start/end.
