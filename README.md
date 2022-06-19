@@ -8,17 +8,6 @@ that properly blocks weird overscrolling and focus bugs.  Then on desktop
 this component optionally supports a fully-featured modal.
 Alterativly the sheet can be used on desktop as-well if so desired.
 
-This library is largely based on the fantastic [react-spring-bottom-sheet](https://github.com/stipsan/react-spring-bottom-sheet).  While [react-spring-bottom-sheet](https://github.com/stipsan/react-spring-bottom-sheet) is much more feature-packed than `react-sheet-slide`, supporting more props like many different callbacks on sheet snap start/end.
-However the extra dependencies like `xstate` and the `resize-observer` polyfill can lead to a larger bundle size.
-Also using `react-spring` as a dependencies instead of a peer dependencies limits users of the library from
-controlling the version of `react-spring` they use. It can also lead to 2 versions of `react-spring` being bundled,
-if the user is using a newer or older major version than the library.
-
-By simplifying the API these libraries can be removed, and by moving `react-spring` to a peer dependencies
-makes the library have a much lighther footprint.  Also `react-sheet-slide` includes a
-dark mode and a fully-featured desktop modal that can be enabled for non-mobile users.
-It also adds support for a backdrop animation similar to Apple's UIKit.
-
 ## Features
 
 - Responsive way to display blocking modal-like content on mobile web-apps.
@@ -29,6 +18,30 @@ It also adds support for a backdrop animation similar to Apple's UIKit.
 - Supports Server-Side rendering.
 - Built with css-modules (no styled-in-js library needed)
 
+## Screenshots
+
+<h3>Light Mode</h3>
+<p align="center">
+  <img src="/screenshots/light-mode-1.png" width="45%" alt="react-sheet-slide fully expanded and scrolled up in light mode." style="margin-left: 16px" />    <img src="/screenshots/light-mode-2.png" width="45%" alt="react-sheet-slide fully expanded and scrolled down in light mode." />
+</p>
+<h3>Dark Mode</h3>
+<p align="center">
+  <img src="/screenshots/dark-mode-1.png" width="45%" alt="react-sheet-slide fully expanded and scrolled up in dark mode." style="margin-left: 16px" />    <img src="/screenshots/dark-mode-2.png" width="45%" alt="react-sheet-slide fully expanded and scrolled down in dark mode." />
+</p>
+
+
+## Motivation
+
+This library is largely based on the fantastic [react-spring-bottom-sheet](https://github.com/stipsan/react-spring-bottom-sheet).  While [react-spring-bottom-sheet](https://github.com/stipsan/react-spring-bottom-sheet) is much more feature-packed than `react-sheet-slide`, supporting more props like many different callbacks on sheet snap start/end.
+However the extra dependencies like `xstate` and the `resize-observer` polyfill can lead to a larger bundle size.
+Also using `react-spring` as a dependencies instead of a peer dependencies limits users of the library from
+controlling the version of `react-spring` they use. It can also lead to 2 versions of `react-spring` being bundled,
+if the user is using a newer or older major version than the library.
+
+By simplifying the API these libraries can be removed, and by moving `react-spring` to a peer dependencies
+makes the library have a much lighther footprint.  Also `react-sheet-slide` includes a
+dark mode and a fully-featured desktop modal that can be enabled for non-mobile users.
+It also adds support for a backdrop animation similar to Apple's UIKit.
 
 ## Installation
 
