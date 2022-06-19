@@ -17,16 +17,60 @@ import { CloseIcon } from 'icons'
 import useIsMounted from 'hooks/use-is-mounted'
 import CodeBlock from 'components/code-block'
 import supportsEmoji from 'utils/supports-emoji'
+import { FaGithub, FaNpm } from 'react-icons/fa'
+
+const IconWrapper = styled('div', {
+  display: 'flex',
+  gap: '8px 20px',
+  flexDirection: 'column',
+  '@xsm': {
+    flexDirection: 'row-reverse'
+  }
+})
+
+const Line = styled('div', {
+  transition: 'opacity 300ms ease 0s',
+  backgroundRepeat: 'repeat-y',
+  position: 'fixed',
+  left: '640px',
+  width: '4px',
+  top: 0,
+  opacity: 1,
+  height: '100vh',
+  '&[aria-hidden="true"]': {
+    opacity: 0
+  },
+  variants: {
+    dark: {
+      true: {
+  background: `linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 16px, #333336 16px, #333336)`,
+  backgroundSize: '100% 32px',
+      },
+      false: {
+  background: `linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 16px, #e4e4f0 16px, #e4e4f0)`,
+  backgroundSize: '100% 32px',
+      }
+    }
+  },
+  defaultVariants: {
+    dark: false
+  }
+})
+
+const TitleWrapper = styled('div', {
+  width: '100%',
+  display: 'flex',
+  justifyContent: 'space-between'
+})
 
 const Spacer = styled('div', {
   minHeight: '36px'
 })
 
 const Split = styled('div', {
-  pl: '24px',
   width: 'max-content',
   display: 'flex',
-  gap: '0 4px'
+  gap: '0 4px',
 })
 
 const Flex = styled('div', {
@@ -220,20 +264,58 @@ const Indent = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   gap: '16px 0',
-  pt: '24px',
-  pl: '24px'
+  pl: '8px'
+})
+
+const LeftTitle = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '16px 0'
 })
 
 const Docs = styled('div', {
   maxWidth: '1280px',
   margin: '0 auto',
-  padding: '28px 16px 0'
+  padding: '24px 16px 0',
+/*
+  backgroundImage: 'linear-gradient($colors$lineDot 50%, rgba(255,255,255,0) 0%)',
+  backgroundPosition: 'left',
+  backgroundSize: '4px 32px',
+  backgroundRepeat: 'repeat-y'
+*/
+})
+
+const DocsWrapper = styled('div', {
+  h2: {
+    my: '8px',
+  },
+  pre: {
+    mt: '12px',
+    mb: '16px'
+  }
+})
+
+const ButtonWrappers = styled('div', {
+  display: 'flex',
+  padding: '0 8px',
+  gap: '0 36px',
+  marginBottom: '8px',
+  marginTop: '20px'
+})
+
+const SheetButtonWrapper = styled('div', {
+  display: 'flex',
+  flex: 1,
+  justifyContent: 'center',
+  '@xsm': {
+    justifyContent: 'flex-start',
+  }
 })
 
 const ThemeButtons: React.FC<{}> = () => {
   const mounted = useIsMounted()
   const { name, setTheme } = useTheme()
-  if (!mounted) return <Spacer css={{ minHeight: '44px' }} />
+  if (!mounted) return <Spacer css={{ minHeight: '44px', minWidth: '110px' }} />
   return (
     <Split>
       <Button
@@ -267,6 +349,16 @@ const Emojis: React.FC<{}> = () => {
   return <LargeText>{emojis.join(' ')}</LargeText>
 }
 
+const OverlayLine: React.FC<{ dark: boolean }> = props => {
+  const mounted = useIsMounted()
+  if (!mounted) return null
+  return (
+    <>
+      <Line {...props} />
+    </>
+  )
+}
+
 const components: MDXContentProps['components'] = {
   pre: ({ children, ...rest }) => {
     const single = Children.count(children) === 1
@@ -296,14 +388,19 @@ const components: MDXContentProps['components'] = {
 
 const App: React.FC<{ code: string }> = ({ code }) => {
   const Component = useMemo(() => getMDXComponent(code), [code])
-  const [open, setOpen] = useState<boolean | undefined>(false)
+  const [open, setOpen] = useState(false)
+  const [useDarkTitle, setDarkTitle] = useState(false)
   const ref = useRef<HTMLDivElement | null>(null)
   const { name, theme } = useTheme()
   const useDarkMode = name === 'dark'
   const lightMeta = '#f2f2f6'
   const darkMeta = '#070708'
   const meta =
-    useDarkMode || open || typeof open === 'undefined' ? darkMeta : lightMeta
+    useDarkMode || useDarkTitle ? darkMeta : lightMeta
+  const openSheet = () => {
+    setOpen(true)
+    setDarkTitle(true)
+  }
   return (
     <>
       <Head>
@@ -311,24 +408,37 @@ const App: React.FC<{ code: string }> = ({ code }) => {
         <meta name="msapplication-navbutton-color" content={meta} />
       </Head>
       <Fullscreen>
+      <Docs>
         <Indent>
-          <Link href="https://github.com/woofers/react-sheet-slide">
-            <LargeText>react-sheet-slide</LargeText>
-          </Link>
-          <Emojis />
+          <TitleWrapper>
+            <LeftTitle>
+              <LargeText>react-sheet-slide</LargeText>
+              <Emojis />
+            </LeftTitle>
+            <IconWrapper>
+              <Link href="https://github.com/woofers/react-sheet-slide" target="_blank" rel="noopener noreferrer" aria-label="View on GitHub" title="GitHub">
+                <LargeText css={{ fontSize: '32px' }}><FaGithub /></LargeText>
+              </Link>
+              <Link href="https://www.npmjs.com/package/react-sheet-slide" target="_blank" rel="noopener noreferrer" aria-label="View on Node Package Manager" title="npm">
+              <LargeText css={{ fontSize: '40px' }}><FaNpm /></LargeText>
+              </Link>
+            </IconWrapper>
+          </TitleWrapper>
         </Indent>
-        <Center>
-          <Button type="button" onClick={() => setOpen(v => !v)}>
-            Open sheet
-          </Button>
-        </Center>
-        <ThemeButtons />
+        <ButtonWrappers>
+          <ThemeButtons />
+          <SheetButtonWrapper>
+            <Button type="button" onClick={openSheet} css={{ flex: 1, maxWidth: '180px' }}>
+              Open sheet
+            </Button>
+          </SheetButtonWrapper>
+        </ButtonWrappers>
         <Portal containerRef="#react-sheet-slide">
           <Sheet
             ref={ref}
             open={open}
-            onDismiss={() => setOpen(undefined)}
-            onClose={() => setOpen(false)}
+            onDismiss={() => setOpen(false)}
+            onClose={() => setDarkTitle(false)}
             selectedDetent={detents.large}
             detents={props => [detents.large(props), detents.medium(props)]}
             useDarkMode={useDarkMode}
@@ -338,7 +448,7 @@ const App: React.FC<{ code: string }> = ({ code }) => {
             <Header>
               <HeaderWrapper>
                 <ButtonText>Sheet</ButtonText>
-                <CloseButton type="button" onClick={() => setOpen(undefined)}>
+                <CloseButton type="button" onClick={() => setOpen(false)}>
                   <CloseIcon />
                 </CloseButton>
               </HeaderWrapper>
@@ -397,28 +507,29 @@ const App: React.FC<{ code: string }> = ({ code }) => {
             </Content>
             <Footer>
               <FooterWrapper>
-                <Button type="button" onClick={() => setOpen(undefined)}>
+                <Button type="button" onClick={() => setOpen(false)}>
                   Close
                 </Button>
               </FooterWrapper>
             </Footer>
           </Sheet>
         </Portal>
-        <Docs>
-          <Component components={components} />
-        </Docs>
+        <DocsWrapper>
+        <Component components={components} />
+        </DocsWrapper>
         <Center>
-          <Button type="button" onClick={() => setOpen(v => !v)}>
+          <Button type="button" onClick={openSheet}>
             Open sheet
           </Button>
         </Center>
+      </Docs>
       </Fullscreen>
     </>
   )
 }
 
 export const getStaticProps = async () => {
-  const { content } = getMarkdownFile('../', 'README')
+  const { content } = getMarkdownFile('./', 'CONTENT')
   const { code, frontmatter } = await bundleMDX({ source: content, files: {} })
   return {
     props: { code, frontmatter }

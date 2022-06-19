@@ -1,6 +1,7 @@
 
 body.sheet-open {
   background: #000;
+  max-width: 100vw;
 }
 
 body[style].sheet-open {

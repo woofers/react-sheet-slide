@@ -19,7 +19,23 @@ const Pre = styled('pre', {
   br: '22px',
   overflowX: 'auto',
   fontSize: '14px',
-  lineHeight: '1.4'
+  lineHeight: '1.4',
+  '> code': {
+    whiteSpace: '$$wrap'
+  },
+  variants: {
+    wrap: {
+      true: {
+        $$wrap: 'pre-wrap'
+      },
+      false: {
+        $$wrap: 'pre'
+      }
+    }
+  },
+  defaultVariants: {
+    wrap: false
+  }
 })
 
 type ContentProps = {
@@ -42,15 +58,15 @@ const CodeBlock: React.FC<CodeProps> = ({
   lang = 'language-jsx',
   ...rest
 }) => {
-  const la =
-    lang === 'language-npm' || lang === 'language-yarn' ? 'language-jsx' : lang
+  const isInstall = lang === 'language-npm' || lang === 'language-yarn'
+  const la = isInstall ? 'language-jsx' : lang
   const shortLang = la.replace(/language-/g, '')
   const [id, setId] = useState(false)
   useEffect(() => {
     setId(true)
   }, [setId])
   return (
-    <Pre>
+    <Pre wrap={isInstall}>
       <Content
         className={`hljs language-${shortLang}`}
         as="code"
