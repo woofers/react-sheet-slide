@@ -296,14 +296,19 @@ const components: MDXContentProps['components'] = {
 
 const App: React.FC<{ code: string }> = ({ code }) => {
   const Component = useMemo(() => getMDXComponent(code), [code])
-  const [open, setOpen] = useState<boolean | undefined>(false)
+  const [open, setOpen] = useState(false)
+  const [useDarkTitle, setDarkTitle] = useState(false)
   const ref = useRef<HTMLDivElement | null>(null)
   const { name, theme } = useTheme()
   const useDarkMode = name === 'dark'
   const lightMeta = '#f2f2f6'
   const darkMeta = '#070708'
   const meta =
-    useDarkMode || open || typeof open === 'undefined' ? darkMeta : lightMeta
+    useDarkMode || useDarkTitle ? darkMeta : lightMeta
+  const openSheet = () => {
+    setOpen(true)
+    setDarkTitle(true)
+  }
   return (
     <>
       <Head>
@@ -318,7 +323,7 @@ const App: React.FC<{ code: string }> = ({ code }) => {
           <Emojis />
         </Indent>
         <Center>
-          <Button type="button" onClick={() => setOpen(v => !v)}>
+          <Button type="button" onClick={openSheet}>
             Open sheet
           </Button>
         </Center>
@@ -327,8 +332,8 @@ const App: React.FC<{ code: string }> = ({ code }) => {
           <Sheet
             ref={ref}
             open={open}
-            onDismiss={() => setOpen(undefined)}
-            onClose={() => setOpen(false)}
+            onDismiss={() => setOpen(false)}
+            onClose={() => setDarkTitle(false)}
             selectedDetent={detents.large}
             detents={props => [detents.large(props), detents.medium(props)]}
             useDarkMode={useDarkMode}
@@ -338,7 +343,7 @@ const App: React.FC<{ code: string }> = ({ code }) => {
             <Header>
               <HeaderWrapper>
                 <ButtonText>Sheet</ButtonText>
-                <CloseButton type="button" onClick={() => setOpen(undefined)}>
+                <CloseButton type="button" onClick={() => setOpen(false)}>
                   <CloseIcon />
                 </CloseButton>
               </HeaderWrapper>
@@ -397,7 +402,7 @@ const App: React.FC<{ code: string }> = ({ code }) => {
             </Content>
             <Footer>
               <FooterWrapper>
-                <Button type="button" onClick={() => setOpen(undefined)}>
+                <Button type="button" onClick={() => setOpen(false)}>
                   Close
                 </Button>
               </FooterWrapper>
@@ -408,7 +413,7 @@ const App: React.FC<{ code: string }> = ({ code }) => {
           <Component components={components} />
         </Docs>
         <Center>
-          <Button type="button" onClick={() => setOpen(v => !v)}>
+          <Button type="button" onClick={openSheet}>
             Open sheet
           </Button>
         </Center>
