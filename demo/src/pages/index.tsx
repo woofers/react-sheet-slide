@@ -23,11 +23,9 @@ const Spacer = styled('div', {
 })
 
 const Split = styled('div', {
-  pl: '8px',
   width: 'max-content',
   display: 'flex',
   gap: '0 4px',
-  mb: '16px'
 })
 
 const Flex = styled('div', {
@@ -243,10 +241,27 @@ const DocsWrapper = styled('div', {
   }
 })
 
+const ButtonWrappers = styled('div', {
+  display: 'flex',
+  padding: '0 8px',
+  gap: '0 36px',
+  marginBottom: '8px',
+  marginTop: '20px'
+})
+
+const SheetButtonWrapper = styled('div', {
+  display: 'flex',
+  flex: 1,
+  justifyContent: 'center',
+  '@xsm': {
+    justifyContent: 'flex-start',
+  }
+})
+
 const ThemeButtons: React.FC<{}> = () => {
   const mounted = useIsMounted()
   const { name, setTheme } = useTheme()
-  if (!mounted) return <Spacer css={{ minHeight: '44px' }} />
+  if (!mounted) return <Spacer css={{ minHeight: '44px', minWidth: '110px' }} />
   return (
     <Split>
       <Button
@@ -336,12 +351,14 @@ const App: React.FC<{ code: string }> = ({ code }) => {
           </Link>
           <Emojis />
         </Indent>
-        <Center>
-          <Button type="button" onClick={openSheet}>
-            Open sheet
-          </Button>
-        </Center>
-        <ThemeButtons />
+        <ButtonWrappers>
+          <ThemeButtons />
+          <SheetButtonWrapper>
+            <Button type="button" onClick={openSheet} css={{ flex: 1, maxWidth: '180px' }}>
+              Open sheet
+            </Button>
+          </SheetButtonWrapper>
+        </ButtonWrappers>
         <Portal containerRef="#react-sheet-slide">
           <Sheet
             ref={ref}

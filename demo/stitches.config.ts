@@ -75,7 +75,7 @@ export const {
     },
   },
   media: {
-    xsm: '(min-width: 405px)',
+    xsm: '(min-width: 480px)',
     sm: '(min-width: 640px)',
     motion: '(prefers-reduced-motion)',
     dark: '(prefers-color-scheme: dark)',
