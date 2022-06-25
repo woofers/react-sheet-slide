@@ -23,10 +23,11 @@ const Spacer = styled('div', {
 })
 
 const Split = styled('div', {
-  pl: '24px',
+  pl: '8px',
   width: 'max-content',
   display: 'flex',
-  gap: '0 4px'
+  gap: '0 4px',
+  mb: '16px'
 })
 
 const Flex = styled('div', {
@@ -220,14 +221,26 @@ const Indent = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   gap: '16px 0',
-  pt: '24px',
-  pl: '24px'
+  pl: '8px'
 })
 
 const Docs = styled('div', {
   maxWidth: '1280px',
   margin: '0 auto',
-  padding: '28px 16px 0'
+  padding: '24px 16px 0',
+  '@sm': {
+    padding: '28px 16px 0',
+  }
+})
+
+const DocsWrapper = styled('div', {
+  h2: {
+    my: '8px',
+  },
+  pre: {
+    mt: '12px',
+    mb: '16px'
+  }
 })
 
 const ThemeButtons: React.FC<{}> = () => {
@@ -316,6 +329,7 @@ const App: React.FC<{ code: string }> = ({ code }) => {
         <meta name="msapplication-navbutton-color" content={meta} />
       </Head>
       <Fullscreen>
+      <Docs>
         <Indent>
           <Link href="https://github.com/woofers/react-sheet-slide">
             <LargeText>react-sheet-slide</LargeText>
@@ -409,14 +423,15 @@ const App: React.FC<{ code: string }> = ({ code }) => {
             </Footer>
           </Sheet>
         </Portal>
-        <Docs>
-          <Component components={components} />
-        </Docs>
+        <DocsWrapper>
+        <Component components={components} />
+        </DocsWrapper>
         <Center>
           <Button type="button" onClick={openSheet}>
             Open sheet
           </Button>
         </Center>
+      </Docs>
       </Fullscreen>
     </>
   )
