@@ -104,6 +104,7 @@
     "display": "standalone",
     "start_url": "/react-sheet-slide/",
     "short_name": "react-sheet-slide",
+    "background_color": "#385cbb",
     "name": "react-sheet-slide",
     "orientation": "portrait",
     "description": "A responsive React draggable sheet and dialog component"
