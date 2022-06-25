@@ -102,11 +102,9 @@
         }
     ],
     "display": "standalone",
-    "theme_color": "#fadc96",
-    "background_color": "#5e9ef1",
-    "start_url": "/react-wavify/",
-    "short_name": "react-wavify",
-    "name": "react-wavify",
+    "start_url": "/react-sheet-slide/",
+    "short_name": "react-sheet-slide",
+    "name": "react-sheet-slide",
     "orientation": "portrait",
-    "description": "Animated wave component for React"
+    "description": "A responsive React draggable sheet and dialog component"
 }
