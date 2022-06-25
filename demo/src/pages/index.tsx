@@ -18,6 +18,35 @@ import useIsMounted from 'hooks/use-is-mounted'
 import CodeBlock from 'components/code-block'
 import supportsEmoji from 'utils/supports-emoji'
 
+const Line = styled('div', {
+  transition: 'opacity 300ms ease 0s',
+  backgroundRepeat: 'repeat-y',
+  position: 'fixed',
+  left: '640px',
+  width: '4px',
+  top: 0,
+  opacity: 1,
+  height: '100vh',
+  '&[aria-hidden="true"]': {
+    opacity: 0
+  },
+  variants: {
+    dark: {
+      true: {
+  background: `linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 16px, #333336 16px, #333336)`,
+  backgroundSize: '100% 32px',
+      },
+      false: {
+  background: `linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 16px, #e4e4f0 16px, #e4e4f0)`,
+  backgroundSize: '100% 32px',
+      }
+    }
+  },
+  defaultVariants: {
+    dark: false
+  }
+})
+
 const Spacer = styled('div', {
   minHeight: '36px'
 })
@@ -226,9 +255,12 @@ const Docs = styled('div', {
   maxWidth: '1280px',
   margin: '0 auto',
   padding: '24px 16px 0',
-  '@sm': {
-    padding: '28px 16px 0',
-  }
+/*
+  backgroundImage: 'linear-gradient($colors$lineDot 50%, rgba(255,255,255,0) 0%)',
+  backgroundPosition: 'left',
+  backgroundSize: '4px 32px',
+  backgroundRepeat: 'repeat-y'
+*/
 })
 
 const DocsWrapper = styled('div', {
@@ -293,6 +325,16 @@ const Emojis: React.FC<{}> = () => {
   const mounted = useIsMounted()
   if (!mounted) return <Spacer />
   return <LargeText>{emojis.join(' ')}</LargeText>
+}
+
+const OverlayLine: React.FC<{ dark: boolean }> = props => {
+  const mounted = useIsMounted()
+  if (!mounted) return null
+  return (
+    <>
+      <Line {...props} />
+    </>
+  )
 }
 
 const components: MDXContentProps['components'] = {
