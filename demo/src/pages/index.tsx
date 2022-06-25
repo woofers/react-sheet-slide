@@ -17,6 +17,16 @@ import { CloseIcon } from 'icons'
 import useIsMounted from 'hooks/use-is-mounted'
 import CodeBlock from 'components/code-block'
 import supportsEmoji from 'utils/supports-emoji'
+import { FaGithub, FaNpm } from 'react-icons/fa'
+
+const IconWrapper = styled('div', {
+  display: 'flex',
+  gap: '8px 20px',
+  flexDirection: 'column',
+  '@xsm': {
+    flexDirection: 'row-reverse'
+  }
+})
 
 const Line = styled('div', {
   transition: 'opacity 300ms ease 0s',
@@ -45,6 +55,12 @@ const Line = styled('div', {
   defaultVariants: {
     dark: false
   }
+})
+
+const TitleWrapper = styled('div', {
+  width: '100%',
+  display: 'flex',
+  justifyContent: 'space-between'
 })
 
 const Spacer = styled('div', {
@@ -251,6 +267,12 @@ const Indent = styled('div', {
   pl: '8px'
 })
 
+const LeftTitle = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '16px 0'
+})
+
 const Docs = styled('div', {
   maxWidth: '1280px',
   margin: '0 auto',
@@ -388,10 +410,20 @@ const App: React.FC<{ code: string }> = ({ code }) => {
       <Fullscreen>
       <Docs>
         <Indent>
-          <Link href="https://github.com/woofers/react-sheet-slide">
-            <LargeText>react-sheet-slide</LargeText>
-          </Link>
-          <Emojis />
+          <TitleWrapper>
+            <LeftTitle>
+              <LargeText>react-sheet-slide</LargeText>
+              <Emojis />
+            </LeftTitle>
+            <IconWrapper>
+              <Link href="https://github.com/woofers/react-sheet-slide" target="_blank" rel="noopener noreferrer" aria-label="View on GitHub" title="GitHub">
+                <LargeText css={{ fontSize: '32px' }}><FaGithub /></LargeText>
+              </Link>
+              <Link href="https://www.npmjs.com/package/react-sheet-slide" target="_blank" rel="noopener noreferrer" aria-label="View on Node Package Manager" title="npm">
+              <LargeText css={{ fontSize: '40px' }}><FaNpm /></LargeText>
+              </Link>
+            </IconWrapper>
+          </TitleWrapper>
         </Indent>
         <ButtonWrappers>
           <ThemeButtons />
