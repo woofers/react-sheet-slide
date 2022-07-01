@@ -85,8 +85,6 @@ export const detents: Record<DetentSize, PredefinedDetents> = {
   fit: ({ minHeight }) => minHeight
 }
 
-const _detents: Detents = props => detents.fit(props)
-
 type Callbacks = {
   onClose: () => void
 }
@@ -132,7 +130,7 @@ const DragHeader = forwardRef<HTMLDivElement, DragHeaderProps>(
         {...props}
         className={cx(
           `${prefix}-header`,
-          !hasScrolled ? `${prefix}-header-plain` : false
+          !hasScrolled && `${prefix}-header-plain`
         )}
         ref={ref}
       >
@@ -156,7 +154,7 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
       onDismiss,
       onClose,
       close,
-      detents: getDetents = _detents,
+      detents: getDetents = detents.fit,
       selectedDetent: getSelectedDetent = _selectedDetent,
       useModal: useModalInitial,
       useDarkMode: useDarkModeInitial,
@@ -307,7 +305,9 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
           maxSnap: maxSnapRef.current,
           minSnap: minSnapRef.current,
           immediate:
-            resizeSourceRef.current === 'element' ? prefersReducedMotion : isOpenRef.current
+            resizeSourceRef.current === 'element'
+              ? prefersReducedMotion
+              : isOpenRef.current
         })
       }
     }, [maxHeight, maxSnap, minSnap, set, ready])

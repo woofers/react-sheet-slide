@@ -271,9 +271,19 @@ const TrapFocus: React.FC<TrapFocusProps> = ({ children }) => {
   }
   return (
     <Fragment>
-      <div tabIndex={0} onFocus={handleFocusSentinel} ref={sentinelStart} style={style} />
+      <div
+        tabIndex={0}
+        onFocus={handleFocusSentinel}
+        ref={sentinelStart}
+        style={style}
+      />
       {cloneElement(children, { ref: handleRef, onFocus })}
-      <div tabIndex={0} onFocus={handleFocusSentinel} ref={sentinelEnd} style={style} />
+      <div
+        tabIndex={0}
+        onFocus={handleFocusSentinel}
+        ref={sentinelEnd}
+        style={style}
+      />
     </Fragment>
   )
 }
