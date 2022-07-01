@@ -56,10 +56,8 @@ const preventDefault = (rawEvent: HandleScrollEvent): boolean => {
   // Recall that we do document.addEventListener('touchmove', preventDefault, { passive: false })
   // in disableBodyScroll - so if we provide this opportunity to allowTouchMove, then
   // the touchmove event on document will break.
-  if (canMove(e)) return true
-
   // Do not prevent if the event has more than one touch (usually meaning this is a multi touch gesture like pinch to zoom).
-  if (e.touches.length > 1) return true
+  if (canMove(e) || e.touches.length > 1) return true
 
   if (e.preventDefault) e.preventDefault()
 
