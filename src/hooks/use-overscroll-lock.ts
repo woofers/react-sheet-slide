@@ -10,6 +10,7 @@ const useOverscrollLock = ({
 }) => {
   const ref = useRef<HTMLDivElement | null>(null)
   useEffect(() => {
+    console.log('scroll effect')
     const elem = ref.current
     if (!elem) return
     const preventScrolling = (e: Event) => {
@@ -39,7 +40,7 @@ const useOverscrollLock = ({
       elem.removeEventListener('touchmove', preventScrolling)
       elem.removeEventListener('touchstart', preventSafariOverscroll)
     }
-  }, [enabled, ref])
+  }, [enabled, ref, preventScrollingRef])
   return ref
 }
 
