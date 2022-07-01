@@ -45,7 +45,7 @@ const createAriaHider = (node: HTMLElement) => {
 const useAriaHidden = (ref: React.RefObject<HTMLElement>) => {
   useEffect(() => {
     return ref.current ? createAriaHider(ref.current) : void null
-  }, [])
+  }, [ref])
 }
 
 export default useAriaHidden
