@@ -443,7 +443,6 @@ const App: React.FC<{ code: string }> = ({ code }) => {
             detents={props => [detents.large(props), detents.medium(props)]}
             useDarkMode={useDarkMode}
             scrollingExpands
-            useModal={false}
           >
             <Header>
               <HeaderWrapper>

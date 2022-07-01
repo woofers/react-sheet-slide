@@ -39,7 +39,7 @@ const useOverscrollLock = ({
       elem.removeEventListener('touchmove', preventScrolling)
       elem.removeEventListener('touchstart', preventSafariOverscroll)
     }
-  }, [enabled, ref])
+  }, [enabled, ref, preventScrollingRef])
   return ref
 }
 
