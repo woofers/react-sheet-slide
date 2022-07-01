@@ -437,8 +437,14 @@ const App: React.FC<{ code: string }> = ({ code }) => {
           <Sheet
             ref={ref}
             open={open}
-            onDismiss={() => setOpen(false)}
-            onClose={() => setDarkTitle(false)}
+            onDismiss={() => {
+              console.log('dismiss')
+              setOpen(false)
+            }}
+            onClose={() => {
+              console.log('closed')
+              setDarkTitle(false)
+            }}
             selectedDetent={detents.large}
             detents={props => [detents.large(props), detents.medium(props)]}
             useDarkMode={useDarkMode}
