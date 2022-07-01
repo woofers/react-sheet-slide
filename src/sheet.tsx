@@ -52,6 +52,17 @@ const Notch: React.FC<{ className?: string }> = props => (
   </svg>
 )
 
+type AugmentedMouseEvent = MouseEvent & { mozInputSource?: number }
+
+const isKeyboardNav = (e: React.MouseEvent) => {
+  const native: AugmentedMouseEvent = e.nativeEvent ?? empty
+  return (
+    native.mozInputSource === 6 ||
+    e.detail <= 0 ||
+    (e.screenX === 0 && e.screenY === 0)
+  )
+}
+
 const empty = {}
 
 type WrapperProps = {
@@ -429,7 +440,9 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
       return animate(newY, true, velocity)
     }
     const bind = useDrag(handleDrag, {
-      filterTaps: true
+      filterTaps: true,
+      preventDefault: false,
+      enabled: enabled && ready
     })
     const bindEvents = useCallback(
       ({
@@ -439,7 +452,23 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
         isContentDragging?: boolean
         closeOnTap?: boolean
       } = empty) => {
-        if (enabled) return bind({ isContentDragging, closeOnTap })
+        if (enabled) {
+          const {
+            onKeyDown,
+            onKeyUp,
+            onClickCapture: onCapture,
+            ...rest
+          } = bind({ isContentDragging, closeOnTap })
+          const data = onCapture
+            ? {
+                onClickCapture: (e: React.MouseEvent) => {
+                  if (!isKeyboardNav(e)) console.log('hi')
+                  if (!isKeyboardNav(e)) return onCapture(e)
+                }
+              }
+            : empty
+          return { ...rest, ...data }
+        }
         if (!closeOnTap) return empty
         return {
           onClick: () => {
