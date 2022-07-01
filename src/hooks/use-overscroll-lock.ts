@@ -10,7 +10,6 @@ const useOverscrollLock = ({
 }) => {
   const ref = useRef<HTMLDivElement | null>(null)
   useEffect(() => {
-    console.log('scroll effect')
     const elem = ref.current
     if (!elem) return
     const preventScrolling = (e: Event) => {
