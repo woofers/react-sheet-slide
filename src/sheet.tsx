@@ -164,6 +164,7 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
     },
     ref
   ) => {
+    const isOpenRef = useRef(false)
     const preventScrollingRef = useRef(false)
     const bq = useMediaQuery('(max-width: 640px)')
     const colorScheme = useColorScheme()
@@ -250,6 +251,8 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
             minSnap: defaultSnapRef.current,
             immediate: prefersReducedMotion
           })
+          if (!subscribed) return
+          isOpenRef.current = true
         }
         anim()
       } else {
@@ -258,6 +261,8 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
             close()
             return
           }
+          if (!subscribed) return
+          isOpenRef.current = false
           if (!subscribed) return
           asyncSet({
             minSnap: heightRef.current,
@@ -302,7 +307,7 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
           maxSnap: maxSnapRef.current,
           minSnap: minSnapRef.current,
           immediate:
-            resizeSourceRef.current === 'element' ? prefersReducedMotion : true
+            resizeSourceRef.current === 'element' ? prefersReducedMotion : isOpenRef.current
         })
       }
     }, [maxHeight, maxSnap, minSnap, set, ready])
@@ -317,7 +322,7 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
       tap,
       velocity: [, velocity]
     }: any) => {
-      if (!open) return memo
+      if (!open || !isOpenRef.current) return memo
       if (onDismiss && closeOnTap && tap) {
         cancel()
         setTimeout(() => onDismiss(), 0)
