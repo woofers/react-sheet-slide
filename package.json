@@ -1,6 +1,6 @@
 {
   "name": "react-sheet-slide",
-  "version": "0.2.1",
+  "version": "0.4.0",
   "description": "A responsive React draggable sheet and dialog component",
   "src": "src/index.tsx",
   "main": "lib/index.cjs",
