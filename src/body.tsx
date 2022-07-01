@@ -30,4 +30,9 @@ const BodyProxy = forwardRef<HTMLBodyElement, BodyProxyProps>((_, ref) => {
 
 const Body = animated(BodyProxy)
 
+if (__isDev__) {
+  BodyProxy.displayName = 'BodyProxy'
+  Body.displayName = 'Body'
+}
+
 export default Body

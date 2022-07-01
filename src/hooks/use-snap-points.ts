@@ -180,7 +180,7 @@ function useElementSizeObserver(
     resizeSourceRef: React.MutableRefObject<ResizeSource>
   }
 ): number {
-  let [size, setSize] = useState(0)
+  const [size, setSize] = useState(0)
 
   const handleResize = useCallback((entries: ResizeObserverEntry[]) => {
     // we only observe one element, so accessing the first entry here is fine

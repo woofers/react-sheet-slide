@@ -1,9 +1,9 @@
 function memoize<T>(func: () => T): () => T {
-  let saved: Partial<Record<'l', T>> = {}
+  const saved: Partial<Record<'l', T>> = {}
   return () => {
-    if ('l' in saved) return saved['l'] as T
+    if ('l' in saved) return saved.l as T
     const value = func()
-    saved['l'] = value
+    saved.l = value
     return value
   }
 }

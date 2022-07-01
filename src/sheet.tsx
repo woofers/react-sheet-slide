@@ -27,7 +27,7 @@ import TrapFocus from './trap-focus'
 import Body from './body'
 import classes from './classnames'
 import styles from './sheet.module.css'
-import { noop, hasWindow } from './utils'
+import { noop } from './utils'
 import type {
   ResizeSource,
   SelectedDetentsProps,
