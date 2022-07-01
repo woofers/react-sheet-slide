@@ -307,7 +307,7 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
           maxSnap: maxSnapRef.current,
           minSnap: minSnapRef.current,
           immediate:
-            resizeSourceRef.current === 'element' ? prefersReducedMotion : true
+            resizeSourceRef.current === 'element' ? prefersReducedMotion : isOpenRef.current
         })
       }
     }, [maxHeight, maxSnap, minSnap, set, ready])
