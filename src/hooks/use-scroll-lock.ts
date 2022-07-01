@@ -1,5 +1,5 @@
-import { disableBodyScroll, enableBodyScroll } from '../body-scroll-lock'
 import React, { useEffect, useRef } from 'react'
+import { disableBodyScroll, enableBodyScroll } from '../body-scroll-lock'
 import { noop } from '../utils'
 
 type ScrollLockProps = {

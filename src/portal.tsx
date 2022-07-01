@@ -10,8 +10,10 @@ import { createPortal } from 'react-dom'
 import { useLayoutEffect } from './hooks'
 import { hasWindow } from './utils'
 
+type Empty = Record<string, never>
+
 const useForceUpdate = () => {
-  const [, dispatch] = useState<{}>(Object.create(null))
+  const [, dispatch] = useState<Empty>(Object.create(null))
   return useCallback(() => {
     dispatch(Object.create(null))
   }, [])
@@ -39,9 +41,9 @@ const Portal: React.FC<PortalProps> = ({
 
   useLayoutEffect(() => {
     if (!mountNode.current) return
-    const ownerDocument = mountNode.current!.ownerDocument
+    const ownerDocument = mountNode.current.ownerDocument
     const body = getRef(containerRef) || ownerDocument.body
-    portalNode.current = ownerDocument?.createElement(type)!
+    portalNode.current = ownerDocument?.createElement(type)
     body.appendChild(portalNode.current)
     forceUpdate()
     return () => {

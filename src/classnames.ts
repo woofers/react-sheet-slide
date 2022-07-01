@@ -8,6 +8,7 @@
 type Value = string | number | boolean | undefined | null
 type Mapping = Record<string, unknown>
 type Argument = Value | Mapping | ArgumentArray
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface ArgumentArray extends Array<Argument> {}
 type Binding = Record<string, string>
 
@@ -15,10 +16,12 @@ var hasOwn = {}.hasOwnProperty
 
 function classNames(
   this: Binding | undefined,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   ..._args: ArgumentArray
 ): string {
   var classes = []
   for (var i = 0; i < arguments.length; i++) {
+    // eslint-disable-next-line prefer-rest-params
     var arg = arguments[i]
     if (!arg) continue
     var argType = typeof arg

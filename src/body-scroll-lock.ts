@@ -6,7 +6,7 @@
  * MIT License at https://github.com/willmcpo/body-scroll-lock/blob/master/LICENSE
  */
 
-import { setRef, getOwnerDocument, isIosDevice } from './utils'
+import { isIosDevice } from './utils'
 
 type BodyScrollOptions = {
   reserveScrollBarGap?: boolean
@@ -23,8 +23,8 @@ type HandleScrollEvent = TouchEvent
 type StyleUnit = string | undefined
 
 let locks: Array<Lock> = []
-let documentListenerAdded: boolean = false
-let initialClientY: number = -1
+let documentListenerAdded = false
+let initialClientY = -1
 let previousBodyOverflowSetting: StyleUnit
 let previousBodyPaddingRight: StyleUnit
 let previousBodyPosition:
@@ -211,7 +211,7 @@ export const disableBodyScroll = (
   }
 
   if (isIosDevice()) {
-    ;(targetElement as HTMLElement).ontouchstart = (
+    (targetElement as HTMLElement).ontouchstart = (
       event: HandleScrollEvent
     ) => {
       if (event.targetTouches.length === 1) {
@@ -219,7 +219,7 @@ export const disableBodyScroll = (
         initialClientY = event.targetTouches[0].clientY
       }
     }
-    ;(targetElement as HTMLElement).ontouchmove = (
+    (targetElement as HTMLElement).ontouchmove = (
       event: HandleScrollEvent
     ) => {
       if (event.targetTouches.length === 1) {
