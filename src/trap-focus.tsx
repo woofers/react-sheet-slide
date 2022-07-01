@@ -15,6 +15,14 @@ import React, {
 } from 'react'
 import { setRef, getOwnerDocument, isIosDevice } from './utils'
 
+const style = {
+  position: 'fixed',
+  width: '1px',
+  overflow: 'hidden',
+  top: '1px',
+  left: '1px'
+} as React.CSSProperties
+
 const useForkRef = <InstanceA, InstanceB>(
   refA: React.Ref<InstanceA> | null | undefined,
   refB: React.Ref<InstanceB> | null | undefined
@@ -263,9 +271,9 @@ const TrapFocus: React.FC<TrapFocusProps> = ({ children }) => {
   }
   return (
     <Fragment>
-      <div tabIndex={0} onFocus={handleFocusSentinel} ref={sentinelStart} />
+      <div tabIndex={0} onFocus={handleFocusSentinel} ref={sentinelStart} style={style} />
       {cloneElement(children, { ref: handleRef, onFocus })}
-      <div tabIndex={0} onFocus={handleFocusSentinel} ref={sentinelEnd} />
+      <div tabIndex={0} onFocus={handleFocusSentinel} ref={sentinelEnd} style={style} />
     </Fragment>
   )
 }
