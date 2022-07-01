@@ -114,7 +114,7 @@ const restoreOverflowSetting = () => {
 }
 
 const setPositionFixed = () =>
-  window.requestAnimationFrame(() => {
+  requestAnimationFrame(() => {
     // If previousBodyPosition is already set, don't set it again.
     if (previousBodyPosition === undefined) {
       previousBodyPosition = {
@@ -131,7 +131,7 @@ const setPositionFixed = () =>
 
       setTimeout(
         () =>
-          window.requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
             // Attempt to check if the bottom bar appeared due to the position change
             const bottomBarHeight = innerHeight - window.innerHeight
             if (bottomBarHeight && scrollY >= innerHeight) {

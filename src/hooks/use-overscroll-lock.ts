@@ -20,7 +20,7 @@ const useOverscrollLock = ({
     const preventSafariOverscroll = (e: Event) => {
       if (!hasWindow()) return
       if (elem.scrollTop < 0) {
-        window.requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
           elem.style.overflow = 'hidden'
           elem.scrollTop = 0
           elem.style.removeProperty('overflow')
