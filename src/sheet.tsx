@@ -292,7 +292,7 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
       return () => {
         onClose()
       }
-    }, [])
+    }, [onClose])
     useLayoutEffect(() => {
       if ((maxHeight || maxSnap || minSnap) && ready) {
         const snap = findSnapRef.current(heightRef.current)
