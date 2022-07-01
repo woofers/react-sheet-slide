@@ -21,10 +21,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-lib/react-swipe-sheet.dev.js
-lib/react-swipe-sheet.dev.mjs
-lib/react-swipe-sheet.js
-lib/react-swipe-sheet.mjs
 lib/*.d.ts
 lib/*.css
 lib/hooks/*.js
@@ -34,5 +30,7 @@ lib/utils/*.ts
 lib/utils/*.tsx
 lib/utils/*.js
 /style.css
-lib/react-swipe-sheet.cjs
-lib/react-swipe-sheet.dev.cjs
+lib/react-sheet-slide.cjs
+lib/react-sheet-slide.dev.cjs
+lib/react-sheet-slide.dev.js
+lib/react-sheet-slide.js

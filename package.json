@@ -24,12 +24,12 @@
   ],
   "scripts": {
     "lint": "eslint \"src/**/*.{js,mjs,ts,tsx}\"",
-    "build:style": "mv lib/react-swipe-sheet.css style.css && rimraf lib/react-swipe-sheet.dev.css",
-    "build:module": "microbundle --no-pkg-main --no-sourcemap --jsx React.createElement --define __isDev__=false -i src/index.tsx -o lib/react-swipe-sheet.js -f es",
-    "build:modern": "microbundle --no-pkg-main --no-sourcemap --jsx React.createElement --define __isDev__=false -i src/index.tsx -o lib/react-swipe-sheet.cjs -f umd",
-    "build:dev:module": "microbundle --no-pkg-main --no-sourcemap --jsx React.createElement --define __isDev__=true -i src/index.tsx -o lib/react-swipe-sheet.dev.js -f es",
-    "build:dev:modern": "microbundle --no-pkg-main --no-sourcemap --jsx React.createElement --define __isDev__=true -i src/index.tsx -o lib/react-swipe-sheet.dev.cjs -f umd",
-    "clean": "rimraf lib/react-swipe-sheet.js lib/react-swipe-sheet.cjs lib/react-swipe-sheet.dev.js lib/react-swipe-sheet.dev.cjs style.css lib/*.d.ts lib/utils lib/hooks",
+    "build:style": "mv lib/react-sheet-slide.css style.css && rimraf lib/react-sheet-slide.dev.css",
+    "build:module": "microbundle --no-pkg-main --no-sourcemap --jsx React.createElement --define __isDev__=false -i src/index.tsx -o lib/react-sheet-slide.js -f es",
+    "build:modern": "microbundle --no-pkg-main --no-sourcemap --jsx React.createElement --define __isDev__=false -i src/index.tsx -o lib/react-sheet-slide.cjs -f umd",
+    "build:dev:module": "microbundle --no-pkg-main --no-sourcemap --jsx React.createElement --define __isDev__=true -i src/index.tsx -o lib/react-sheet-slide.dev.js -f es",
+    "build:dev:modern": "microbundle --no-pkg-main --no-sourcemap --jsx React.createElement --define __isDev__=true -i src/index.tsx -o lib/react-sheet-slide.dev.cjs -f umd",
+    "clean": "rimraf lib/react-sheet-slide.js lib/react-sheet-slide.cjs lib/react-sheet-slide.dev.js lib/react-sheet-slide.dev.cjs style.css lib/*.d.ts lib/utils lib/hooks",
     "build": "yarn build:dev:module && yarn build:dev:modern && yarn build:module && yarn build:modern && yarn build:style",
     "test": "echo \"No tests \" && exit 0",
     "format": "prettier --write \"{tests,src}/**/*.{js,mjs,ts,tsx}\""
