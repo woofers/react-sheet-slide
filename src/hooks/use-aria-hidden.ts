@@ -1,17 +1,9 @@
 import { useEffect } from 'react'
 import { getOwnerDocument } from '../utils'
 
-const MAX_DEPTH = 2
-
 const getParentFromBody = (node: HTMLElement) => {
-  let sheetNode: HTMLElement = node
-  let index = MAX_DEPTH + 2 // Add 2 to get root of sheet
-  while (index > 0 && sheetNode) {
-    if (!sheetNode.parentNode || sheetNode.tagName === 'BODY') break
-    sheetNode = sheetNode.parentNode as HTMLElement
-    index--
-  }
-  return sheetNode
+  const root = node?.parentNode?.parentNode as HTMLElement
+  return root.closest('body > *')
 }
 
 const HIDDEN = 'aria-hidden'
