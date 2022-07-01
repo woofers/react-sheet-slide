@@ -324,6 +324,7 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
     }: any) => {
       if (!open || !isOpenRef.current) return memo
       if (onDismiss && closeOnTap && tap) {
+        isOpenRef.current = false
         cancel()
         setTimeout(() => onDismiss(), 0)
         return memo
