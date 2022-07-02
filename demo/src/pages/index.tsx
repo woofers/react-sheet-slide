@@ -453,7 +453,7 @@ const App: React.FC<{ code: string }> = ({ code }) => {
             <Header>
               <HeaderWrapper>
                 <ButtonText>Sheet</ButtonText>
-                <CloseButton type="button" onClick={e => { e.stopPropagation(); setOpen(false); console.log('open=false') }}>
+                <CloseButton type="button" onClick={() => setOpen(false)}>
                   <CloseIcon />
                 </CloseButton>
               </HeaderWrapper>
