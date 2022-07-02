@@ -134,6 +134,12 @@ const App = () => {
   Prop to control when a modal should be used instead of a sheet.  If your app will likely only be used on mobile `useModal={false}` is reccomened.
   Otherwise it will default to true on any device larger than `(max-width: 640px)` to use a modal on desktop.
 
+- `scrollingExpands`
+
+  Determines if scrolling up on the sheet body will expand the sheet.  Once the sheet is expanded
+  to the max detent, the sheet will be scrollable.  Disabled by default to provide a more predictable scroll behaviour
+  however enabling it if possible is recommended.
+
 - `ref`
 
   The sheet also supports forwarding a ref that will be added onto the sheet root.
