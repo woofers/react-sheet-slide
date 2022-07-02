@@ -443,7 +443,7 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
       } = empty) => {
         if (enabled) {
           const { onKeyDown, onKeyUp, onClickCapture, ...rest } = bind({ isContentDragging, closeOnTap })
-          return rest
+          return { ...rest, onClickCapture: (e: any) => console.log(e) }
         }
         if (!closeOnTap) return empty
         return {
