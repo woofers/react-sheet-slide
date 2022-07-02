@@ -1,5 +1,7 @@
 # react-sheet-slide
 
+[![img](https://github.com/woofers/react-sheet-slide/workflows/build/badge.svg)](https://github.com/woofers/react-sheet-slide/actions) [![img](https://badge.fury.io/js/react-sheet-slide.svg)](https://www.npmjs.com/package/react-sheet-slide) [![img](https://img.shields.io/npm/dt/react-sheet-slide.svg)](https://www.npmjs.com/package/react-sheet-slide) [![img](https://badgen.net/bundlephobia/minzip/react-sheet-slide)](https://bundlephobia.com/result?p=react-sheet-slide) [![img](https://img.shields.io/npm/l/react-sheet-slide.svg)](https://github.com/woofers/react-sheet-slide/blob/main/LICENSE)
+
 🏞️ 🎢 🛝 A responsive React draggable sheet and dialog component.
 
 No more hard to use and dismiss modal experiences for mobile users.
