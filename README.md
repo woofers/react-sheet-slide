@@ -74,7 +74,7 @@ const App = () => {
   const [open, setOpen] = useState(false)
   const ref = useRef()
   return (
-    <>
+    <div className="rss-backdrop">
       <button type="button" onClick={() => setOpen(true)}>
         Open sheet
       </button>
@@ -110,13 +110,18 @@ const App = () => {
           </Footer>
         </Sheet>
       </Portal>
-    </>
+    </div>
   )
 }
 ```
 
 `react-sheet-slide` includes a `Portal` component however other portal can be used like
 `@reach/portal` or `@mui/base`.  The one included is just of modified version of `@reach/portal` however with support for string refs and defaults to `body`.
+
+`rss-backdrop` is required to apply to the sheet backdrop effect.  Omitting it will disable any backdrop styles on the sheet.
+`react-sheet-slide` will also set a `body` background when the sheet is open to create the inset for the backdrop effect.
+As such it is recommended to apply the background to a top level `div` or other container, in addition to the `body`.
+If you want to keep your `body` background, use `!important`.
 
 ## Props
 

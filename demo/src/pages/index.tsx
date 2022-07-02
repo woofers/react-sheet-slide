@@ -407,7 +407,7 @@ const App: React.FC<{ code: string }> = ({ code }) => {
         <meta name="theme-color" content={meta} />
         <meta name="msapplication-navbutton-color" content={meta} />
       </Head>
-      <Fullscreen>
+      <Fullscreen className="rss-backdrop">
       <Docs>
         <Indent>
           <TitleWrapper>
