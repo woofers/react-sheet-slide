@@ -430,7 +430,8 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
     }
     const bind = useDrag(handleDrag, {
       filterTaps: true,
-      preventDefault: false
+      preventDefault: false,
+      enabled
     })
     const bindEvents = useCallback(
       ({
