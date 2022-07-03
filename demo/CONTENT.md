@@ -56,8 +56,8 @@ const App = () => {
   const [open, setOpen] = useState(false)
   const ref = useRef()
   return (
-    <div className="rss-backdrop">
-      <button type="button" onClick={() => setOpen(true)}>
+    <div className="rss-backdrop" style={{ background: '#f7f8f8', minHeight: '100vh' }}>
+      <button type="button" onClick={() => setOpen(true)} style={{ display: 'flex', margin: '28px auto 0' }}>
         Open sheet
       </button>
       <Portal>
@@ -71,19 +71,22 @@ const App = () => {
           selectedDetent={detents.large}
           detents={props => [
             detents.large(props),
-            detents.medium(props)
+            detents.fit(props)
           ]}
           useDarkMode={false}
           useModal={false}
+          scrollingExpands={true}
         >
           <Header>Title</Header>
           <Content>
-            <div>Add more storage to keep everything on online</div>
-            <div>
-              Online includes plenty of storage to keep all your data safe and
-              features to protect your privacy.
+            <div style={{ padding: '54px 16px 24px' }}>
+              <div>Add more storage to keep everything on online</div>
+              <div>
+                Online includes plenty of storage to keep all your data safe and
+                features to protect your privacy.
+              </div>
+              <div>Learn More About Online</div>
             </div>
-            <div>Learn More About Online</div>
           </Content>
           <Footer>
             <button type="button" onClick={() => setOpen(false)}>
