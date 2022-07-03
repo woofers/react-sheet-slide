@@ -138,8 +138,7 @@ function useDimensions({
     resizeSourceRef
   })
   const minHeight =
-    Math.min(maxHeight - headerHeight - footerHeight, contentHeight) +
-    headerHeight +
+    Math.min(maxHeight - footerHeight, contentHeight) +
     footerHeight
 
   const ready = contentHeight > 0
