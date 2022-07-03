@@ -16,6 +16,7 @@
     "sourceMap": false,
     "noUnusedLocals": false,
     "strict": true,
+    "esModuleInterop": true,
     "baseUrl": "./src"
   },
   "include": [
