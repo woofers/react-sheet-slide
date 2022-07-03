@@ -154,7 +154,7 @@ body[style].sheet-open {
   z-index: 1;
   user-select: none;
   padding-top: calc(12px + env(safe-area-inset-top));
-  padding-bottom: 8px;
+  padding-bottom: 12px;
   box-shadow: 0 1px 0 var(--border);
 
   border-top-left-radius: var(--radius);

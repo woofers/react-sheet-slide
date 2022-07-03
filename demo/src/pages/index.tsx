@@ -83,7 +83,6 @@ const Flex = styled('div', {
 
 const HeaderWrapper = styled('div', {
   display: 'flex',
-  padding: '0 0 4px',
   justifyContent: 'space-between',
   alignItems: 'center',
   gap: '0 8px',
