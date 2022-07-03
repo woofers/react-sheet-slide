@@ -6,8 +6,7 @@ module.exports = {
     "\\.(css|scss)$": "identity-obj-proxy"
   },
   transform: {
-    "^.+\\.ts[x]?$": "ts-jest",
-    "\\.[j]sx?$": "./jest-transformer.cjs",
+    "^.+\\.ts[x]?$": "ts-jest"
   },
   setupFilesAfterEnv: [
     './tests/setup/index.ts'
