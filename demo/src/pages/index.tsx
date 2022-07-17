@@ -2,7 +2,7 @@ import { Children, useMemo, useState, useRef } from 'react'
 import Head from 'next/head'
 import { bundleMDX } from 'mdx-bundler'
 import { getMDXComponent, MDXContentProps } from 'mdx-bundler/client'
-import { getMarkdownFile } from 'data/local'
+import { cwd, getMarkdownFile } from 'data/local'
 import { styled } from 'stitches'
 import {
   detents,
@@ -527,8 +527,7 @@ const App: React.FC<{ code: string }> = ({ code }) => {
 }
 
 export const getStaticProps = async () => {
-  const { content } = getMarkdownFile('./', 'CONTENT')
-  const { code, frontmatter } = await bundleMDX({ source: content, files: {} })
+  const { code, frontmatter } = await bundleMDX({ file: cwd('CONTENT.mdx'), cwd: cwd() })
   return {
     props: { code, frontmatter }
   }

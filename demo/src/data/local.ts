@@ -1,5 +1,7 @@
 import fs from 'fs-extra'
-import { parse, join } from 'path'
+import { parse, join, resolve } from 'path'
+
+export const cwd = (added?: string) => resolve(join('./', added || ''))
 
 const getTypeGlob = (type: string) => new RegExp(`.${type}?$`, '')
 
@@ -44,9 +46,9 @@ export const getFileNames = (path: string, glob: RegExp | string) => {
 }
 
 export const getMarkdownFile = (path: string, name: string) =>
-  getFile(path, name, 'md')
+  getFile(path, name, 'mdx')
 
-export const getMarkdownFiles = (path: string) => getFiles(path, 'md')
+export const getMarkdownFiles = (path: string) => getFiles(path, 'mdx')
 
 export const getMarkdownFileNames = (path: string) =>
-  getFileNames(path, getTypeGlob('md'))
+  getFileNames(path, getTypeGlob('mdx'))
