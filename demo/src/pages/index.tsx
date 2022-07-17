@@ -19,6 +19,12 @@ import CodeBlock from 'components/code-block'
 import supportsEmoji from 'utils/supports-emoji'
 import { FaGithub, FaNpm } from 'react-icons/fa'
 
+const List = styled('ul', {
+  '> li::marker': {
+    content: '- '
+  }
+})
+
 const IconWrapper = styled('div', {
   display: 'flex',
   gap: '8px 20px',
@@ -379,6 +385,7 @@ const components: MDXContentProps['components'] = {
     </Action>
   ),
   h1: () => null,
+  ul: List,
   p: ({ children, ...rest }) => {
     if (typeof children === 'string' && children.startsWith('🏞️')) return null
     return <p {...rest}>{children}</p>

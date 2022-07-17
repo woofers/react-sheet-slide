@@ -36,7 +36,7 @@ export const {
       switchActive: '#65c062',
       switchHandle: '#fff',
       labelInactive: '#919192',
-      labelActive: '#feffff',
+      labelActive: '$text',
       tabBackground: '#e8e8e8',
       tabActive: '#feffff'
     },

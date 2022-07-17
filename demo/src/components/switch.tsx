@@ -3,6 +3,7 @@ import { styled } from 'stitches'
 import Label from './label'
 
 const Input = styled('input', {
+
   appearance: 'none',
   br: '16px',
   width: '$$width',
@@ -33,6 +34,7 @@ const Wrapper = styled('span', {
   '$$width': '52px',
   '$$padding': '2px',
   '$$left': '$$padding',
+  verticalAlign: 'middle',
   position: 'relative',
   display: 'inline-flex',
   alignItems: 'center',
@@ -54,7 +56,10 @@ const Wrapper = styled('span', {
 })
 
 const LabelContainer = styled('span', {
-  position: 'relative'
+  position: 'relative',
+  height: '$$height',
+  alignItems: 'center',
+  display: 'inline-flex'
 })
 
 type InputProps = React.HTMLProps<HTMLInputElement>
