@@ -12,5 +12,6 @@ export const Fieldset = styled('fieldset', {
   border: 0,
   padding: 0,
   display: 'inline-flex',
+  flexDirection: 'column',
   gap: '0 8px'
 })

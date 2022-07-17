@@ -1,5 +1,6 @@
 import React, { forwardRef } from 'react'
 import { styled } from 'stitches'
+import { useField } from 'formik'
 import Label from './label'
 
 const Input = styled('input', {
@@ -52,13 +53,17 @@ type RadioProps = Omit<InputProps, 'type'>
 
 type Props = RadioProps & {
   children?: React.ReactNode
+  name: string
 }
 
 export const Radio = forwardRef<HTMLInputElement, Props>(
   ({ id, name, value, children, ...rest }, ref) => {
+    const [field] = useField(name)
     return (
       <Wrapper>
         <Input
+          {...field}
+          checked={field.value === value}
           {...rest}
           id={id ?? name}
           name={name}

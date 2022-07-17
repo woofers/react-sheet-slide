@@ -1,5 +1,6 @@
 import React, { forwardRef } from 'react'
 import { styled } from 'stitches'
+import { useField } from 'formik'
 import Label from './label'
 
 const Input = styled('input', {
@@ -65,13 +66,21 @@ type InputProps = React.HTMLProps<HTMLInputElement>
 type CheckboxProps = Omit<InputProps, 'type'>
 type SwitchProps = CheckboxProps & {
   children?: React.ReactNode
+  name: string
 }
 
 const Switch = forwardRef<HTMLInputElement, SwitchProps>(
-  ({ children, ...rest }, ref) => {
+  ({ children, name, ...rest }, ref) => {
+    const [field] = useField(name)
     return (
       <Wrapper as="label">
-        <Input {...rest} type="checkbox" ref={ref} />
+        <Input
+          {...field}
+          checked={field.value}
+          {...rest}
+          type="checkbox"
+          ref={ref}
+        />
         <LabelContainer>
           <Handle aria-hidden />
           <Label as="span">{children}</Label>

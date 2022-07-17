@@ -1,25 +1,33 @@
+import type { Trinary, FormProps } from 'types/global'
+
+export const trinaryToBool = (tri: Trinary): boolean | undefined => {
+  if (tri === 'on') return true
+  if (tri === 'off') return false
+  return undefined
+}
+
 const spaces = (indent: number) => {
   const tab = 2
   return ' '.repeat(tab * indent)
 }
 
 const imports = () => {
-  const defaultImports = `
-import React, { useState, useRef } from 'react'
+  const defaultImports = `import React, { useState, useRef } from 'react'
 import { Sheet, Header, Content, Footer, detents, Portal } from 'react-sheet-slide'
 import 'react-sheet-slide/style.css'`
   return defaultImports
 }
 
-const addBooleanOption = (key: string, value: boolean) => {
+const addBooleanOption = (key: string, value: boolean | undefined) => {
   if (typeof value === 'undefined') return ''
   return `${key}={${value}}`
 }
 
-type Props = {}
+type Props = FormProps & {}
 
 const code = (props: Props) => {
   return `${imports()}
+
 const App = () => {
   const [open, setOpen] = useState(false)
   const ref = useRef()
@@ -42,10 +50,13 @@ const App = () => {
             detents.fit(props)
           ]}
 ${[
-  addBooleanOption('useDarkMode', true),
-  addBooleanOption('useModal', true),
-  addBooleanOption('scrollingExpands', true)
-].filter(el => !!el).map(value => spaces(5) + value).join('\n')}
+  addBooleanOption('useDarkMode', trinaryToBool(props.useDarkMode)),
+  addBooleanOption('useModal', trinaryToBool(props.useModal)),
+  addBooleanOption('scrollingExpands', props.scrollingExpands)
+]
+  .filter(el => !!el)
+  .map(value => spaces(5) + value)
+  .join('\n')}
         >
           <Header>Title</Header>
           <Content>

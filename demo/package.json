@@ -17,6 +17,7 @@
     "@stitches/react": "^1.2.8",
     "@use-gesture/react": "^10.2.16",
     "esbuild": "^0.14.48",
+    "formik": "^2.2.9",
     "framer-motion": "^6.3.16",
     "fs-extra": "^10.1.0",
     "hast-util-to-html": "^8.0.3",

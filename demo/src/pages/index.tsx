@@ -1,5 +1,6 @@
 import { Children, useMemo, useState, useRef } from 'react'
 import Head from 'next/head'
+import { Formik, useField, FormikProps } from 'formik'
 import { bundleMDX } from 'mdx-bundler'
 import { getMDXComponent, MDXContentProps } from 'mdx-bundler/client'
 import { cwd, getMarkdownFile } from 'data/local'
@@ -18,6 +19,12 @@ import useIsMounted from 'hooks/use-is-mounted'
 import CodeBlock from 'components/code-block'
 import supportsEmoji from 'utils/supports-emoji'
 import { FaGithub, FaNpm } from 'react-icons/fa'
+import { RadioGroup, Radio } from 'components/radio'
+import Switch from 'components/switch'
+import { Fieldset, Legend } from 'components/fieldset'
+import LiveCodeSample from 'components/live-code-sample'
+import { trinaryToBool } from 'utils/code'
+import type { FormProps } from 'types/global'
 
 const List = styled('ul', {
   '> li::marker': {
@@ -49,12 +56,12 @@ const Line = styled('div', {
   variants: {
     dark: {
       true: {
-  background: `linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 16px, #333336 16px, #333336)`,
-  backgroundSize: '100% 32px',
+        background: `linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 16px, #333336 16px, #333336)`,
+        backgroundSize: '100% 32px'
       },
       false: {
-  background: `linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 16px, #e4e4f0 16px, #e4e4f0)`,
-  backgroundSize: '100% 32px',
+        background: `linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 16px, #e4e4f0 16px, #e4e4f0)`,
+        backgroundSize: '100% 32px'
       }
     }
   },
@@ -76,7 +83,7 @@ const Spacer = styled('div', {
 const Split = styled('div', {
   width: 'max-content',
   display: 'flex',
-  gap: '0 4px',
+  gap: '0 4px'
 })
 
 const Flex = styled('div', {
@@ -281,8 +288,8 @@ const LeftTitle = styled('div', {
 const Docs = styled('div', {
   maxWidth: '1280px',
   margin: '0 auto',
-  padding: '24px 16px 0',
-/*
+  padding: '24px 16px 0'
+  /*
   backgroundImage: 'linear-gradient($colors$lineDot 50%, rgba(255,255,255,0) 0%)',
   backgroundPosition: 'left',
   backgroundSize: '4px 32px',
@@ -292,7 +299,7 @@ const Docs = styled('div', {
 
 const DocsWrapper = styled('div', {
   h2: {
-    my: '8px',
+    my: '8px'
   },
   pre: {
     mt: '12px',
@@ -313,7 +320,7 @@ const SheetButtonWrapper = styled('div', {
   flex: 1,
   justifyContent: 'center',
   '@xsm': {
-    justifyContent: 'flex-start',
+    justifyContent: 'flex-start'
   }
 })
 
@@ -392,8 +399,10 @@ const components: MDXContentProps['components'] = {
   }
 }
 
+const form = { RadioGroup, Radio, Switch, Fieldset, Legend, LiveCodeSample }
+
 const App: React.FC<{ code: string }> = ({ code }) => {
-  const Component = useMemo(() => getMDXComponent(code), [code])
+  const Component = useMemo(() => getMDXComponent(code, { form }), [code])
   const [open, setOpen] = useState(false)
   const [useDarkTitle, setDarkTitle] = useState(false)
   const ref = useRef<HTMLDivElement | null>(null)
@@ -401,8 +410,7 @@ const App: React.FC<{ code: string }> = ({ code }) => {
   const useDarkMode = name === 'dark'
   const lightMeta = '#f2f2f6'
   const darkMeta = '#070708'
-  const meta =
-    useDarkMode || useDarkTitle ? darkMeta : lightMeta
+  const meta = useDarkMode || useDarkTitle ? darkMeta : lightMeta
   const openSheet = () => {
     setOpen(true)
     setDarkTitle(true)
@@ -414,127 +422,189 @@ const App: React.FC<{ code: string }> = ({ code }) => {
         <meta name="msapplication-navbutton-color" content={meta} />
       </Head>
       <Fullscreen className="rss-backdrop">
-      <Docs>
-        <Indent>
-          <TitleWrapper>
-            <LeftTitle>
-              <LargeText>react-sheet-slide</LargeText>
-              <Emojis />
-            </LeftTitle>
-            <IconWrapper>
-              <Link href="https://github.com/woofers/react-sheet-slide" target="_blank" rel="noopener noreferrer" aria-label="View on GitHub" title="GitHub">
-                <LargeText css={{ fontSize: '32px' }}><FaGithub /></LargeText>
-              </Link>
-              <Link href="https://www.npmjs.com/package/react-sheet-slide" target="_blank" rel="noopener noreferrer" aria-label="View on Node Package Manager" title="npm">
-              <LargeText css={{ fontSize: '40px' }}><FaNpm /></LargeText>
-              </Link>
-            </IconWrapper>
-          </TitleWrapper>
-        </Indent>
-        <ButtonWrappers>
-          <ThemeButtons />
-          <SheetButtonWrapper>
-            <Button type="button" onClick={openSheet} css={{ flex: 1, maxWidth: '180px' }}>
+        <Docs>
+          <Indent>
+            <TitleWrapper>
+              <LeftTitle>
+                <LargeText>react-sheet-slide</LargeText>
+                <Emojis />
+              </LeftTitle>
+              <IconWrapper>
+                <Link
+                  href="https://github.com/woofers/react-sheet-slide"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="View on GitHub"
+                  title="GitHub"
+                >
+                  <LargeText css={{ fontSize: '32px' }}>
+                    <FaGithub />
+                  </LargeText>
+                </Link>
+                <Link
+                  href="https://www.npmjs.com/package/react-sheet-slide"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="View on Node Package Manager"
+                  title="npm"
+                >
+                  <LargeText css={{ fontSize: '40px' }}>
+                    <FaNpm />
+                  </LargeText>
+                </Link>
+              </IconWrapper>
+            </TitleWrapper>
+          </Indent>
+          <ButtonWrappers>
+            <ThemeButtons />
+            <SheetButtonWrapper>
+              <Button
+                type="button"
+                onClick={openSheet}
+                css={{ flex: 1, maxWidth: '180px' }}
+              >
+                Open sheet
+              </Button>
+            </SheetButtonWrapper>
+          </ButtonWrappers>
+          <DocsWrapper>
+            <Formik
+              initialValues={{
+                scrollingExpands: true,
+                useDarkMode: 'auto',
+                useModal: 'auto'
+              }}
+              onSubmit={() => {}}
+            >
+              {({ values }: FormikProps<FormProps>) => (
+                <>
+                  <Portal containerRef="#react-sheet-slide">
+                    <Sheet
+                      ref={ref}
+                      open={open}
+                      onDismiss={() => setOpen(false)}
+                      onClose={() => setDarkTitle(false)}
+                      selectedDetent={detents.large}
+                      detents={props => [
+                        detents.large(props),
+                        detents.medium(props)
+                      ]}
+                      useDarkMode={useDarkMode}
+                      useModal={trinaryToBool(values.useModal)}
+                      scrollingExpands={values.scrollingExpands}
+                    >
+                      <Header>
+                        <HeaderWrapper>
+                          <ButtonText>Sheet</ButtonText>
+                          <CloseButton
+                            type="button"
+                            onClick={() => setOpen(false)}
+                          >
+                            <CloseIcon />
+                          </CloseButton>
+                        </HeaderWrapper>
+                      </Header>
+                      <Content>
+                        <Container>
+                          <Flex>
+                            <Text>Draggable</Text>
+                            <Box>
+                              <Text>⬆</Text>️
+                            </Box>
+                          </Flex>
+                          <Description>
+                            Can be expanded up and down by dragging the header.
+                            Or if <code>scrollingExpands</code> prop is set, the
+                            body of the sheet can be used to expand or dismiss
+                            the popup.
+                          </Description>
+                          <Flex>
+                            <Text>Accessible</Text>
+                            <Box>
+                              <Text>👪</Text>
+                            </Box>
+                          </Flex>
+                          <Description>
+                            Prevents focus of background elements when sheet is
+                            open. Restores focus to prior selected element once
+                            sheet is closed. Sets <code>aria-modal</code> on
+                            sheet and sets <code>aria-hidden</code> on
+                            background elements. <code>Esc</code> closes sheet
+                            or dialog on desktop.
+                          </Description>
+                          <Flex>
+                            <Text>Styled with CSS Modules</Text>
+                            <Box>
+                              <Text>💅</Text>
+                            </Box>
+                          </Flex>
+                          <Description>
+                            No need for large styled-in-js libaries, just bundle
+                            the small CSS file and sheet component along with
+                            your project.
+                          </Description>
+                          <Flex>
+                            <Text>Customizable Detents</Text>
+                            <Box>
+                              <Text>⚙️</Text>
+                            </Box>
+                          </Flex>
+                          <Description>
+                            Comes with preset detents that can be used to catch
+                            the sheet upon user intereaction. Import{' '}
+                            <code>{'{ detents }'}</code> with options of{' '}
+                            <code>large</code>, <code>medium</code> or{' '}
+                            <code>fit</code>. Or use a custom callback to
+                            determine detents depending on{' '}
+                            <code>maxHeight</code>, and <code>minHeight</code>{' '}
+                            of device.
+                          </Description>
+                        </Container>
+                      </Content>
+                      <Footer>
+                        <FooterWrapper>
+                          <Button type="button" onClick={() => setOpen(false)}>
+                            Close
+                          </Button>
+                        </FooterWrapper>
+                      </Footer>
+                    </Sheet>
+                  </Portal>
+                  <Component components={components} />
+                </>
+              )}
+            </Formik>
+          </DocsWrapper>
+          <Center>
+            <Button type="button" onClick={openSheet}>
               Open sheet
             </Button>
-          </SheetButtonWrapper>
-        </ButtonWrappers>
-        <Portal containerRef="#react-sheet-slide">
-          <Sheet
-            ref={ref}
-            open={open}
-            onDismiss={() => setOpen(false)}
-            onClose={() => setDarkTitle(false)}
-            selectedDetent={detents.large}
-            detents={props => [detents.large(props), detents.medium(props)]}
-            useDarkMode={useDarkMode}
-            scrollingExpands
-          >
-            <Header>
-              <HeaderWrapper>
-                <ButtonText>Sheet</ButtonText>
-                <CloseButton type="button" onClick={() => setOpen(false)}>
-                  <CloseIcon />
-                </CloseButton>
-              </HeaderWrapper>
-            </Header>
-            <Content>
-              <Container>
-                <Flex>
-                  <Text>Draggable</Text>
-                  <Box>
-                    <Text>⬆</Text>️
-                  </Box>
-                </Flex>
-                <Description>
-                  Can be expanded up and down by dragging the header. Or if{' '}
-                  <code>scrollingExpands</code> prop is set, the body of the
-                  sheet can be used to expand or dismiss the popup.
-                </Description>
-                <Flex>
-                  <Text>Accessible</Text>
-                  <Box>
-                    <Text>👪</Text>
-                  </Box>
-                </Flex>
-                <Description>
-                  Prevents focus of background elements when sheet is open.
-                  Restores focus to prior selected element once sheet is closed.
-                  Sets <code>aria-modal</code> on sheet and sets{' '}
-                  <code>aria-hidden</code> on background elements.{' '}
-                  <code>Esc</code> closes sheet or dialog on desktop.
-                </Description>
-                <Flex>
-                  <Text>Styled with CSS Modules</Text>
-                  <Box>
-                    <Text>💅</Text>
-                  </Box>
-                </Flex>
-                <Description>
-                  No need for large styled-in-js libaries, just bundle the small
-                  CSS file and sheet component along with your project.
-                </Description>
-                <Flex>
-                  <Text>Customizable Detents</Text>
-                  <Box>
-                    <Text>⚙️</Text>
-                  </Box>
-                </Flex>
-                <Description>
-                  Comes with preset detents that can be used to catch the sheet
-                  upon user intereaction. Import{' '}
-                  <code>{'{ detents }'}</code> with options of{' '}
-                  <code>large</code>, <code>medium</code> or <code>fit</code>.
-                  Or use a custom callback to determine detents depending on{' '}
-                  <code>maxHeight</code>, and <code>minHeight</code> of device.
-                </Description>
-              </Container>
-            </Content>
-            <Footer>
-              <FooterWrapper>
-                <Button type="button" onClick={() => setOpen(false)}>
-                  Close
-                </Button>
-              </FooterWrapper>
-            </Footer>
-          </Sheet>
-        </Portal>
-        <DocsWrapper>
-        <Component components={components} />
-        </DocsWrapper>
-        <Center>
-          <Button type="button" onClick={openSheet}>
-            Open sheet
-          </Button>
-        </Center>
-      </Docs>
+          </Center>
+        </Docs>
       </Fullscreen>
     </>
   )
 }
 
 export const getStaticProps = async () => {
-  const { code, frontmatter } = await bundleMDX({ file: cwd('CONTENT.mdx'), cwd: cwd() })
+  const { code, frontmatter } = await bundleMDX({
+    file: cwd('CONTENT.mdx'),
+    cwd: cwd(),
+    globals: {
+      form: {
+        varName: 'form',
+        namedExports: [
+          'Switch',
+          'RadioGroup',
+          'Radio',
+          'Fieldset',
+          'Legend',
+          'LiveCodeSample'
+        ],
+        defaultExport: false
+      }
+    }
+  })
   return {
     props: { code, frontmatter }
   }
