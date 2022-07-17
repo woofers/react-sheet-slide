@@ -6,7 +6,7 @@ const Input = styled('input', {
   position: 'absolute',
   width: '100%',
   height: '100%',
-  appearance: 'none',
+  appearance: 'none'
 })
 
 const Tab = styled('div', {
@@ -17,7 +17,7 @@ const Tab = styled('div', {
 })
 
 const Active = styled('span', {
-  '$$padding': '3px',
+  $$padding: '3px',
   br: '6px',
   pointerEvents: 'none',
   position: 'absolute',
@@ -32,7 +32,6 @@ const Active = styled('span', {
   opacity: 0
 })
 
-
 const Wrapper = styled('span', {
   position: 'relative',
   display: 'inline-flex',
@@ -45,7 +44,7 @@ const Wrapper = styled('span', {
 export const RadioGroup = styled('div', {
   display: 'inline-flex',
   background: '$tabBackground',
-  br: '8px',
+  br: '8px'
 })
 
 type InputProps = React.HTMLProps<HTMLInputElement>
@@ -55,12 +54,23 @@ type Props = RadioProps & {
   children?: React.ReactNode
 }
 
-export const Radio = forwardRef<HTMLInputElement, Props>(({ id, name, value, children, ...rest }, ref) => {
-  return (
-    <Wrapper>
-      <Input {...rest} id={id ?? name} name={name} value={value} type="radio" ref={ref} />
-      <Active aria-hidden>{children}</Active>
-      <Tab as="label" htmlFor={id ?? name}><Label as="span">{children}</Label></Tab>
-    </Wrapper>
-  )
-})
+export const Radio = forwardRef<HTMLInputElement, Props>(
+  ({ id, name, value, children, ...rest }, ref) => {
+    return (
+      <Wrapper>
+        <Input
+          {...rest}
+          id={id ?? name}
+          name={name}
+          value={value}
+          type="radio"
+          ref={ref}
+        />
+        <Active aria-hidden>{children}</Active>
+        <Tab as="label" htmlFor={id ?? name}>
+          <Label as="span">{children}</Label>
+        </Tab>
+      </Wrapper>
+    )
+  }
+)

@@ -25,7 +25,7 @@ const useGlobalStyles = globalCss({
     overflowWrap: 'break-word'
   },
   code: {
-    fontFamily: '$code',
+    fontFamily: '$code'
   },
   '#root, #__next': {
     isolation: 'isolate'

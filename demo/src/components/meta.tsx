@@ -18,10 +18,26 @@ const Meta: React.FC<{}> = () => {
         href="/react-sheet-slide/manifest.webmanifest"
         crossOrigin="anonymous"
       />
-      <link rel="apple-touch-icon" sizes="32x32" href="/react-sheet-slide/icons/apple-32x32.png" />
-      <link rel="apple-touch-icon" sizes="48x48" href="/react-sheet-slide/icons/apple-48x48.png" />
-      <link rel="apple-touch-icon" sizes="72x72" href="/react-sheet-slide/icons/apple-72x72.png" />
-      <link rel="apple-touch-icon" sizes="96x96" href="/react-sheet-slide/icons/apple-96x96.png" />
+      <link
+        rel="apple-touch-icon"
+        sizes="32x32"
+        href="/react-sheet-slide/icons/apple-32x32.png"
+      />
+      <link
+        rel="apple-touch-icon"
+        sizes="48x48"
+        href="/react-sheet-slide/icons/apple-48x48.png"
+      />
+      <link
+        rel="apple-touch-icon"
+        sizes="72x72"
+        href="/react-sheet-slide/icons/apple-72x72.png"
+      />
+      <link
+        rel="apple-touch-icon"
+        sizes="96x96"
+        href="/react-sheet-slide/icons/apple-96x96.png"
+      />
       <link
         rel="apple-touch-icon"
         sizes="144x144"
