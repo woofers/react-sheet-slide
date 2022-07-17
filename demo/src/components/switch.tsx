@@ -24,15 +24,15 @@ const Handle = styled('span', {
 })
 
 const Wrapper = styled('span', {
-  '$$handleColor': '#fff',
-  '$$backgroundColor': '#b9b9b9',
+  '$$handleColor': '$colors$switchHandle',
+  '$$backgroundColor': '$colors$switchInactive',
   '$$height': '16px',
   '$$left': '0px',
   height: '$$height',
   position: 'relative',
   display: 'inline-flex',
   'input:checked': {
-    '$$backgroundColor': '#00cc22',
+    '$$backgroundColor': '$colors$switchActive',
   },
   'input:checked + span': {
     '$$left': '16px'
