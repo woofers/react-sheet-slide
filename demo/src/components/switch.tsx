@@ -1,4 +1,4 @@
-import React, { forwardRef, useState, useEffect } from 'react'
+import React, { forwardRef } from 'react'
 import { styled } from 'stitches'
 import Label from './label'
 
