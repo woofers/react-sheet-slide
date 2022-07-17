@@ -3,8 +3,8 @@ import { styled } from 'stitches'
 
 const Input = styled('input', {
   appearance: 'none',
-  br: '$pill',
-  width: '32px',
+  br: '16px',
+  width: '$$width',
   height: '100%',
   background: '$$backgroundColor',
   transition: 'background-color 0.4s ease-in-out 0s'
@@ -16,18 +16,21 @@ const Handle = styled('span', {
   background: '$$handleColor',
   position: 'absolute',
   left: 0,
-  top: 0,
-  transform: 'translateX($$left)',
+  top: '50%',
+  transform: 'translate($$left, -50%)',
   transition: 'transform 0.3s ease-in-out 0s',
-  height: '100%',
-  width: '16px'
+  height: '$$handle',
+  width: '$$handle'
 })
 
 const Wrapper = styled('span', {
   '$$handleColor': '$colors$switchHandle',
   '$$backgroundColor': '$colors$switchInactive',
-  '$$height': '16px',
-  '$$left': '0px',
+  '$$handle': '28px',
+  '$$height': '32px',
+  '$$width': '52px',
+  '$$padding': '2px',
+  '$$left': '$$padding',
   height: '$$height',
   position: 'relative',
   display: 'inline-flex',
@@ -35,7 +38,7 @@ const Wrapper = styled('span', {
     '$$backgroundColor': '$colors$switchActive',
   },
   'input:checked + span': {
-    '$$left': '16px'
+    '$$left': 'calc($$width / 2 - $$padding * 2)'
   }
 })
 
