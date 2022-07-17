@@ -35,7 +35,8 @@ export const {
       lineDot: '#e4e4f0',
       switchActive: '#65c062',
       switchHandle: '#fff',
-      switchInactive: '#e8e8ea'
+      labelInactive: '#919192',
+      labelActive: '#feffff'
     },
     fonts: {
       title: `system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji"`,
@@ -225,6 +226,8 @@ export const darkTheme = createTheme('dark-theme', {
     lineDot: '#333336',
     switchActive: '#67c962',
     switchHandle: '#fff',
-    switchInactive: '#3a3b3e'
+    switchInactive: '#3a3b3e',
+    labelInactive: '#919192',
+    labelActive: '#feffff'
   }
 })

@@ -1,11 +1,12 @@
 import React, { forwardRef, useState, useEffect } from 'react'
 import { styled } from 'stitches'
+import Label from './label'
 
 const Input = styled('input', {
   appearance: 'none',
   br: '16px',
   width: '$$width',
-  height: '100%',
+  height: '$$height',
   background: '$$backgroundColor',
   transition: 'background-color 0.4s ease-in-out 0s'
 })
@@ -15,9 +16,10 @@ const Handle = styled('span', {
   pointerEvents: 'none',
   background: '$$handleColor',
   position: 'absolute',
-  left: 0,
+  right: 'calc($$handle * -1)',
   top: '50%',
   transform: 'translate($$left, -50%)',
+  willChange: 'transform',
   transition: 'transform 0.3s ease-in-out 0s',
   height: '$$handle',
   width: '$$handle'
@@ -31,29 +33,44 @@ const Wrapper = styled('span', {
   '$$width': '52px',
   '$$padding': '2px',
   '$$left': '$$padding',
-  height: '$$height',
   position: 'relative',
   display: 'inline-flex',
+  alignItems: 'center',
+  flexDirection: 'row-reverse',
+  [`${Label}`]: {
+    color: '$labelInactive',
+    pr: '8px'
+  },
   'input:checked': {
     '$$backgroundColor': '$colors$switchActive',
   },
   'input:checked + span': {
-    '$$left': 'calc($$width / 2 - $$padding * 2)'
+    '$$left': 'calc($$width / 2 - $$padding * 2)',
+    [`${Label}`]: {
+      color: '$labelActive',
+      fontWeight: '700'
+    }
   }
 })
 
+const LabelContainer = styled('span', {
+  position: 'relative'
+})
 
 type InputProps = React.HTMLProps<HTMLInputElement>
 type CheckboxProps = Omit<InputProps, 'type'>
 type SwitchProps = CheckboxProps & {
-
+  children?: React.ReactNode
 }
 
-const Switch = forwardRef<HTMLInputElement, SwitchProps>(({ ...rest }, ref) => {
+const Switch = forwardRef<HTMLInputElement, SwitchProps>(({ children, ...rest }, ref) => {
   return (
-    <Wrapper>
+    <Wrapper as="label">
       <Input {...rest} type="checkbox" ref={ref} />
-      <Handle aria-hidden />
+      <LabelContainer>
+        <Handle aria-hidden />
+        <Label as="span">{children}</Label>
+      </LabelContainer>
     </Wrapper>
   )
 })
