@@ -8,7 +8,7 @@ No more hard to use and dismiss modal experiences for mobile users.
 Instead `react-sheet-slide` provides a fully draggable sheet
 that properly blocks weird overscrolling and focus bugs.  Then on desktop
 this component optionally supports a fully-featured modal.
-Alterativly the sheet can be used on desktop as-well if so desired.
+Alternatively the sheet can be used on desktop as-well if so desired.
 
 ## Features
 
