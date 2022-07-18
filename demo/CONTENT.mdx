@@ -1,4 +1,4 @@
-import { RadioGroup, Radio, Switch, Fieldset, Legend, LiveCodeSample } from 'form'
+import { RadioGroup, Radio, Switch, Fieldset, Legend, LiveCodeSample, SheetThemeMode } from 'form'
 
 # react-sheet-slide
 
@@ -84,14 +84,7 @@ If you want to keep your `body` background, use `!important`.
   List of available detents that the sheet will catch on.  Reccomened to set to either `detents.large` or <code>{'props => [detents.large(props), detents.medium(props)]'}</code>
   to mimic the UIKit behaviour however can be customized using the callback.
 
-- <Fieldset>
-    <Legend>useDarkMode</Legend>
-    <RadioGroup>
-      <Radio value="auto" name="useDarkMode">Auto</Radio>
-      <Radio value="off" name="useDarkMode">Light</Radio>
-      <Radio value="on" name="useDarkMode">Dark</Radio>
-    </RadioGroup>
-  </Fieldset>
+- <SheetThemeMode />
   Prop to control if dark mode is enabled.  By default this will use the system `prefers-color-scheme`.
 
 - <Fieldset>

@@ -1,6 +1,6 @@
 import { Children, useMemo, useState, useRef } from 'react'
 import Head from 'next/head'
-import { Formik, useField, FormikProps } from 'formik'
+import { Formik, useField, useFormikContext, FormikProps } from 'formik'
 import { bundleMDX } from 'mdx-bundler'
 import { getMDXComponent, MDXContentProps } from 'mdx-bundler/client'
 import { cwd, getMarkdownFile } from 'data/local'
@@ -324,16 +324,34 @@ const SheetButtonWrapper = styled('div', {
   }
 })
 
+const SheetThemeMode = () => {
+  const { name, setTheme } = useTheme()
+  return (
+    <Fieldset>
+      <Legend>useDarkMode</Legend>
+      <RadioGroup>
+        <Radio value="auto" name="useDarkMode">Auto</Radio>
+        <Radio value="off" name="useDarkMode" onChange={() => setTheme('light')}>Light</Radio>
+        <Radio value="on" name="useDarkMode" onChange={() => setTheme('dark')}>Dark</Radio>
+      </RadioGroup>
+    </Fieldset>
+  )
+}
+
 const ThemeButtons: React.FC<{}> = () => {
   const mounted = useIsMounted()
   const { name, setTheme } = useTheme()
+  const { setFieldValue } = useFormikContext<FormProps>()
   if (!mounted) return <Spacer css={{ minHeight: '44px', minWidth: '110px' }} />
   return (
     <Split>
       <Button
         aria-pressed={name === 'light'}
         theme="secondary"
-        onClick={() => setTheme('light')}
+        onClick={() => {
+          setTheme('light')
+          setFieldValue('useDarkMode', 'off')
+        }}
         type="button"
         css={{ flex: '1', textAlign: 'right' }}
       >
@@ -343,7 +361,10 @@ const ThemeButtons: React.FC<{}> = () => {
       <Button
         aria-pressed={name === 'dark'}
         theme="secondary"
-        onClick={() => setTheme('dark')}
+        onClick={() => {
+          setTheme('dark')
+          setFieldValue('useDarkMode', 'on')
+        }}
         type="button"
         css={{ flex: '1', textAlign: 'left' }}
       >
@@ -399,7 +420,7 @@ const components: MDXContentProps['components'] = {
   }
 }
 
-const form = { RadioGroup, Radio, Switch, Fieldset, Legend, LiveCodeSample }
+const form = { RadioGroup, Radio, Switch, Fieldset, Legend, LiveCodeSample, SheetThemeMode }
 
 const App: React.FC<{ code: string }> = ({ code }) => {
   const Component = useMemo(() => getMDXComponent(code, { form }), [code])
@@ -455,6 +476,17 @@ const App: React.FC<{ code: string }> = ({ code }) => {
               </IconWrapper>
             </TitleWrapper>
           </Indent>
+          <DocsWrapper>
+            <Formik
+              initialValues={{
+                scrollingExpands: true,
+                useDarkMode: 'auto',
+                useModal: 'auto'
+              }}
+              onSubmit={() => {}}
+            >
+              {({ values }: FormikProps<FormProps>) => (
+                <>
           <ButtonWrappers>
             <ThemeButtons />
             <SheetButtonWrapper>
@@ -467,17 +499,6 @@ const App: React.FC<{ code: string }> = ({ code }) => {
               </Button>
             </SheetButtonWrapper>
           </ButtonWrappers>
-          <DocsWrapper>
-            <Formik
-              initialValues={{
-                scrollingExpands: true,
-                useDarkMode: 'auto',
-                useModal: 'auto'
-              }}
-              onSubmit={() => {}}
-            >
-              {({ values }: FormikProps<FormProps>) => (
-                <>
                   <Portal containerRef="#react-sheet-slide">
                     <Sheet
                       ref={ref}
@@ -489,7 +510,7 @@ const App: React.FC<{ code: string }> = ({ code }) => {
                         detents.large(props),
                         detents.medium(props)
                       ]}
-                      useDarkMode={useDarkMode}
+                      useDarkMode={trinaryToBool(values.useDarkMode) ?? useDarkMode}
                       useModal={trinaryToBool(values.useModal)}
                       scrollingExpands={values.scrollingExpands}
                     >
@@ -599,7 +620,8 @@ export const getStaticProps = async () => {
           'Radio',
           'Fieldset',
           'Legend',
-          'LiveCodeSample'
+          'LiveCodeSample',
+          'SheetThemeMode'
         ],
         defaultExport: false
       }

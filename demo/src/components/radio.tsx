@@ -57,12 +57,18 @@ type Props = RadioProps & {
 }
 
 export const Radio = forwardRef<HTMLInputElement, Props>(
-  ({ id, name, value, children, ...rest }, ref) => {
+  ({ id, name, value, children, onChange, ...rest }, ref) => {
     const [field] = useField(name)
+    const { onChange: onFieldChange, ...fields } = field
+    const onChangeWrapper = (e: any) => {
+      if (typeof onChange === 'function') onChange(e)
+      onFieldChange(e)
+    }
     return (
       <Wrapper>
         <Input
-          {...field}
+          {...fields}
+          onChange={onChangeWrapper}
           checked={field.value === value}
           {...rest}
           id={id ?? name}
