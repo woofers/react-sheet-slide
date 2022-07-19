@@ -1,9 +1,9 @@
 import { Children, useMemo, useState, useRef } from 'react'
 import Head from 'next/head'
-import { Formik, useField, useFormikContext, FormikProps } from 'formik'
+import { Formik, useFormikContext, FormikProps } from 'formik'
 import { bundleMDX } from 'mdx-bundler'
 import { getMDXComponent, MDXContentProps } from 'mdx-bundler/client'
-import { cwd, getMarkdownFile } from 'data/local'
+import { cwd } from 'data/local'
 import { styled } from 'stitches'
 import {
   detents,
@@ -24,12 +24,7 @@ import Switch from 'components/switch'
 import { Fieldset, Legend } from 'components/fieldset'
 import LiveCodeSample from 'components/live-code-sample'
 import { trinaryToBool } from 'utils/code'
-import {
-  Sortable,
-  useSortableItems,
-  Items,
-  SetItems
-} from 'components/sortable'
+import { Sortable, SetItems } from 'components/sortable'
 import type { FormProps } from 'types/global'
 
 const List = styled('ul', {
