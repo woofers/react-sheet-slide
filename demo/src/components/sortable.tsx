@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useRef, useEffect } from 'react'
+import React, { useState } from 'react'
 import { styled } from 'stitches'
 import {
   DndContext,
@@ -7,11 +7,7 @@ import {
   KeyboardSensor,
   MouseSensor,
   TouchSensor,
-  MeasuringStrategy,
-  pointerWithin,
-  getFirstCollision,
-  rectIntersection,
-  closestCenter
+  MeasuringStrategy
 } from '@dnd-kit/core'
 import {
   SortableContext,
@@ -27,7 +23,7 @@ import {
   restrictToHorizontalAxis
 } from '@dnd-kit/modifiers'
 import { CSS } from '@dnd-kit/utilities'
-import type { CollisionDetection, UniqueIdentifier } from '@dnd-kit/core'
+import type { UniqueIdentifier } from '@dnd-kit/core'
 
 const Text = styled('div', {
   background: 'none',
@@ -140,7 +136,6 @@ const SortableItem: React.FC<SortableItemProps> = ({
   children,
   as = 'button',
   onRemove,
-  hidden,
   ...rest
 }) => {
   const {
@@ -184,7 +179,7 @@ const SortableItem: React.FC<SortableItemProps> = ({
       : { role, tabIndex, 'aria-disabled': ariaDisabled }
   return (
     <Button
-      as={'button'}
+      as={as as 'button'}
       {...extra}
       ref={setNodeRef}
       style={style}
@@ -260,72 +255,6 @@ export const Sortable: React.FC<SortableProps> = ({
     setClonedItems(null)
   }
 
-  const lastOverId = useRef<UniqueIdentifier | null>(null)
-  const recentlyMovedToNewContainer = useRef(false)
-  const collisionDetectionStrategy: CollisionDetection = useCallback(
-    args => {
-      if (activeId && activeId in items) {
-        return closestCenter({
-          ...args,
-          droppableContainers: args.droppableContainers.filter(
-            container => container.id in items
-          )
-        })
-      }
-
-      // Start by finding any intersecting droppable
-      const pointerIntersections = pointerWithin(args)
-      const intersections =
-        pointerIntersections.length > 0
-          ? // If there are droppables intersecting with the pointer, return those
-            pointerIntersections
-          : rectIntersection(args)
-      let overId = getFirstCollision(intersections, 'id')
-      console.log(args)
-      if (overId != null) {
-        if (overId in items) {
-          const containerItems = items[overId]
-
-          // If a container is matched and it contains items (columns 'A', 'B', 'C')
-          if (containerItems.length > 0) {
-            // Return the closest droppable within that container
-            overId = closestCenter({
-              ...args,
-              droppableContainers: args.droppableContainers.filter(
-                container => {
-                  return (
-                    container.id !== overId &&
-                    containerItems.find(item => item.id === container.id)
-                  )
-                }
-              )
-            })[0]?.id
-          }
-        }
-
-        lastOverId.current = overId
-
-        return [{ id: overId }]
-      }
-
-      // When a draggable item moves to a new container, the layout may shift
-      // and the `overId` may become `null`. We manually set the cached `lastOverId`
-      // to the id of the draggable item that was moved to the new container, otherwise
-      // the previous `overId` will be returned which can cause items to incorrectly shift positions
-      if (recentlyMovedToNewContainer.current) {
-        lastOverId.current = activeId
-      }
-
-      // If no droppable is matched, return the last match
-      return lastOverId.current ? [{ id: lastOverId.current }] : []
-    },
-    [activeId, items]
-  )
-  useEffect(() => {
-    requestAnimationFrame(() => {
-      recentlyMovedToNewContainer.current = false
-    })
-  }, [items])
   return (
     <DndContext
       measuring={{
@@ -333,7 +262,6 @@ export const Sortable: React.FC<SortableProps> = ({
           strategy: MeasuringStrategy.Always
         }
       }}
-      collisionDetection={collisionDetectionStrategy}
       modifiers={getModifiers(axis)}
       sensors={sensors}
       onDragStart={({ active }) => {
@@ -342,14 +270,10 @@ export const Sortable: React.FC<SortableProps> = ({
       }}
       onDragOver={({ active, over }) => {
         const overId = over?.id
-
         if (overId == null || active.id in items) return
-
         const overContainer = findContainer(overId)
         const activeContainer = findContainer(active.id)
-
         if (!overContainer || !activeContainer) return
-
         if (activeContainer !== overContainer) {
           setItems(items => {
             const activeItems = items[activeContainer]
@@ -360,7 +284,6 @@ export const Sortable: React.FC<SortableProps> = ({
             )
 
             let newIndex: number
-
             if (overId in items) {
               newIndex = overItems.length + 1
             } else {
@@ -371,11 +294,9 @@ export const Sortable: React.FC<SortableProps> = ({
                   over.rect.top + over.rect.height
 
               const modifier = isBelowOverItem ? 1 : 0
-
               newIndex =
                 overIndex >= 0 ? overIndex + modifier : overItems.length + 1
             }
-            recentlyMovedToNewContainer.current = true
             return {
               ...items,
               [activeContainer]: items[activeContainer].filter(
