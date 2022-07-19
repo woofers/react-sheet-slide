@@ -9,6 +9,7 @@ const useGlobalStyles = globalCss({
     overscrollBehaviorY: 'none'
   },
   body: {
+    '-webkit-tap-highlight-color': 'transparent',
     fontFamily: '$title',
     lineHeight: '1.5',
     '-webkit-font-smoothing': 'antialiased',
