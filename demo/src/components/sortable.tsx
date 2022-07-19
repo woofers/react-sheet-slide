@@ -25,6 +25,19 @@ import {
 import { CSS } from '@dnd-kit/utilities'
 import type { UniqueIdentifier } from '@dnd-kit/core'
 
+const Flex = styled('div', {
+  width: '354px',
+  display: 'flex',
+  gap: '4px 0',
+  flexDirection: 'column'
+})
+
+const Title = styled('div', {
+  textTransform: 'capitalize',
+  fontSize: '16px',
+  fontWeight: '700'
+})
+
 const Text = styled('div', {
   background: 'none',
   border: 0,
@@ -104,8 +117,7 @@ const Button = styled('button', {
 type Position = 'top' | 'bottom' | 'middle' | 'both'
 
 const Wrapper = styled('div', {
-  width: '354px',
-  minHeight: '154px',
+  minHeight: '88px',
   position: 'relative',
   display: 'flex',
   flexDirection: 'column'
@@ -113,7 +125,7 @@ const Wrapper = styled('div', {
 
 const Container = styled('div', {
   display: 'flex',
-  gap: '0 16px'
+  gap: '16px 16px'
 })
 
 export type ItemProps = {
@@ -216,8 +228,8 @@ export const useSortableItems = (
   return [items, setItems]
 }
 
-type Items = Record<UniqueIdentifier, ItemProps[]>
-type SetItems = React.Dispatch<React.SetStateAction<Items>>
+export type Items = Record<UniqueIdentifier, ItemProps[]>
+export type SetItems = React.Dispatch<React.SetStateAction<Items>>
 
 export const Sortable: React.FC<SortableProps> = ({
   items,
@@ -359,18 +371,21 @@ export const Sortable: React.FC<SortableProps> = ({
               key={key}
               strategy={verticalListSortingStrategy}
             >
-              <SortContainer id={key}>
-                {items[key].map(({ id, children, ...rest }) => (
-                  <SortableItem
-                    key={`${key}-${id}`}
-                    id={id}
-                    {...rest}
-                    onRemove={handleRemove}
-                  >
-                    {children}
-                  </SortableItem>
-                ))}
-              </SortContainer>
+              <Flex>
+                <Title>{key}</Title>
+                <SortContainer id={key}>
+                  {items[key].map(({ id, children, ...rest }) => (
+                    <SortableItem
+                      key={`${key}-${id}`}
+                      id={id}
+                      {...rest}
+                      onRemove={handleRemove}
+                    >
+                      {children}
+                    </SortableItem>
+                  ))}
+                </SortContainer>
+              </Flex>
             </SortableContext>
           ))}
         </SortableContext>

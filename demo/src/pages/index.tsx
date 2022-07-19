@@ -24,6 +24,12 @@ import Switch from 'components/switch'
 import { Fieldset, Legend } from 'components/fieldset'
 import LiveCodeSample from 'components/live-code-sample'
 import { trinaryToBool } from 'utils/code'
+import {
+  Sortable,
+  useSortableItems,
+  Items,
+  SetItems
+} from 'components/sortable'
 import type { FormProps } from 'types/global'
 
 const List = styled('ul', {
@@ -330,9 +336,19 @@ const SheetThemeMode = () => {
     <Fieldset>
       <Legend>useDarkMode</Legend>
       <RadioGroup>
-        <Radio value="auto" name="useDarkMode">Auto</Radio>
-        <Radio value="off" name="useDarkMode" onChange={() => setTheme('light')}>Light</Radio>
-        <Radio value="on" name="useDarkMode" onChange={() => setTheme('dark')}>Dark</Radio>
+        <Radio value="auto" name="useDarkMode">
+          Auto
+        </Radio>
+        <Radio
+          value="off"
+          name="useDarkMode"
+          onChange={() => setTheme('light')}
+        >
+          Light
+        </Radio>
+        <Radio value="on" name="useDarkMode" onChange={() => setTheme('dark')}>
+          Dark
+        </Radio>
       </RadioGroup>
     </Fieldset>
   )
@@ -420,7 +436,41 @@ const components: MDXContentProps['components'] = {
   }
 }
 
-const form = { RadioGroup, Radio, Switch, Fieldset, Legend, LiveCodeSample, SheetThemeMode }
+const getDetents = (id: string | number) => {
+  return detents[id as keyof typeof detents]
+}
+
+const DetentsSelector: React.FC<{}> = () => {
+  const { values, setFieldValue } = useFormikContext<FormProps>()
+  const items = values.detents
+  const setItems: SetItems = data => {
+    if (typeof data !== 'function') {
+      setFieldValue('detents', data)
+      return
+    }
+    setFieldValue('detents', data(items))
+  }
+  return <Sortable items={items} setItems={setItems} removable />
+}
+
+const form = {
+  RadioGroup,
+  Radio,
+  Switch,
+  Fieldset,
+  Legend,
+  LiveCodeSample,
+  SheetThemeMode,
+  DetentsSelector
+}
+
+const detentsData = {
+  selected: [
+    { id: 'large', children: 'detents.large' },
+    { id: 'medium', children: 'detents.medium' }
+  ],
+  other: [{ id: 'fit', children: 'detents.fit' }]
+}
 
 const App: React.FC<{ code: string }> = ({ code }) => {
   const Component = useMemo(() => getMDXComponent(code, { form }), [code])
@@ -481,119 +531,133 @@ const App: React.FC<{ code: string }> = ({ code }) => {
               initialValues={{
                 scrollingExpands: true,
                 useDarkMode: 'auto',
-                useModal: 'auto'
+                useModal: 'auto',
+                detents: detentsData
               }}
               onSubmit={() => {}}
             >
-              {({ values }: FormikProps<FormProps>) => (
-                <>
-          <ButtonWrappers>
-            <ThemeButtons />
-            <SheetButtonWrapper>
-              <Button
-                type="button"
-                onClick={openSheet}
-                css={{ flex: 1, maxWidth: '180px' }}
-              >
-                Open sheet
-              </Button>
-            </SheetButtonWrapper>
-          </ButtonWrappers>
-                  <Portal containerRef="#react-sheet-slide">
-                    <Sheet
-                      ref={ref}
-                      open={open}
-                      onDismiss={() => setOpen(false)}
-                      onClose={() => setDarkTitle(false)}
-                      selectedDetent={detents.large}
-                      detents={props => [
-                        detents.large(props),
-                        detents.medium(props)
-                      ]}
-                      useDarkMode={trinaryToBool(values.useDarkMode) ?? useDarkMode}
-                      useModal={trinaryToBool(values.useModal)}
-                      scrollingExpands={values.scrollingExpands}
-                    >
-                      <Header>
-                        <HeaderWrapper>
-                          <ButtonText>Sheet</ButtonText>
-                          <CloseButton
-                            type="button"
-                            onClick={() => setOpen(false)}
-                          >
-                            <CloseIcon />
-                          </CloseButton>
-                        </HeaderWrapper>
-                      </Header>
-                      <Content>
-                        <Container>
-                          <Flex>
-                            <Text>Draggable</Text>
-                            <Box>
-                              <Text>⬆</Text>️
-                            </Box>
-                          </Flex>
-                          <Description>
-                            Can be expanded up and down by dragging the header.
-                            Or if <code>scrollingExpands</code> prop is set, the
-                            body of the sheet can be used to expand or dismiss
-                            the popup.
-                          </Description>
-                          <Flex>
-                            <Text>Accessible</Text>
-                            <Box>
-                              <Text>👪</Text>
-                            </Box>
-                          </Flex>
-                          <Description>
-                            Prevents focus of background elements when sheet is
-                            open. Restores focus to prior selected element once
-                            sheet is closed. Sets <code>aria-modal</code> on
-                            sheet and sets <code>aria-hidden</code> on
-                            background elements. <code>Esc</code> closes sheet
-                            or dialog on desktop.
-                          </Description>
-                          <Flex>
-                            <Text>Styled with CSS Modules</Text>
-                            <Box>
-                              <Text>💅</Text>
-                            </Box>
-                          </Flex>
-                          <Description>
-                            No need for large styled-in-js libaries, just bundle
-                            the small CSS file and sheet component along with
-                            your project.
-                          </Description>
-                          <Flex>
-                            <Text>Customizable Detents</Text>
-                            <Box>
-                              <Text>⚙️</Text>
-                            </Box>
-                          </Flex>
-                          <Description>
-                            Comes with preset detents that can be used to catch
-                            the sheet upon user intereaction. Import{' '}
-                            <code>{'{ detents }'}</code> with options of{' '}
-                            <code>large</code>, <code>medium</code> or{' '}
-                            <code>fit</code>. Or use a custom callback to
-                            determine detents depending on{' '}
-                            <code>maxHeight</code>, and <code>minHeight</code>{' '}
-                            of device.
-                          </Description>
-                        </Container>
-                      </Content>
-                      <Footer>
-                        <FooterWrapper>
-                          <Button type="button" onClick={() => setOpen(false)}>
-                            Close
-                          </Button>
-                        </FooterWrapper>
-                      </Footer>
-                    </Sheet>
-                  </Portal>
-                  <Component components={components} />
-                </>
-              )}
+              {({ values }: FormikProps<FormProps>) => {
+                const active = values.detents.selected
+                const detentsId =
+                  active.length > 0 ? active.map(({ id }) => id) : ['large']
+                const detentsProp = detentsId
+                  .map(id => getDetents(id))
+                  .filter(detent => !!detent)
+                const detentsFunc = (props: Parameters<typeof detents['large']>[0]) =>
+                  detentsProp.map(func => func(props))
+                const selectedDetent = detentsProp[0]
+                return (
+                  <>
+                    <ButtonWrappers>
+                      <ThemeButtons />
+                      <SheetButtonWrapper>
+                        <Button
+                          type="button"
+                          onClick={openSheet}
+                          css={{ flex: 1, maxWidth: '180px' }}
+                        >
+                          Open sheet
+                        </Button>
+                      </SheetButtonWrapper>
+                    </ButtonWrappers>
+                    <Portal containerRef="#react-sheet-slide">
+                      <Sheet
+                        ref={ref}
+                        open={open}
+                        onDismiss={() => setOpen(false)}
+                        onClose={() => setDarkTitle(false)}
+                        selectedDetent={selectedDetent}
+                        detents={detentsFunc}
+                        useDarkMode={
+                          trinaryToBool(values.useDarkMode) ?? useDarkMode
+                        }
+                        useModal={trinaryToBool(values.useModal)}
+                        scrollingExpands={values.scrollingExpands}
+                      >
+                        <Header>
+                          <HeaderWrapper>
+                            <ButtonText>Sheet</ButtonText>
+                            <CloseButton
+                              type="button"
+                              onClick={() => setOpen(false)}
+                            >
+                              <CloseIcon />
+                            </CloseButton>
+                          </HeaderWrapper>
+                        </Header>
+                        <Content>
+                          <Container>
+                            <Flex>
+                              <Text>Draggable</Text>
+                              <Box>
+                                <Text>⬆</Text>️
+                              </Box>
+                            </Flex>
+                            <Description>
+                              Can be expanded up and down by dragging the
+                              header. Or if <code>scrollingExpands</code> prop
+                              is set, the body of the sheet can be used to
+                              expand or dismiss the popup.
+                            </Description>
+                            <Flex>
+                              <Text>Accessible</Text>
+                              <Box>
+                                <Text>👪</Text>
+                              </Box>
+                            </Flex>
+                            <Description>
+                              Prevents focus of background elements when sheet
+                              is open. Restores focus to prior selected element
+                              once sheet is closed. Sets <code>aria-modal</code>{' '}
+                              on sheet and sets <code>aria-hidden</code> on
+                              background elements. <code>Esc</code> closes sheet
+                              or dialog on desktop.
+                            </Description>
+                            <Flex>
+                              <Text>Styled with CSS Modules</Text>
+                              <Box>
+                                <Text>💅</Text>
+                              </Box>
+                            </Flex>
+                            <Description>
+                              No need for large styled-in-js libaries, just
+                              bundle the small CSS file and sheet component
+                              along with your project.
+                            </Description>
+                            <Flex>
+                              <Text>Customizable Detents</Text>
+                              <Box>
+                                <Text>⚙️</Text>
+                              </Box>
+                            </Flex>
+                            <Description>
+                              Comes with preset detents that can be used to
+                              catch the sheet upon user intereaction. Import{' '}
+                              <code>{'{ detents }'}</code> with options of{' '}
+                              <code>large</code>, <code>medium</code> or{' '}
+                              <code>fit</code>. Or use a custom callback to
+                              determine detents depending on{' '}
+                              <code>maxHeight</code>, and <code>minHeight</code>{' '}
+                              of device.
+                            </Description>
+                          </Container>
+                        </Content>
+                        <Footer>
+                          <FooterWrapper>
+                            <Button
+                              type="button"
+                              onClick={() => setOpen(false)}
+                            >
+                              Close
+                            </Button>
+                          </FooterWrapper>
+                        </Footer>
+                      </Sheet>
+                    </Portal>
+                    <Component components={components} />
+                  </>
+                )
+              }}
             </Formik>
           </DocsWrapper>
           <Center>
@@ -621,7 +685,8 @@ export const getStaticProps = async () => {
           'Fieldset',
           'Legend',
           'LiveCodeSample',
-          'SheetThemeMode'
+          'SheetThemeMode',
+          'DetentsSelector'
         ],
         defaultExport: false
       }

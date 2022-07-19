@@ -23,7 +23,14 @@ const addBooleanOption = (key: string, value: boolean | undefined) => {
   return `${key}={${value}}`
 }
 
+
 type Props = FormProps & {}
+
+const addDetents = (detents: Props['detents']) => {
+  const active = detents.selected.map(({ id }) => id)
+  const data = active.length > 0 ? active : ['large']
+  return data.map(key => `detents.${key}(props)`).join(',\n' + spaces(6))
+}
 
 const code = (props: Props) => {
   return `${imports()}
@@ -44,10 +51,9 @@ const App = () => {
           onClose={() => {
             console.log('Component unmounted')
           }}
-          selectedDetent={detents.large}
+          selectedDetent={detents.${props.detents.selected[0]?.id ?? 'large'}}
           detents={props => [
-            detents.large(props),
-            detents.fit(props)
+            ${addDetents(props.detents)}
           ]}
 ${[
   addBooleanOption('useDarkMode', trinaryToBool(props.useDarkMode)),
