@@ -90,4 +90,6 @@ const Switch = forwardRef<HTMLInputElement, SwitchProps>(
   }
 )
 
+Switch.displayName = 'Switch'
+
 export default Switch
