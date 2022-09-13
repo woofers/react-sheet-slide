@@ -9,7 +9,6 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 module.exports = withBundleAnalyzer({
   distDir: 'build',
   swcMinify: true,
-  webpack5: true,
   reactStrictMode: true,
   images: {
     loader: 'imgix',

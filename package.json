@@ -1,6 +1,6 @@
 {
   "name": "react-sheet-slide",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "A responsive React draggable sheet and dialog component",
   "src": "src/index.tsx",
   "main": "lib/index.cjs",
@@ -58,21 +58,21 @@
     "react-dom": "^16.8.0 || 17.x || 18.x"
   },
   "devDependencies": {
-    "@react-spring/web": "^9.4.5",
-    "@types/react": "^18.0.14",
-    "@types/react-dom": "^18.0.5",
-    "@typescript-eslint/eslint-plugin": "^5.30.3",
-    "@typescript-eslint/parser": "^5.30.3",
-    "@use-gesture/react": "^10.2.16",
-    "eslint": "^8.19.0",
+    "@react-spring/web": "^9.5.4",
+    "@types/react": "^18.0.20",
+    "@types/react-dom": "^18.0.6",
+    "@typescript-eslint/eslint-plugin": "^5.37.0",
+    "@typescript-eslint/parser": "^5.37.0",
+    "@use-gesture/react": "^10.2.19",
+    "eslint": "^8.23.1",
     "eslint-plugin-import": "^2.25.3",
-    "eslint-plugin-jsx-a11y": "^6.5.1",
-    "eslint-plugin-react": "^7.28.0",
+    "eslint-plugin-jsx-a11y": "^6.6.1",
+    "eslint-plugin-react": "^7.31.8",
     "eslint-plugin-react-hooks": "^4.3.0",
-    "microbundle": "^0.15.0",
+    "microbundle": "^0.15.1",
     "prettier": "^2.7.1",
     "rimraf": "^3.0.2",
-    "typescript": "^4.7.4"
+    "typescript": "^4.8.3"
   },
   "dependencies": {}
 }
