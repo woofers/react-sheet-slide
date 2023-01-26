@@ -462,7 +462,6 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
           const data = onCapture
             ? {
                 onClickCapture: (e: React.MouseEvent) => {
-                  if (!isKeyboardNav(e)) console.log('hi')
                   if (!isKeyboardNav(e)) return onCapture(e)
                 }
               }
