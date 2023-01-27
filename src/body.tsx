@@ -4,7 +4,7 @@ import { hasWindow, setRef } from './utils'
 import classes from './classnames'
 import styles from './sheet.module.css'
 
-const values = ['--dim', '--scale', '--down', '--round', '--scroll']
+const values = ['--dim', '--scale', '--down', '--round', '--scroll', '--blur', '--blurRadius']
 
 type BodyProxyProps = { style?: Record<string, string> }
 

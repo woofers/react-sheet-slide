@@ -76,6 +76,11 @@ const useSpringInterpolations = ({
     (y, minSnap) => (minSnap ? clamp(y / 80, 0, 1) : 0) * 12 + 'px'
   )
 
+  const interpolateBlur = interpolate(
+    [spring.y, spring.minSnap],
+    (y, minSnap) => (minSnap ? clamp(y / minSnap, 0, 1) : 0)
+  )
+
   const modal = {
     ['--bottom-height' as any]: interpolateFiller,
     ['--modal-offset' as any]: interpolateY,
@@ -86,7 +91,8 @@ const useSpringInterpolations = ({
     ['--dim' as any]: interpolateDim,
     ['--scale' as any]: interpolateScale,
     ['--down' as any]: interpolateDown,
-    ['--round' as any]: interpolateRound
+    ['--round' as any]: interpolateRound,
+    ['--blur' as any]: interpolateBlur
   }
   return { modal, backdrop }
 }
