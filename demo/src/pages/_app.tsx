@@ -1,6 +1,5 @@
 import { ErrorBoundary, type FallbackProps } from 'react-error-boundary'
 import { ThemeProvider } from 'components/theme-provider'
-import Global from 'components/global'
 import Meta from 'components/meta'
 import type { AppProps } from 'next/app'
 import '../styles/index.css'

@@ -84,7 +84,7 @@ input, textarea, button, select, a {
     --color-selection: rgba(0, 40, 255, 0.3);
     --color-tab-background: #e8e8e8;
     --color-tab-active: #feffff;
-
+    --color-container-background: #feffff;
 
     --color-white: 255 255 255;
     --color-black: 0 0 0;
@@ -339,6 +339,7 @@ input, textarea, button, select, a {
     --color-selection: rgba(47, 76, 232, 0.77);
     --color-tab-background: #313136;
     --color-tab-active: #69696f;
+    --color-container-background: #1c1c1e;
 
     --color-black: 255 255 255;
     --color-white: 0 0 0;

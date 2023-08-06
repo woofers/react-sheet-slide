@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react'
+import React, { useCallback, forwardRef } from 'react'
 import { useField } from 'formik'
 import clsx from 'clsx'
 import { Label } from './label'
@@ -19,10 +19,10 @@ export const Radio = forwardRef<HTMLInputElement, Props>(
   ({ id, name, value, children, onChange, ...rest }, ref) => {
     const [field] = useField(name)
     const { onChange: onFieldChange, ...fields } = field
-    const onChangeWrapper = (e: InputProps["onChange"]) => {
+    const onChangeWrapper = useCallback((e: Parameters<Exclude<InputProps["onChange"], undefined>>[0]) => {
       if (typeof onChange === 'function') onChange(e)
       onFieldChange(e)
-    }
+    }, [])
     return (
       <span className="relative inline-flex">
         <input

@@ -25,47 +25,7 @@ import {
 import { CSS } from '@dnd-kit/utilities'
 import type { UniqueIdentifier } from '@dnd-kit/core'
 
-const Flex = styled('div', {
-  width: '354px',
-  display: 'flex',
-  gap: '4px 0',
-  flexDirection: 'column'
-})
-
-const Title = styled('div', {
-  textTransform: 'capitalize',
-  fontSize: '16px',
-  fontWeight: '700'
-})
-
-const Text = styled('div', {
-  background: 'none',
-  border: 0,
-  flex: 1,
-  display: 'flex',
-  alignItems: 'center',
-  ml: '8px',
-  pr: '16px',
-  height: '100%',
-  borderBottom: '0.2px solid $containerBorder'
-})
-
-const Square = styled('div', {
-  py: '8px',
-  br: '8px',
-  width: '30px',
-  height: '30px',
-  background: '#007aff'
-})
-
-const Round = styled('div', {
-  border: 0,
-  padding: 0,
-  br: '$round',
-  width: '20px',
-  height: '20px',
-  background: '#ff453a'
-})
+const Text = styled('div', {})
 
 const Button = styled('button', {
   display: 'flex',
@@ -116,18 +76,6 @@ const Button = styled('button', {
 
 type Position = 'top' | 'bottom' | 'middle' | 'both'
 
-const Wrapper = styled('div', {
-  minHeight: '88px',
-  position: 'relative',
-  display: 'flex',
-  flexDirection: 'column'
-})
-
-const Container = styled('div', {
-  display: 'flex',
-  gap: '16px 16px'
-})
-
 export type ItemProps = {
   id: UniqueIdentifier
   disabled?: boolean
@@ -140,7 +88,7 @@ type SortableItemProps = ItemProps & {
   onRemove?: (id: UniqueIdentifier) => void
 }
 
-const buttonType: 'button' = 'button'
+const buttonType = 'button' as const
 
 const SortableItem: React.FC<SortableItemProps> = ({
   id,
@@ -200,8 +148,8 @@ const SortableItem: React.FC<SortableItemProps> = ({
       {...listeners}
       position={position}
     >
-      {onRemove && <Round tabIndex={0} onClick={() => onRemove(id)} as="div" />}
-      <Text>{children}</Text>
+      {onRemove && <div className="border-none p-0 rounded-full w-5 w-5 background-[#ff453a]" tabIndex={0} onClick={() => onRemove(id)} />}
+      <Text className="bg-none flex grow items-center ml-2 pr-4 h-full [border-bottom:0.2px_solid_var(--color-container-background)]">{children}</Text>
     </Button>
   )
 }
@@ -360,7 +308,7 @@ export const Sortable: React.FC<SortableProps> = ({
       }}
       onDragCancel={onDragCancel}
     >
-      <Container>
+      <div className="p-4 flex">
         <SortableContext
           items={Object.keys(items)}
           strategy={horizontalListSortingStrategy}
@@ -371,8 +319,8 @@ export const Sortable: React.FC<SortableProps> = ({
               key={key}
               strategy={verticalListSortingStrategy}
             >
-              <Flex>
-                <Title>{key}</Title>
+              <div className="w-[354px] flex flex-col gap-y-1">
+                <div className="capitalize text-base font-bold">{key}</div>
                 <SortContainer id={key}>
                   {items[key].map(({ id, children, ...rest }) => (
                     <SortableItem
@@ -385,11 +333,11 @@ export const Sortable: React.FC<SortableProps> = ({
                     </SortableItem>
                   ))}
                 </SortContainer>
-              </Flex>
+              </div>
             </SortableContext>
           ))}
         </SortableContext>
-      </Container>
+      </div>
     </DndContext>
   )
 }
@@ -401,8 +349,8 @@ const SortContainer: React.FC<{ id: string; children?: React.ReactNode }> = ({
 }) => {
   const { listeners, setNodeRef } = useSortable({ id, disabled: true })
   return (
-    <Wrapper ref={setNodeRef} {...rest} {...listeners}>
+    <div ref={setNodeRef} {...rest} {...listeners} className="min-height-[88px] relative flex flex-col">
       {children}
-    </Wrapper>
+    </div>
   )
 }
