@@ -119,6 +119,15 @@ input, textarea, button, select, a {
   font-weight: 700;
 }
 
+.docs-wrapper h2 {
+  @apply my-2;
+}
+
+.docs-wrapper pre {
+  @apply mt-3;
+  @apply mb-4;
+}
+
 @layer base {
   :root {
     color-scheme: light;
@@ -142,6 +151,12 @@ input, textarea, button, select, a {
     --color-switch-inactive: #ebebf4;
     --color-label-inactive: #919192;
     --color-label-active: var(--colors-text);
+
+    --color-text-hover: #78787a;
+    --color-close: rgba(199, 199, 208, 0.26);
+    --color-close-text: #838388;
+    --color-link: #2878f4;
+
 
     --color-white: 255 255 255;
     --color-black: 0 0 0;
@@ -407,6 +422,11 @@ input, textarea, button, select, a {
     --color-switch-inactive: #3a3b3e;
     --color-label-inactive: #919192;
     --color-label-active: #feffff;
+
+    --color-text-hover: #5c5750;
+    --color-close: rgba(93, 93, 96, 0.28);
+    --color-close-text: #9f9fa6;
+    --color-link: #2878f4;
 
     --color-black: 255 255 255;
     --color-white: 0 0 0;

@@ -88,7 +88,12 @@ const Switch = forwardRef<HTMLInputElement, SwitchProps>(
         />
         <LabelContainer>
           <Handle aria-hidden />
-          <Label className="switch-label text-[var(--color-label-inactive)] pr-2" as="span">{children}</Label>
+          <Label
+            className="switch-label text-[var(--color-label-inactive)] pr-2"
+            as="span"
+          >
+            {children}
+          </Label>
         </LabelContainer>
       </Wrapper>
     )

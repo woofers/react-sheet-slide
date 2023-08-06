@@ -13,7 +13,7 @@ import {
   Footer,
   Portal
 } from 'react-sheet-slide'
-import { Box, Flex } from 'components/flex'
+import { IconBox, Flex } from 'components/flex'
 import { useTheme } from 'components/theme-provider'
 import { CloseIcon } from 'icons'
 import useIsMounted from 'hooks/use-is-mounted'
@@ -28,64 +28,82 @@ import { trinaryToBool } from 'utils/code'
 import { Sortable, SetItems } from 'components/sortable'
 import type { FormProps } from 'types/global'
 import { clsx } from 'cva'
+import Box, { type BoxProps } from 'components/box'
 
-const CloseButton = styled('button', {
-  padding: 0,
-  border: 'none',
-  br: '$round',
-  width: '30px',
-  height: '30px',
-  display: 'inline-flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  position: 'relative',
-  backgroundColor: '$close',
-  color: '$closeText'
-})
+const CloseButton: React.FC<BoxProps<'button'>> = ({
+  className,
+  as = 'button',
+  ...rest
+}) => (
+  <Box
+    {...rest}
+    as={as}
+    className={clsx(
+      'p-0 border-none rounded-full w-[30px] h-[30px] inline-flex items-center justify-center relative bg-[var(--color-close)] text-[var(--color-close-text)]',
+      className
+    )}
+  />
+)
 
-const Description = styled('div', {
-  margin: '0 auto',
-  width: '100%',
-  fontFamily: '$title',
-  fontWeight: 400,
-  lineHeight: '20px',
-  fontSize: '16px',
-  letterSpacing: '0px'
-})
+const Description: React.FC<BoxProps<'div'>> = ({
+  className,
+  as = 'div',
+  ...rest
+}) => (
+  <Box
+    {...rest}
+    as={as}
+    className={clsx(
+      'mx-auto my-0 w-full text-base leading-5 tracking-normal',
+      className
+    )}
+  />
+)
 
-const LargeText = styled('div', {
-  fontFamily: '$title',
-  fontWeight: 700,
-  lineHeight: '36px',
-  fontSize: '32px',
-  marginTop: 0,
-  marginBottom: 0,
-  letterSpacing: '1px'
-})
+const LargeText: React.FC<BoxProps<'div'>> = ({
+  className,
+  as = 'div',
+  ...rest
+}) => (
+  <Box
+    {...rest}
+    as={as}
+    className={clsx(
+      'font-bold text-[32px] leading-9 my-0 tracking-[1px]',
+      className
+    )}
+  />
+)
 
-const Text = styled('div', {
-  maxWidth: '300px',
-  fontFamily: '$title',
-  fontWeight: 500,
-  lineHeight: '24px',
-  fontSize: '20px',
-  marginTop: 0,
-  marginBottom: 0,
-  letterSpacing: '-0.25px'
-})
+const Text: React.FC<BoxProps<'div'>> = ({
+  className,
+  as = 'div',
+  ...rest
+}) => (
+  <Box
+    {...rest}
+    as={as}
+    className={clsx(
+      'max-w-[300px] font-medium text-xl leading-6 my-0 tracking-[-0.25px]',
+      className
+    )}
+  />
+)
 
-const Action = styled('div', {
-  textDecoration: 'none',
-  color: '$link',
-  fontFamily: '$title',
-  fontWeight: 500,
-  lineHeight: '20px',
-  fontSize: '16px',
-  width: '100%',
-  letterSpacing: '-0.25px',
-  textAlign: 'center',
-  margin: '0 auto'
-})
+const Action: React.FC<BoxProps<'div'>> = ({
+  className,
+  as = 'div',
+  ...rest
+}) => (
+  <Box
+    {...rest}
+    as={as}
+    className={clsx(
+      'no-underline text-[var(--color-link)] font-medium text-base leading-5 w-full tracking-[-0.25px] text-center mx-auto my-0',
+      className
+    )}
+  />
+)
 
 const Button = styled('button', {
   height: '44px',
@@ -128,52 +146,54 @@ const Button = styled('button', {
   }
 })
 
-const Container = styled('div', {
-  padding: '76px 20px 16px',
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '20px 0',
-  color: '$text'
-})
+const Container: React.FC<BoxProps<'div'>> = ({
+  className,
+  as = 'div',
+  ...rest
+}) => (
+  <Box
+    {...rest}
+    as={as}
+    className={clsx(
+      'flex p-[76px_20px_16px] flex-col gap-y-[20px] text-[var(--color-text)]',
+      className
+    )}
+  />
+)
 
-const Center = styled('div', {
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  alignItems: 'center',
-  gap: '32px 0',
-  marginTop: '3.5em',
-  marginBottom: '1.6em',
-  '@sm': {
-    marginTop: '5.5em',
-    marginBottom: '2.5em'
-  }
-})
+const Center: React.FC<BoxProps<'div'>> = ({
+  className,
+  as = 'div',
+  ...rest
+}) => (
+  <Box
+    {...rest}
+    as={as}
+    className={clsx(
+      'flex flex-col justify-center items-center gap-y-8 mt-14 mb-6 sm:mt-20 sm:mb-10',
+      className
+    )}
+  />
+)
+//marginBottom: '1.6em',
+//marginTop: '5.5em',
 
-const Link = styled('a', {
-  textDecoration: 'none',
-  fontSize: '0.5em',
-  color: '$text',
-  '&:hover': {
-    color: '$textHover'
-  },
-  '@xsm': {
-    fontSize: '0.75em'
-  },
-  '@sm': {
-    fontSize: '16px'
-  }
-})
+const Link: React.FC<BoxProps<'a'>> = ({ className, as = 'a', ...rest }) => (
+  <Box
+    {...rest}
+    as={as}
+    className={clsx(
+      'no-underline text-[var(--color-text)] text-[0.5rem] hover:text-[var(--color-text-hover)] xsm:text-xs sm:text-base !leading-6',
+      className
+    )}
+  />
+)
 
-const DocsWrapper = styled('div', {
-  h2: {
-    my: '8px'
-  },
-  pre: {
-    mt: '12px',
-    mb: '16px'
-  }
-})
+const DocsWrapper: React.FC<BoxProps<'div'>> = ({
+  className,
+  as = 'div',
+  ...rest
+}) => <Box {...rest} as={as} className={clsx('docs-wrapper', className)} />
 
 const SheetThemeMode = () => {
   const { name, setTheme } = useTheme()
@@ -330,7 +350,7 @@ const App: React.FC<{ code: string }> = ({ code }) => {
         <meta name="msapplication-navbutton-color" content={meta} />
       </Head>
       <div className="rss-backdrop text-[var(--color-text)] bg-[var(--color-background)] min-h-screen">
-        <div className="max-w-[1280px] margin-[0,auto] p-[24px_16px_0]">
+        <div className="max-w-[1280px] mx-auto my-0 p-[24px_16px_0]">
           <div className="flex flex-col gap-y-4 pl-2">
             <div className="w-full flex justify-between">
               <div className="flex flex-col gap-y-4">
@@ -429,9 +449,9 @@ const App: React.FC<{ code: string }> = ({ code }) => {
                           <Container>
                             <Flex>
                               <Text>Draggable</Text>
-                              <Box>
+                              <IconBox>
                                 <Text>⬆</Text>️
-                              </Box>
+                              </IconBox>
                             </Flex>
                             <Description>
                               Can be expanded up and down by dragging the
@@ -441,9 +461,9 @@ const App: React.FC<{ code: string }> = ({ code }) => {
                             </Description>
                             <Flex>
                               <Text>Accessible</Text>
-                              <Box>
+                              <IconBox>
                                 <Text>👪</Text>
-                              </Box>
+                              </IconBox>
                             </Flex>
                             <Description>
                               Prevents focus of background elements when sheet
@@ -455,9 +475,9 @@ const App: React.FC<{ code: string }> = ({ code }) => {
                             </Description>
                             <Flex>
                               <Text>Styled with CSS Modules</Text>
-                              <Box>
+                              <IconBox>
                                 <Text>💅</Text>
-                              </Box>
+                              </IconBox>
                             </Flex>
                             <Description>
                               No need for large styled-in-js libaries, just
@@ -466,9 +486,9 @@ const App: React.FC<{ code: string }> = ({ code }) => {
                             </Description>
                             <Flex>
                               <Text>Customizable Detents</Text>
-                              <Box>
+                              <IconBox>
                                 <Text>⚙️</Text>
-                              </Box>
+                              </IconBox>
                             </Flex>
                             <Description>
                               Comes with preset detents that can be used to

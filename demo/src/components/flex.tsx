@@ -16,7 +16,7 @@ export const Flex: React.FC<BoxProps<'div'>> = ({
   />
 )
 
-export const Box: React.FC<BoxProps<'div'>> = ({
+export const IconBox: React.FC<BoxProps<'div'>> = ({
   className,
   as = 'div',
   ...rest

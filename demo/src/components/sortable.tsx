@@ -314,7 +314,7 @@ export const Sortable: React.FC<SortableProps> = ({
       }}
       onDragCancel={onDragCancel}
     >
-      <div className="p-4 flex">
+      <div className="gap-4 flex">
         <SortableContext
           items={Object.keys(items)}
           strategy={horizontalListSortingStrategy}
