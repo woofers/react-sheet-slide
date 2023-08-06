@@ -4,8 +4,16 @@ import clsx from 'clsx'
 import { Label } from './label'
 import Box, { type BoxProps } from './box'
 
-export const RadioGroup: React.FC<BoxProps<'div'>> = ({ className, ...rest }) =>
-  <Box {...rest} as="div" className="inline-flex rounded-lg [background:var(--color-tab-background)]" />
+export const RadioGroup: React.FC<BoxProps<'div'>> = ({
+  className,
+  ...rest
+}) => (
+  <Box
+    {...rest}
+    as="div"
+    className="inline-flex rounded-lg bg-[var(--color-tab-background)]"
+  />
+)
 
 type InputProps = React.HTMLProps<HTMLInputElement>
 type RadioProps = Omit<InputProps, 'type'>
@@ -19,10 +27,13 @@ export const Radio = forwardRef<HTMLInputElement, Props>(
   ({ id, name, value, children, onChange, ...rest }, ref) => {
     const [field] = useField(name)
     const { onChange: onFieldChange, ...fields } = field
-    const onChangeWrapper = useCallback((e: Parameters<Exclude<InputProps["onChange"], undefined>>[0]) => {
-      if (typeof onChange === 'function') onChange(e)
-      onFieldChange(e)
-    }, [])
+    const onChangeWrapper = useCallback(
+      (e: Parameters<Exclude<InputProps['onChange'], undefined>>[0]) => {
+        if (typeof onChange === 'function') onChange(e)
+        onFieldChange(e)
+      },
+      []
+    )
     return (
       <span className="relative inline-flex">
         <input
@@ -37,9 +48,16 @@ export const Radio = forwardRef<HTMLInputElement, Props>(
           type="radio"
           ref={ref}
         />
-        <span className="[--padding:3px] flex rounded-md pointer-events-none absolute top-[var(--padding)] left-[var(--padding)] w-[calc(100%_-_var(--padding)_*_2)] h-[calc(100%_-_var(--padding)_*_2)] items-center justify-center font-bold opacity-0 peer-checked:opacity-100 peer-checked:bg-[var(--color-tab-active)]" aria-hidden>{children}</span>
+        <span
+          className="[--padding:3px] flex rounded-md pointer-events-none absolute top-[var(--padding)] left-[var(--padding)] w-[calc(100%_-_var(--padding)_*_2)] h-[calc(100%_-_var(--padding)_*_2)] items-center justify-center font-bold opacity-0 peer-checked:opacity-100 peer-checked:bg-[var(--color-tab-active)]"
+          aria-hidden
+        >
+          {children}
+        </span>
         <label htmlFor={id ?? name} className="px-7 py-1">
-          <Label as="span" className="font-medium">{children}</Label>
+          <Label as="span" className="font-medium">
+            {children}
+          </Label>
         </label>
       </span>
     )

@@ -148,8 +148,16 @@ const SortableItem: React.FC<SortableItemProps> = ({
       {...listeners}
       position={position}
     >
-      {onRemove && <div className="border-none p-0 rounded-full w-5 w-5 background-[#ff453a]" tabIndex={0} onClick={() => onRemove(id)} />}
-      <Text className="bg-none flex grow items-center ml-2 pr-4 h-full [border-bottom:0.2px_solid_var(--color-container-background)]">{children}</Text>
+      {onRemove && (
+        <div
+          className="border-none p-0 rounded-full w-5 w-5 background-[#ff453a]"
+          tabIndex={0}
+          onClick={() => onRemove(id)}
+        />
+      )}
+      <Text className="bg-none flex grow items-center ml-2 pr-4 h-full [border-bottom:0.2px_solid_var(--color-container-background)]">
+        {children}
+      </Text>
     </Button>
   )
 }
@@ -349,7 +357,12 @@ const SortContainer: React.FC<{ id: string; children?: React.ReactNode }> = ({
 }) => {
   const { listeners, setNodeRef } = useSortable({ id, disabled: true })
   return (
-    <div ref={setNodeRef} {...rest} {...listeners} className="min-height-[88px] relative flex flex-col">
+    <div
+      ref={setNodeRef}
+      {...rest}
+      {...listeners}
+      className="min-height-[88px] relative flex flex-col"
+    >
       {children}
     </div>
   )

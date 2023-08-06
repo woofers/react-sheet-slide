@@ -13,6 +13,7 @@ import {
   Footer,
   Portal
 } from 'react-sheet-slide'
+import { Box, Flex } from 'components/flex'
 import { useTheme } from 'components/theme-provider'
 import { CloseIcon } from 'icons'
 import useIsMounted from 'hooks/use-is-mounted'
@@ -33,84 +34,12 @@ const List = styled('ul', {
   }
 })
 
-const IconWrapper = styled('div', {
-  display: 'flex',
-  gap: '8px 20px',
-  flexDirection: 'column',
-  '@xsm': {
-    flexDirection: 'row-reverse'
-  }
-})
-
-const Line = styled('div', {
-  transition: 'opacity 300ms ease 0s',
-  backgroundRepeat: 'repeat-y',
-  position: 'fixed',
-  left: '640px',
-  width: '4px',
-  top: 0,
-  opacity: 1,
-  height: '100vh',
-  '&[aria-hidden="true"]': {
-    opacity: 0
-  },
-  variants: {
-    dark: {
-      true: {
-        background: `linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 16px, #333336 16px, #333336)`,
-        backgroundSize: '100% 32px'
-      },
-      false: {
-        background: `linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 16px, #e4e4f0 16px, #e4e4f0)`,
-        backgroundSize: '100% 32px'
-      }
-    }
-  },
-  defaultVariants: {
-    dark: false
-  }
-})
-
-const TitleWrapper = styled('div', {
-  width: '100%',
-  display: 'flex',
-  justifyContent: 'space-between'
-})
-
-const Spacer = styled('div', {
-  minHeight: '36px'
-})
-
-const Split = styled('div', {
-  width: 'max-content',
-  display: 'flex',
-  gap: '0 4px'
-})
-
-const Flex = styled('div', {
-  width: '100%',
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  gap: '0 12px'
-})
-
 const HeaderWrapper = styled('div', {
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
   gap: '0 8px',
   color: '$text'
-})
-
-const Box = styled('div', {
-  height: '32px',
-  display: 'flex',
-  justifyContent: 'flex-end',
-  alignItems: 'center',
-  '> div': {
-    fontSize: '28px'
-  }
 })
 
 const CloseButton = styled('button', {
@@ -266,13 +195,6 @@ const Link = styled('a', {
   }
 })
 
-const FooterWrapper = styled('div', {
-  display: 'flex',
-  flexDirection: 'column',
-  padding: '0 16px 0',
-  gap: '8px 0'
-})
-
 const Indent = styled('div', {
   display: 'flex',
   flexDirection: 'column',
@@ -284,12 +206,6 @@ const LeftTitle = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   gap: '16px 0'
-})
-
-const Docs = styled('div', {
-  maxWidth: '1280px',
-  margin: '0 auto',
-  padding: '24px 16px 0'
 })
 
 const DocsWrapper = styled('div', {
@@ -347,9 +263,9 @@ const ThemeButtons: React.FC<{}> = () => {
   const mounted = useIsMounted()
   const { name, setTheme } = useTheme()
   const { setFieldValue } = useFormikContext<FormProps>()
-  if (!mounted) return <Spacer css={{ minHeight: '44px', minWidth: '110px' }} />
+  if (!mounted) return <div className="min-w-[110px] min-h-[44px]" />
   return (
-    <Split>
+    <div class="w-[max-content] flex gap-x-3">
       <Button
         aria-pressed={name === 'light'}
         theme="secondary"
@@ -375,7 +291,7 @@ const ThemeButtons: React.FC<{}> = () => {
       >
         🌙
       </Button>
-    </Split>
+    </div>
   )
 }
 
@@ -383,18 +299,8 @@ const emojis = [`🏞️`, `🎢`, `🛝`]
 
 const Emojis: React.FC<{}> = () => {
   const mounted = useIsMounted()
-  if (!mounted) return <Spacer />
+  if (!mounted) return <div className="min-h-[36px]" />
   return <LargeText>{emojis.join(' ')}</LargeText>
-}
-
-const OverlayLine: React.FC<{ dark: boolean }> = props => {
-  const mounted = useIsMounted()
-  if (!mounted) return null
-  return (
-    <>
-      <Line {...props} />
-    </>
-  )
 }
 
 const components: MDXContentProps['components'] = {
@@ -482,14 +388,14 @@ const App: React.FC<{ code: string }> = ({ code }) => {
         <meta name="msapplication-navbutton-color" content={meta} />
       </Head>
       <Fullscreen className="rss-backdrop">
-        <Docs>
+        <div className="max-w-[1280px] margin-[0,auto] p-[24px_16px_0]">
           <Indent>
-            <TitleWrapper>
+            <div className="w-full flex justify-between">
               <LeftTitle>
                 <LargeText>react-sheet-slide</LargeText>
                 <Emojis />
               </LeftTitle>
-              <IconWrapper>
+              <div className="flex flex-col gap-x-[20px] gap-y-2 xsm:flex-row-reverse">
                 <Link
                   href="https://github.com/woofers/react-sheet-slide"
                   target="_blank"
@@ -512,8 +418,8 @@ const App: React.FC<{ code: string }> = ({ code }) => {
                     <FaNpm />
                   </LargeText>
                 </Link>
-              </IconWrapper>
-            </TitleWrapper>
+              </div>
+            </div>
           </Indent>
           <DocsWrapper>
             <Formik
@@ -633,14 +539,14 @@ const App: React.FC<{ code: string }> = ({ code }) => {
                           </Container>
                         </Content>
                         <Footer>
-                          <FooterWrapper>
+                          <div className="flex flex-col px-4 gap-y-2">
                             <Button
                               type="button"
                               onClick={() => setOpen(false)}
                             >
                               Close
                             </Button>
-                          </FooterWrapper>
+                          </div>
                         </Footer>
                       </Sheet>
                     </Portal>
@@ -655,7 +561,7 @@ const App: React.FC<{ code: string }> = ({ code }) => {
               Open sheet
             </Button>
           </Center>
-        </Docs>
+        </div>
       </Fullscreen>
     </>
   )

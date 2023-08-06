@@ -72,6 +72,10 @@ input, textarea, button, select, a {
   background: var(--color-selection) !important;
 }
 
+.box-text > div {
+  font-size: 28px;
+}
+
 @layer base {
   :root {
     color-scheme: light;
@@ -85,6 +89,7 @@ input, textarea, button, select, a {
     --color-tab-background: #e8e8e8;
     --color-tab-active: #feffff;
     --color-container-background: #feffff;
+    --color-text: #000000;
 
     --color-white: 255 255 255;
     --color-black: 0 0 0;
@@ -340,6 +345,7 @@ input, textarea, button, select, a {
     --color-tab-background: #313136;
     --color-tab-active: #69696f;
     --color-container-background: #1c1c1e;
+    --color-text: #ffffff;
 
     --color-black: 255 255 255;
     --color-white: 0 0 0;
