@@ -76,6 +76,10 @@ input, textarea, button, select, a {
   font-size: 28px;
 }
 
+.list > li::marker {
+  content: '- ';
+}
+
 @layer base {
   :root {
     color-scheme: light;

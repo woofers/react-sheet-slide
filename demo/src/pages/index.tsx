@@ -27,20 +27,7 @@ import LiveCodeSample from 'components/live-code-sample'
 import { trinaryToBool } from 'utils/code'
 import { Sortable, SetItems } from 'components/sortable'
 import type { FormProps } from 'types/global'
-
-const List = styled('ul', {
-  '> li::marker': {
-    content: '- '
-  }
-})
-
-const HeaderWrapper = styled('div', {
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  gap: '0 8px',
-  color: '$text'
-})
+import clsx from 'clsx'
 
 const CloseButton = styled('button', {
   padding: 0,
@@ -85,17 +72,6 @@ const Text = styled('div', {
   marginTop: 0,
   marginBottom: 0,
   letterSpacing: '-0.25px'
-})
-
-const ButtonText = styled('div', {
-  fontFamily: '$title',
-  fontWeight: 600,
-  lineHeight: '24px',
-  fontSize: '18px',
-  marginTop: 0,
-  marginBottom: 0,
-  letterSpacing: '0px',
-  flex: 1
 })
 
 const Action = styled('div', {
@@ -160,12 +136,6 @@ const Container = styled('div', {
   color: '$text'
 })
 
-const Fullscreen = styled('div', {
-  background: '$background',
-  minHeight: '100vh',
-  color: '$text'
-})
-
 const Center = styled('div', {
   display: 'flex',
   flexDirection: 'column',
@@ -195,19 +165,6 @@ const Link = styled('a', {
   }
 })
 
-const Indent = styled('div', {
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '16px 0',
-  pl: '8px'
-})
-
-const LeftTitle = styled('div', {
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '16px 0'
-})
-
 const DocsWrapper = styled('div', {
   h2: {
     my: '8px'
@@ -215,23 +172,6 @@ const DocsWrapper = styled('div', {
   pre: {
     mt: '12px',
     mb: '16px'
-  }
-})
-
-const ButtonWrappers = styled('div', {
-  display: 'flex',
-  padding: '0 8px',
-  gap: '0 36px',
-  marginBottom: '8px',
-  marginTop: '20px'
-})
-
-const SheetButtonWrapper = styled('div', {
-  display: 'flex',
-  flex: 1,
-  justifyContent: 'center',
-  '@xsm': {
-    justifyContent: 'flex-start'
   }
 })
 
@@ -265,7 +205,7 @@ const ThemeButtons: React.FC<{}> = () => {
   const { setFieldValue } = useFormikContext<FormProps>()
   if (!mounted) return <div className="min-w-[110px] min-h-[44px]" />
   return (
-    <div class="w-[max-content] flex gap-x-3">
+    <div className="w-[max-content] flex gap-x-3">
       <Button
         aria-pressed={name === 'light'}
         theme="secondary"
@@ -324,7 +264,9 @@ const components: MDXContentProps['components'] = {
     </Action>
   ),
   h1: () => null,
-  ul: List,
+  ul: ({ className, ...rest }) => (
+    <ul className={clsx('list', className)} {...rest} />
+  ),
   p: ({ children, ...rest }) => {
     if (typeof children === 'string' && children.startsWith('🏞️')) return null
     return <p {...rest}>{children}</p>
@@ -387,14 +329,14 @@ const App: React.FC<{ code: string }> = ({ code }) => {
         <meta name="theme-color" content={meta} />
         <meta name="msapplication-navbutton-color" content={meta} />
       </Head>
-      <Fullscreen className="rss-backdrop">
+      <div className="rss-backdrop text-[var(--color-text)] bg-[var(--color-background)] min-h-screen">
         <div className="max-w-[1280px] margin-[0,auto] p-[24px_16px_0]">
-          <Indent>
+          <div className="flex flex-col gap-y-4 pl-2">
             <div className="w-full flex justify-between">
-              <LeftTitle>
+              <div className="flex flex-col gap-y-4">
                 <LargeText>react-sheet-slide</LargeText>
                 <Emojis />
-              </LeftTitle>
+              </div>
               <div className="flex flex-col gap-x-[20px] gap-y-2 xsm:flex-row-reverse">
                 <Link
                   href="https://github.com/woofers/react-sheet-slide"
@@ -420,7 +362,7 @@ const App: React.FC<{ code: string }> = ({ code }) => {
                 </Link>
               </div>
             </div>
-          </Indent>
+          </div>
           <DocsWrapper>
             <Formik
               initialValues={{
@@ -444,9 +386,9 @@ const App: React.FC<{ code: string }> = ({ code }) => {
                 const selectedDetent = detentsProp[0]
                 return (
                   <>
-                    <ButtonWrappers>
+                    <div className="flex px-2 gap-x-9 mt-[20px] mb-2">
                       <ThemeButtons />
-                      <SheetButtonWrapper>
+                      <div className="flex grow justify-center xsm:justify-start">
                         <Button
                           type="button"
                           onClick={openSheet}
@@ -454,8 +396,8 @@ const App: React.FC<{ code: string }> = ({ code }) => {
                         >
                           Open sheet
                         </Button>
-                      </SheetButtonWrapper>
-                    </ButtonWrappers>
+                      </div>
+                    </div>
                     <Portal containerRef="#react-sheet-slide">
                       <Sheet
                         ref={ref}
@@ -471,15 +413,17 @@ const App: React.FC<{ code: string }> = ({ code }) => {
                         scrollingExpands={values.scrollingExpands}
                       >
                         <Header>
-                          <HeaderWrapper>
-                            <ButtonText>Sheet</ButtonText>
+                          <div className="flex justify-between items-center gap-x-2 text-[var(--color-text)]">
+                            <div className="text-lg leading-6 mx-0 tracking-normal grow font-semibold">
+                              Sheet
+                            </div>
                             <CloseButton
                               type="button"
                               onClick={() => setOpen(false)}
                             >
                               <CloseIcon />
                             </CloseButton>
-                          </HeaderWrapper>
+                          </div>
                         </Header>
                         <Content>
                           <Container>
@@ -562,7 +506,7 @@ const App: React.FC<{ code: string }> = ({ code }) => {
             </Button>
           </Center>
         </div>
-      </Fullscreen>
+      </div>
     </>
   )
 }

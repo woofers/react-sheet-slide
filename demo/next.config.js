@@ -10,6 +10,7 @@ module.exports = withBundleAnalyzer({
   distDir: 'build',
   swcMinify: true,
   reactStrictMode: true,
+  output: 'export',
   images: {
     loader: 'imgix',
     path: 'https://example.com/myaccount/',
