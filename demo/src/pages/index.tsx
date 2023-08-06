@@ -538,8 +538,9 @@ const App: React.FC<{ code: string }> = ({ code }) => {
                 const detentsProp = detentsId
                   .map(id => getDetents(id))
                   .filter(detent => !!detent)
-                const detentsFunc = (props: Parameters<typeof detents['large']>[0]) =>
-                  detentsProp.map(func => func(props))
+                const detentsFunc = (
+                  props: Parameters<(typeof detents)['large']>[0]
+                ) => detentsProp.map(func => func(props))
                 const selectedDetent = detentsProp[0]
                 return (
                   <>

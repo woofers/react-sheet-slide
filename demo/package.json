@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build && next export",
-    "start": "next start",
+    "start": "serve out",
     "lint": "next lint",
     "test": "echo 'No tests'",
     "format": "prettier --write \"{tests,src}/**/*.{js,mjs,ts,tsx}\""
@@ -26,7 +26,7 @@
     "hast-util-to-html": "^8.0.4",
     "lowlight": "^2.9.0",
     "mdx-bundler": "^9.2.1",
-    "next": "^12.3.1",
+    "next": "^13.4.12",
     "next-themes": "^0.2.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -45,6 +45,7 @@
     "eslint-webpack-plugin": "^4.0.1",
     "file-loader": "^6.2.0",
     "prettier": "^3.0.1",
+    "serve": "^14.2.0",
     "typescript": "^5.1.6"
   }
 }

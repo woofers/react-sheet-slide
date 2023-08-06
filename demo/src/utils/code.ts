@@ -23,7 +23,6 @@ const addBooleanOption = (key: string, value: boolean | undefined) => {
   return `${key}={${value}}`
 }
 
-
 type Props = FormProps & {}
 
 const addDetents = (detents: Props['detents']) => {
