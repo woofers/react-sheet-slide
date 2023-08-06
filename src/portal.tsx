@@ -30,6 +30,8 @@ const getRef = (ref?: PortalRef): Node | null => {
   return ref?.current ?? null
 }
 
+type ReactNodeDom = Parameters<typeof createPortal>[0]
+
 const Portal: React.FC<PortalProps> = ({
   children,
   type = 'div',
@@ -54,7 +56,7 @@ const Portal: React.FC<PortalProps> = ({
   }, [type, forceUpdate, containerRef])
 
   return portalNode.current ? (
-    createPortal(children, portalNode.current)
+    createPortal(children as ReactNodeDom, portalNode.current)
   ) : (
     <span ref={mountNode} />
   )

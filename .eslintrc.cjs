@@ -1,6 +1,6 @@
 module.exports = {
   settings: {
-    react: { version: 'v18.2.0' },
+    react: { version: 'detect' },
     'import/resolver': {
       node: {
         extensions: ['.js', '.jsx', '.ts', '.tsx']
