@@ -4,7 +4,6 @@ import { Formik, useFormikContext, FormikProps } from 'formik'
 import { bundleMDX } from 'mdx-bundler'
 import { getMDXComponent, MDXContentProps } from 'mdx-bundler/client'
 import { cwd } from 'data/local'
-import { styled } from 'stitches'
 import {
   detents,
   Sheet,
@@ -27,7 +26,7 @@ import LiveCodeSample from 'components/live-code-sample'
 import { trinaryToBool } from 'utils/code'
 import { Sortable, SetItems } from 'components/sortable'
 import type { FormProps } from 'types/global'
-import { clsx } from 'cva'
+import { clsx, cva, type VariantProps } from 'cva'
 import Box, { type BoxProps } from 'components/box'
 
 const CloseButton: React.FC<BoxProps<'button'>> = ({
@@ -105,46 +104,54 @@ const Action: React.FC<BoxProps<'div'>> = ({
   />
 )
 
-const Button = styled('button', {
-  height: '44px',
-  padding: '8px 16px',
-  backgroundColor: '$$background',
-  color: '$$text',
-  border: 'none',
-  br: '10px',
-  fontFamily: '$title',
-  fontWeight: 600,
-  lineHeight: '16px',
-  fontSize: '16px',
-  letterSpacing: '0px',
-  transition: 'background-color 0.3s ease-in-out',
-  '&:hover': {
-    backgroundColor: '$$hover'
-  },
-  '&[aria-pressed]': {
-    transition: 'none'
-  },
-  '&[aria-pressed="false"]': {
-    backgroundColor: 'rgba(0, 0, 0, 0)'
-  },
+const button = cva([
+    'border-none',
+    'h-11',
+    'px-4 py-2',
+    'rounded-[10px]',
+    'font-semibold',
+    'text-base',
+    '!leading-4',
+    'tracking-normal',
+    '[transition:background-color_0.3s_ease-in-out]',
+    '[&[aria-pressed]]:transition-none',
+    '[&[aria-pressed="false"]]:bg-transparent'
+], {
   variants: {
     theme: {
-      primary: {
-        $$background: '$colors$primary',
-        $$text: '$colors$buttonText',
-        $$hover: '$colors$primaryHover'
-      },
-      secondary: {
-        $$background: '$colors$secondary',
-        $$text: '$colors$text',
-        $$hover: '$colors$secondary'
-      }
+      primary: [
+        'bg-[var(--color-primary)]',
+        'text-[var(--color-button-text)]',
+        'hover:bg-[var(--color-primary-hover)]',
+      ],
+      secondary: [
+        'bg-[var(--color-secondary)]',
+        'text-[var(--color-text)]',
+        'hover:bg-[var(--color-secondary)]',
+      ]
     }
   },
   defaultVariants: {
     theme: 'primary'
   }
 })
+
+const Button: React.FC<BoxProps<'button'> & VariantProps<typeof button>> = ({
+  className,
+  as = 'button',
+  theme,
+  ...rest
+}) => (
+  <Box
+    {...rest}
+    as={as}
+    theme={theme}
+    className={clsx(
+      button({ theme }),
+      className
+    )}
+  />
+)
 
 const Container: React.FC<BoxProps<'div'>> = ({
   className,
@@ -234,7 +241,7 @@ const ThemeButtons: React.FC<{}> = () => {
           setFieldValue('useDarkMode', 'off')
         }}
         type="button"
-        css={{ flex: '1', textAlign: 'right' }}
+        className="grow text-right"
       >
         ☀
       </Button>
@@ -247,7 +254,7 @@ const ThemeButtons: React.FC<{}> = () => {
           setFieldValue('useDarkMode', 'on')
         }}
         type="button"
-        css={{ flex: '1', textAlign: 'left' }}
+        className="grow text-left"
       >
         🌙
       </Button>
@@ -334,7 +341,7 @@ const App: React.FC<{ code: string }> = ({ code }) => {
   const [open, setOpen] = useState(false)
   const [useDarkTitle, setDarkTitle] = useState(false)
   const ref = useRef<HTMLDivElement | null>(null)
-  const { name, theme } = useTheme()
+  const { name } = useTheme()
   const useDarkMode = name === 'dark'
   const lightMeta = '#f2f2f6'
   const darkMeta = '#070708'
@@ -365,7 +372,7 @@ const App: React.FC<{ code: string }> = ({ code }) => {
                   aria-label="View on GitHub"
                   title="GitHub"
                 >
-                  <LargeText css={{ fontSize: '32px' }}>
+                  <LargeText className="text-[32px]">
                     <FaGithub />
                   </LargeText>
                 </Link>
@@ -376,7 +383,7 @@ const App: React.FC<{ code: string }> = ({ code }) => {
                   aria-label="View on Node Package Manager"
                   title="npm"
                 >
-                  <LargeText css={{ fontSize: '40px' }}>
+                  <LargeText className="text-[40px]">
                     <FaNpm />
                   </LargeText>
                 </Link>
@@ -412,7 +419,7 @@ const App: React.FC<{ code: string }> = ({ code }) => {
                         <Button
                           type="button"
                           onClick={openSheet}
-                          css={{ flex: 1, maxWidth: '180px' }}
+                          className="grow max-w-[180px]"
                         >
                           Open sheet
                         </Button>
