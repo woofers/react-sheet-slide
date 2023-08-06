@@ -1,4 +1,4 @@
-import clsx from 'clsx'
+import { clsx } from 'cva'
 import BoxComp, { type BoxProps } from './box'
 
 export const Flex: React.FC<BoxProps<'div'>> = ({

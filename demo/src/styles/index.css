@@ -80,6 +80,28 @@ input, textarea, button, select, a {
   content: '- ';
 }
 
+.code > code {
+  white-space: var(---wrap);
+}
+.code-block .hljs-title.function_ {
+  color: var(--colors-codeFunction);
+}
+.code-block .hljs-string {
+  color: var(--colors-codeFunction);
+}
+.code-block .hljs-keyword,
+.code-block .hljs-name,
+.code-block .hljs-link {
+  color: var(--colors-codeKeyword);
+}
+
+.code-block .hljs-keyword {
+  color: var(--colors-codeKeyword);
+}
+.code-block .hljs-attr {
+  color: var(--colors-codeFunction);
+}
+
 @layer base {
   :root {
     color-scheme: light;
@@ -93,7 +115,11 @@ input, textarea, button, select, a {
     --color-tab-background: #e8e8e8;
     --color-tab-active: #feffff;
     --color-container-background: #feffff;
+    --color-container-border: #c6c6c8;
     --color-text: #000000;
+    --color-code-background: #ebebf4;
+    --color-code-keyword: #ad3da4;
+    --color-code-function: #703daa;
 
     --color-white: 255 255 255;
     --color-black: 0 0 0;
@@ -349,7 +375,12 @@ input, textarea, button, select, a {
     --color-tab-background: #313136;
     --color-tab-active: #69696f;
     --color-container-background: #1c1c1e;
+    --color-container-border: #3d3d40;
     --color-text: #ffffff;
+
+    --color-code-background: #333336;
+    --color-code-keyword: #ff7ab2;
+    --color-code-function: #dabaff;
 
     --color-black: 255 255 255;
     --color-white: 0 0 0;

@@ -27,7 +27,7 @@ import LiveCodeSample from 'components/live-code-sample'
 import { trinaryToBool } from 'utils/code'
 import { Sortable, SetItems } from 'components/sortable'
 import type { FormProps } from 'types/global'
-import clsx from 'clsx'
+import { clsx } from 'cva'
 
 const CloseButton = styled('button', {
   padding: 0,

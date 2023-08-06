@@ -1,4 +1,4 @@
-import clsx from 'clsx'
+import { clsx } from 'cva'
 import Box, { type BoxProps } from './box'
 
 export const Legend: React.FC<BoxProps<'legend'>> = ({

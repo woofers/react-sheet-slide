@@ -1,42 +1,30 @@
 import React, { useState, useEffect } from 'react'
-import { styled } from 'stitches'
 import { lowlight } from 'lowlight'
 import { toHtml } from 'hast-util-to-html'
+import Box, { type BoxProps } from './box'
+import { cva, clsx } from 'cva'
 
-const Element = styled('div', {
-  '.hljs-title.function_': {
-    color: '$codeFunction'
-  },
-  '.hljs-string': { color: '$codeFunction' },
-  '.hljs-keyword, .hljs-name, .hljs-link': { color: '$codeKeyword' },
-  '.hljs-keyword': { color: '$codeKeyword' },
-  '.hljs-attr': { color: '$codeFunction' }
-})
-
-const Pre = styled('pre', {
-  background: '$codeBackground',
-  padding: '8px 14px',
-  br: '22px',
-  overflowX: 'auto',
-  fontSize: '14px',
-  lineHeight: '1.4',
-  '> code': {
-    whiteSpace: '$$wrap'
-  },
-  variants: {
-    wrap: {
-      true: {
-        $$wrap: 'pre-wrap'
-      },
-      false: {
-        $$wrap: 'pre'
+const code = cva(
+  [
+    'bg-[var(--color-code-background)]',
+    'px-[14px] py-2',
+    'rounded-[22px]',
+    'overflow-x-auto',
+    'text-sm',
+    'leading-[1.4]'
+  ],
+  {
+    variants: {
+      wrap: {
+        true: ['[--wrap:pre-wrap]'],
+        false: ['[--wrap:pre]']
       }
+    },
+    defaultVariants: {
+      wrap: false
     }
-  },
-  defaultVariants: {
-    wrap: false
   }
-})
+)
 
 type ContentProps = {
   html: string
@@ -44,8 +32,18 @@ type ContentProps = {
   className?: string
 }
 
-const Content: React.FC<ContentProps> = ({ html, as = 'div', ...rest }) => (
-  <Element {...rest} as={as} dangerouslySetInnerHTML={{ __html: html }} />
+const Content: React.FC<BoxProps<'div'>> = ({
+  html,
+  className,
+  as = 'div',
+  ...rest
+}) => (
+  <Box
+    className={clsx('code-block', className)}
+    {...rest}
+    as={as}
+    dangerouslySetInnerHTML={{ __html: html }}
+  />
 )
 
 type CodeProps = {
@@ -66,14 +64,14 @@ const CodeBlock: React.FC<CodeProps> = ({
     setId(true)
   }, [setId])
   return (
-    <Pre wrap={isInstall}>
+    <pre className={clsx('code', code({ wrap: isInstall }))}>
       <Content
         className={`hljs language-${shortLang}`}
         as="code"
         html={toHtml(lowlight.highlight(id ? shortLang : 'c', children))}
         {...rest}
       />
-    </Pre>
+    </pre>
   )
 }
 

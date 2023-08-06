@@ -1,4 +1,4 @@
-import clsx from 'clsx'
+import { clsx } from 'cva'
 import Box, { type BoxProps } from './box'
 
 type LabelProps = React.ComponentProps<typeof Box<'label'>>

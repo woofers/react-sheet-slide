@@ -24,55 +24,54 @@ import {
 } from '@dnd-kit/modifiers'
 import { CSS } from '@dnd-kit/utilities'
 import type { UniqueIdentifier } from '@dnd-kit/core'
+import Box, { type BoxProps } from './box'
+import { clsx, cva, type VariantProps } from 'cva'
 
-const Text = styled('div', {})
-
-const Button = styled('button', {
-  display: 'flex',
-  gap: '0 8px',
-  alignItems: 'center',
-  padding: '0 0 0 16px',
-  height: '44px',
-  touchAction: 'manipulation',
-  cursor: 'grab',
-  zIndex: 10,
-  border: 0,
-  backgroundColor: '$containerBackground',
-  color: '$text',
-  textAlign: 'left',
-  transition:
-    'background-color 0.4s ease-in-out 0s, border-radius 0.3s ease-in-out 0s',
-  '&[aria-pressed="true"]': {
-    opacity: 0.75,
-    cursor: 'grabbing',
-    zIndex: '20'
-  },
-  variants: {
-    position: {
-      both: {
-        br: '8px',
-        [`${Text}`]: {
-          borderBottom: 0
-        }
-      },
-      top: {
-        borderTopLeftRadius: '8px',
-        borderTopRightRadius: '8px'
-      },
-      bottom: {
-        borderBottomLeftRadius: '8px',
-        borderBottomRightRadius: '8px',
-        [`${Text}`]: {
-          borderBottom: 0
-        }
-      },
-      middle: {}
+const button = cva(
+  [
+    'flex',
+    'gap-x-2',
+    'items-center',
+    'pl-4',
+    'h-11',
+    'touch-manipulation',
+    'cursor-grab',
+    'z-10',
+    'border-none',
+    'bg-[var(--color-container-background)]',
+    'text-[var(--color-text)]',
+    'text-left',
+    '[transition:background-color_0.4s_ease-in-out_0s,border-radius_0.3s_ease-in-out_0s]',
+    'aria-pressed:opacity-75 aria-pressed:cursor-grabbing aria-pressed:z-20'
+  ],
+  {
+    variants: {
+      position: {
+        both: ['rounded-lg', '[--border-bottom:0]'],
+        top: ['rounded-t-lg'],
+        bottom: ['rounded-b-lg', '[--border-bottom:0]'],
+        middle: []
+      }
+    },
+    defaultVariants: {
+      position: 'middle'
     }
-  },
-  defaultVariants: {
-    position: 'middle'
   }
-})
+)
+
+const Button: React.FC<BoxProps<'button'> & VariantProps<typeof button>> = ({
+  as = 'button',
+  className,
+  position,
+  ...rest
+}) => (
+  <Box
+    as={as}
+    {...rest}
+    className={clsx(button({ position }), className)}
+    position={position}
+  />
+)
 
 type Position = 'top' | 'bottom' | 'middle' | 'both'
 
@@ -155,9 +154,9 @@ const SortableItem: React.FC<SortableItemProps> = ({
           onClick={() => onRemove(id)}
         />
       )}
-      <Text className="bg-none flex grow items-center ml-2 pr-4 h-full [border-bottom:0.2px_solid_var(--color-container-background)]">
+      <div className="bg-none flex grow items-center ml-2 pr-4 h-full border-[var(--color-container-border)] border-solid border-0 [border-bottom-width:var(--border-bottom,0.2px)]">
         {children}
-      </Text>
+      </div>
     </Button>
   )
 }

@@ -1,6 +1,6 @@
 import React, { useCallback, forwardRef } from 'react'
 import { useField } from 'formik'
-import clsx from 'clsx'
+import { clsx } from 'cva'
 import { Label } from './label'
 import Box, { type BoxProps } from './box'
 
