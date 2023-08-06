@@ -1,17 +1,8 @@
-import { styled } from 'stitches'
+import clsx from 'clsx'
+import Box, { type BoxProps } from './box'
 
-export const Legend = styled('legend', {
-  float: 'left',
-  userSelect: 'none',
-  display: 'inline-flex',
-  alignItems: 'center',
-  fontWeight: '700'
-})
+export const Legend: React.FC<BoxProps<'legend'>> = ({ className, as = 'legent', ...rest }) =>
+  <Box {...rest} as={as} className={clsx('select-none inline-flex float-left items-center font-bold', className)} />
 
-export const Fieldset = styled('fieldset', {
-  border: 0,
-  padding: 0,
-  display: 'inline-flex',
-  flexDirection: 'column',
-  gap: '0 8px'
-})
+export const Fieldset: React.FC<BoxProps<'fieldset'>> = ({ className, as = 'fieldset', ...rest }) =>
+  <Box {...rest} as={as} className={clsx('border-none p-0 inline-flex flex-col gap-x-2', className)} />

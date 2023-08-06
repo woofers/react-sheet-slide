@@ -1,8 +1,7 @@
-import { styled } from 'stitches'
+import clsx from 'clsx'
+import Box, { type BoxProps } from './box'
 
-const Label = styled('label', {
-  userSelect: 'none',
-  transition: 'color 0.2s ease-in-out 0s'
-})
+type LabelProps = React.ComponentProps<typeof Box<'label'>>
 
-export default Label
+export const Label: React.FC<BoxProps<'label'>> = ({ className, as = 'label', ...rest }) =>
+  <Box {...rest} as={as} className={clsx('select-none [transition:color_0.2s_ease-in-out_0s]', className)} />

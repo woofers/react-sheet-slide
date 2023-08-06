@@ -1,21 +1,9 @@
 import React, { forwardRef } from 'react'
 import { styled } from 'stitches'
 import { useField } from 'formik'
-import Label from './label'
-
-const Input = styled('input', {
-  position: 'absolute',
-  width: '100%',
-  height: '100%',
-  appearance: 'none'
-})
-
-const Tab = styled('div', {
-  padding: '4px 28px',
-  [`${Label}`]: {
-    fontWeight: '500'
-  }
-})
+import { Label } from './label'
+import clsx from 'clsx'
+import Box, { type BoxProps } from './box'
 
 const Active = styled('span', {
   $$padding: '3px',
@@ -34,19 +22,14 @@ const Active = styled('span', {
 })
 
 const Wrapper = styled('span', {
-  position: 'relative',
-  display: 'inline-flex',
   [`input:checked + ${Active}`]: {
     background: '$tabActive',
     opacity: 1
   }
 })
 
-export const RadioGroup = styled('div', {
-  display: 'inline-flex',
-  background: '$tabBackground',
-  br: '8px'
-})
+export const RadioGroup: React.FC<BoxProps<'div'>> = ({ className, ...rest }) =>
+  <Box {...rest} as="div" className="inline-flex rounded-lg [background:var(--color-tab-background)]" />
 
 type InputProps = React.HTMLProps<HTMLInputElement>
 type RadioProps = Omit<InputProps, 'type'>
@@ -65,8 +48,9 @@ export const Radio = forwardRef<HTMLInputElement, Props>(
       onFieldChange(e)
     }
     return (
-      <Wrapper>
-        <Input
+      <Wrapper className="relative inline-flex">
+        <input
+          className="absolute w-full h-full appearance-none"
           {...fields}
           onChange={onChangeWrapper}
           checked={field.value === value}
@@ -78,9 +62,9 @@ export const Radio = forwardRef<HTMLInputElement, Props>(
           ref={ref}
         />
         <Active aria-hidden>{children}</Active>
-        <Tab as="label" htmlFor={id ?? name}>
-          <Label as="span">{children}</Label>
-        </Tab>
+        <label htmlFor={id ?? name} className="px-7 py-1">
+          <Label as="span" className="font-medium">{children}</Label>
+        </label>
       </Wrapper>
     )
   }

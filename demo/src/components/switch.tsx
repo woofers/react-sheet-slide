@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react'
 import { styled } from 'stitches'
 import { useField } from 'formik'
-import Label from './label'
+import { Label } from './label'
 
 const Input = styled('input', {
   appearance: 'none',

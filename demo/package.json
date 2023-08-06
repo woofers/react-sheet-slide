@@ -19,6 +19,8 @@
     "@react-spring/web": "^9.7.3",
     "@stitches/react": "^1.2.8",
     "@use-gesture/react": "^10.2.27",
+    "autoprefixer": "^10.4.14",
+    "clsx": "^2.0.0",
     "esbuild": "^0.18.18",
     "formik": "^2.4.3",
     "framer-motion": "^10.15.0",

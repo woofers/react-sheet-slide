@@ -290,12 +290,6 @@ const Docs = styled('div', {
   maxWidth: '1280px',
   margin: '0 auto',
   padding: '24px 16px 0'
-  /*
-  backgroundImage: 'linear-gradient($colors$lineDot 50%, rgba(255,255,255,0) 0%)',
-  backgroundPosition: 'left',
-  backgroundSize: '4px 32px',
-  backgroundRepeat: 'repeat-y'
-*/
 })
 
 const DocsWrapper = styled('div', {
