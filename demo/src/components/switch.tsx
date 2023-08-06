@@ -13,7 +13,7 @@ const Input: React.FC<BoxProps<'input'>> = ({
     {...rest}
     as={as}
     className={clsx(
-      'appearance-none rounded-2xl w-[var(--width)] h-[var(--height)] bg-[var(--backgroundColor)] [transition:background-color_0.4s_ease-in-out_0s]',
+      'appearance-none rounded-2xl w-[var(--width)] h-[var(--height)] bg-[var(--background-color)] [transition:background-color_0.4s_ease-in-out_0s]',
       className
     )}
   />
@@ -28,7 +28,7 @@ const Handle: React.FC<BoxProps<'span'>> = ({
     {...rest}
     as={as}
     className={clsx(
-      'absolute rounded-full pointer-events-none bg-[var(--handleColor)] right-[calc(var(--handle)*-1)] top-1/2 [transform:translate(var(--left),-50%)] will-change-transform [transition:transform_0.3s_ease-in-out_0s] w-[var(--handle)] h-[var(--handle)]',
+      'absolute rounded-full pointer-events-none bg-[var(--handle-color)] right-[calc(var(--handle)*-1)] top-1/2 [transform:translate(var(--left),-50%)] will-change-transform [transition:transform_0.3s_ease-in-out_0s] w-[var(--handle)] h-[var(--handle)]',
       className
     )}
   />
@@ -46,7 +46,7 @@ const Wrapper: React.FC<BoxProps<'span'>> = ({
       'switch',
       '[--width:52px] [--height:32px] [--padding:2px] [--handle:28px] [--left:var(--padding)]',
       'align-middle relative inline-flex items-center flex-row-reverse',
-      '[--handleColor:var(--colors-switchHandle)] [--backgroundColor:var(--colors-switchInactive)]',
+      '[--handle-color:var(--color-switch-handle)] [--background-color:var(--color-switch-inactive)]',
       className
     )}
   />
@@ -75,7 +75,7 @@ type SwitchProps = CheckboxProps & {
 }
 
 const Switch = forwardRef<HTMLInputElement, SwitchProps>(
-  ({ children, name, ...rest }, ref) => {
+  ({ children, name, as, ...rest }, ref) => {
     const [field] = useField(name)
     return (
       <Wrapper as="label">
@@ -88,7 +88,7 @@ const Switch = forwardRef<HTMLInputElement, SwitchProps>(
         />
         <LabelContainer>
           <Handle aria-hidden />
-          <Label className="switch-label text-[var(--colors-labelInactive)] pr-2" as="span">{children}</Label>
+          <Label className="switch-label text-[var(--color-label-inactive)] pr-2" as="span">{children}</Label>
         </LabelContainer>
       </Wrapper>
     )

@@ -85,29 +85,29 @@ input, textarea, button, select, a {
 }
 
 .code-block .hljs-title.function_ {
-  color: var(--colors-codeFunction);
+  color: var(--color-code-function);
 }
 
 .code-block .hljs-string {
-  color: var(--colors-codeFunction);
+  color: var(--color-code-function);
 }
 
 .code-block .hljs-keyword,
 .code-block .hljs-name,
 .code-block .hljs-link {
-  color: var(--colors-codeKeyword);
+  color: var(--color-code-keyword);
 }
 
 .code-block .hljs-keyword {
-  color: var(--colors-codeKeyword);
+  color: var(--color-code-keyword);
 }
 
 .code-block .hljs-attr {
-  color: var(--colors-codeFunction);
+  color: var(--color-code-function);
 }
 
 .switch input:checked {
-  --backgroundColor: var(--colors-switchActive);
+  --background-color: var(--color-switch-active);
 }
 
 .switch input:checked + span {
@@ -115,7 +115,7 @@ input, textarea, button, select, a {
 }
 
 .switch input:checked + span .switch-label {
-  color: var(--colors-labelActive);
+  color: var(--color-label-active);
   font-weight: 700;
 }
 
@@ -137,6 +137,11 @@ input, textarea, button, select, a {
     --color-code-background: #ebebf4;
     --color-code-keyword: #ad3da4;
     --color-code-function: #703daa;
+    --color-switch-active: #65c062;
+    --color-switch-handle: #fff;
+    --color-switch-inactive: #ebebf4;
+    --color-label-inactive: #919192;
+    --color-label-active: var(--colors-text);
 
     --color-white: 255 255 255;
     --color-black: 0 0 0;
@@ -394,10 +399,14 @@ input, textarea, button, select, a {
     --color-container-background: #1c1c1e;
     --color-container-border: #3d3d40;
     --color-text: #ffffff;
-
     --color-code-background: #333336;
     --color-code-keyword: #ff7ab2;
     --color-code-function: #dabaff;
+    --color-switch-active: #67c962;
+    --color-switch-handle: #ffffff;
+    --color-switch-inactive: #3a3b3e;
+    --color-label-inactive: #919192;
+    --color-label-active: #feffff;
 
     --color-black: 255 255 255;
     --color-white: 0 0 0;
