@@ -35,7 +35,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => (
     attribute="class"
     defaultTheme="system"
     value={{
-      light: 'light-theme',
+      light: 'light',
       dark: darkTheme.className
     }}
   >

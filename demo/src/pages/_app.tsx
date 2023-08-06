@@ -3,6 +3,7 @@ import { ThemeProvider } from 'components/theme-provider'
 import Global from 'components/global'
 import Meta from 'components/meta'
 import type { AppProps } from 'next/app'
+import '../styles/index.css'
 import 'react-sheet-slide/style.css'
 
 const noop = () => {}
@@ -21,7 +22,6 @@ const ErrorFallback: React.FC<FallbackProps> = ({
 const MyApp = ({ Component, pageProps }: AppProps) => (
   <ErrorBoundary FallbackComponent={ErrorFallback} onReset={noop}>
     <ThemeProvider>
-      <Global />
       <Meta />
       <Component {...pageProps} />
     </ThemeProvider>

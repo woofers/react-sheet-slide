@@ -211,7 +211,7 @@ export const {
   }
 })
 
-export const darkTheme = createTheme('dark-theme', {
+export const darkTheme = createTheme('dark', {
   colors: {
     primary: '#f92d48',
     primaryHover: '#e02941',
