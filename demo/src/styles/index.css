@@ -83,12 +83,15 @@ input, textarea, button, select, a {
 .code > code {
   white-space: var(---wrap);
 }
+
 .code-block .hljs-title.function_ {
   color: var(--colors-codeFunction);
 }
+
 .code-block .hljs-string {
   color: var(--colors-codeFunction);
 }
+
 .code-block .hljs-keyword,
 .code-block .hljs-name,
 .code-block .hljs-link {
@@ -98,8 +101,22 @@ input, textarea, button, select, a {
 .code-block .hljs-keyword {
   color: var(--colors-codeKeyword);
 }
+
 .code-block .hljs-attr {
   color: var(--colors-codeFunction);
+}
+
+.switch input:checked {
+  --backgroundColor: var(--colors-switchActive);
+}
+
+.switch input:checked + span {
+  --left: calc(var(--width) / 2 - var(--padding) * 2);
+}
+
+.switch input:checked + span .switch-label {
+  color: var(--colors-labelActive);
+  font-weight: 700;
 }
 
 @layer base {

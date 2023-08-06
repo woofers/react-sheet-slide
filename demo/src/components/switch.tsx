@@ -1,66 +1,71 @@
 import React, { forwardRef } from 'react'
-import { styled } from 'stitches'
 import { useField } from 'formik'
 import { Label } from './label'
+import Box, { type BoxProps } from './box'
+import { clsx } from 'cva'
 
-const Input = styled('input', {
-  appearance: 'none',
-  br: '16px',
-  width: '$$width',
-  height: '$$height',
-  background: '$$backgroundColor',
-  transition: 'background-color 0.4s ease-in-out 0s'
-})
+const Input: React.FC<BoxProps<'input'>> = ({
+  className,
+  as = 'input',
+  ...rest
+}) => (
+  <Box
+    {...rest}
+    as={as}
+    className={clsx(
+      'appearance-none rounded-2xl w-[var(--width)] h-[var(--height)] bg-[var(--backgroundColor)] [transition:background-color_0.4s_ease-in-out_0s]',
+      className
+    )}
+  />
+)
 
-const Handle = styled('span', {
-  br: '$round',
-  pointerEvents: 'none',
-  background: '$$handleColor',
-  position: 'absolute',
-  right: 'calc($$handle * -1)',
-  top: '50%',
-  transform: 'translate($$left, -50%)',
-  willChange: 'transform',
-  transition: 'transform 0.3s ease-in-out 0s',
-  height: '$$handle',
-  width: '$$handle'
-})
+const Handle: React.FC<BoxProps<'span'>> = ({
+  className,
+  as = 'span',
+  ...rest
+}) => (
+  <Box
+    {...rest}
+    as={as}
+    className={clsx(
+      'absolute rounded-full pointer-events-none bg-[var(--handleColor)] right-[calc(var(--handle)*-1)] top-1/2 [transform:translate(var(--left),-50%)] will-change-transform [transition:transform_0.3s_ease-in-out_0s] w-[var(--handle)] h-[var(--handle)]',
+      className
+    )}
+  />
+)
 
-const Wrapper = styled('span', {
-  $$handleColor: '$colors$switchHandle',
-  $$backgroundColor: '$colors$switchInactive',
-  $$handle: '28px',
-  $$height: '32px',
-  $$width: '52px',
-  $$padding: '2px',
-  $$left: '$$padding',
-  verticalAlign: 'middle',
-  position: 'relative',
-  display: 'inline-flex',
-  alignItems: 'center',
-  flexDirection: 'row-reverse',
-  [`${Label}`]: {
-    color: '$labelInactive',
-    pr: '8px'
-  },
-  'input:checked': {
-    $$backgroundColor: '$colors$switchActive'
-  },
-  'input:checked + span': {
-    $$left: 'calc($$width / 2 - $$padding * 2)',
-    [`${Label}`]: {
-      color: '$labelActive',
-      fontWeight: '700'
-    }
-  }
-})
+const Wrapper: React.FC<BoxProps<'span'>> = ({
+  className,
+  as = 'span',
+  ...rest
+}) => (
+  <Box
+    {...rest}
+    as={as}
+    className={clsx(
+      'switch',
+      '[--width:52px] [--height:32px] [--padding:2px] [--handle:28px] [--left:var(--padding)]',
+      'align-middle relative inline-flex items-center flex-row-reverse',
+      '[--handleColor:var(--colors-switchHandle)] [--backgroundColor:var(--colors-switchInactive)]',
+      className
+    )}
+  />
+)
 
-const LabelContainer = styled('span', {
-  position: 'relative',
-  height: '$$height',
-  alignItems: 'center',
-  display: 'inline-flex'
-})
+const LabelContainer: React.FC<BoxProps<'span'>> = ({
+  className,
+  as = 'span',
+  ...rest
+}) => (
+  <Box
+    {...rest}
+    as={as}
+    className={clsx(
+      'relative h-[var(--height)] items-center inline-flex',
+      className
+    )}
+  />
+)
 
 type InputProps = React.HTMLProps<HTMLInputElement>
 type CheckboxProps = Omit<InputProps, 'type'>
@@ -83,7 +88,7 @@ const Switch = forwardRef<HTMLInputElement, SwitchProps>(
         />
         <LabelContainer>
           <Handle aria-hidden />
-          <Label as="span">{children}</Label>
+          <Label className="switch-label text-[var(--colors-labelInactive)] pr-2" as="span">{children}</Label>
         </LabelContainer>
       </Wrapper>
     )

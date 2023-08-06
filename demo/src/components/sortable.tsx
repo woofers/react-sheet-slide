@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { styled } from 'stitches'
 import {
   DndContext,
   useSensors,
