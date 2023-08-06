@@ -1,3 +1,4 @@
+'use client'
 import React, { useState, useEffect } from 'react'
 import { lowlight } from 'lowlight'
 import { toHtml } from 'hast-util-to-html'

@@ -28,6 +28,9 @@ import { Sortable, SetItems } from 'components/sortable'
 import type { FormProps } from 'types/global'
 import { clsx, cva, type VariantProps } from 'cva'
 import Box, { type BoxProps } from 'components/box'
+import { Emojis, ThemeButtons, SheetThemeMode } from 'components/theme-mode'
+import { Button } from 'components/button'
+import { Text, LargeText } from 'components/text'
 
 const CloseButton: React.FC<BoxProps<'button'>> = ({
   className,
@@ -59,36 +62,6 @@ const Description: React.FC<BoxProps<'div'>> = ({
   />
 )
 
-const LargeText: React.FC<BoxProps<'div'>> = ({
-  className,
-  as = 'div',
-  ...rest
-}) => (
-  <Box
-    {...rest}
-    as={as}
-    className={clsx(
-      'font-bold text-[32px] leading-9 my-0 tracking-[1px]',
-      className
-    )}
-  />
-)
-
-const Text: React.FC<BoxProps<'div'>> = ({
-  className,
-  as = 'div',
-  ...rest
-}) => (
-  <Box
-    {...rest}
-    as={as}
-    className={clsx(
-      'max-w-[300px] font-medium text-xl leading-6 my-0 tracking-[-0.25px]',
-      className
-    )}
-  />
-)
-
 const Action: React.FC<BoxProps<'div'>> = ({
   className,
   as = 'div',
@@ -99,55 +72,6 @@ const Action: React.FC<BoxProps<'div'>> = ({
     as={as}
     className={clsx(
       'no-underline text-[var(--color-link)] font-medium text-base leading-5 w-full tracking-[-0.25px] text-center mx-auto my-0',
-      className
-    )}
-  />
-)
-
-const button = cva([
-    'border-none',
-    'h-11',
-    'px-4 py-2',
-    'rounded-[10px]',
-    'font-semibold',
-    'text-base',
-    '!leading-4',
-    'tracking-normal',
-    '[transition:background-color_0.3s_ease-in-out]',
-    '[&[aria-pressed]]:transition-none',
-    '[&[aria-pressed="false"]]:bg-transparent'
-], {
-  variants: {
-    theme: {
-      primary: [
-        'bg-[var(--color-primary)]',
-        'text-[var(--color-button-text)]',
-        'hover:bg-[var(--color-primary-hover)]',
-      ],
-      secondary: [
-        'bg-[var(--color-secondary)]',
-        'text-[var(--color-text)]',
-        'hover:bg-[var(--color-secondary)]',
-      ]
-    }
-  },
-  defaultVariants: {
-    theme: 'primary'
-  }
-})
-
-const Button: React.FC<BoxProps<'button'> & VariantProps<typeof button>> = ({
-  className,
-  as = 'button',
-  theme,
-  ...rest
-}) => (
-  <Box
-    {...rest}
-    as={as}
-    theme={theme}
-    className={clsx(
-      button({ theme }),
       className
     )}
   />
@@ -201,74 +125,6 @@ const DocsWrapper: React.FC<BoxProps<'div'>> = ({
   as = 'div',
   ...rest
 }) => <Box {...rest} as={as} className={clsx('docs-wrapper', className)} />
-
-const SheetThemeMode = () => {
-  const { name, setTheme } = useTheme()
-  return (
-    <Fieldset>
-      <Legend>useDarkMode</Legend>
-      <RadioGroup>
-        <Radio value="auto" name="useDarkMode">
-          Auto
-        </Radio>
-        <Radio
-          value="off"
-          name="useDarkMode"
-          onChange={() => setTheme('light')}
-        >
-          Light
-        </Radio>
-        <Radio value="on" name="useDarkMode" onChange={() => setTheme('dark')}>
-          Dark
-        </Radio>
-      </RadioGroup>
-    </Fieldset>
-  )
-}
-
-const ThemeButtons: React.FC<{}> = () => {
-  const mounted = useIsMounted()
-  const { name, setTheme } = useTheme()
-  const { setFieldValue } = useFormikContext<FormProps>()
-  if (!mounted) return <div className="min-w-[110px] min-h-[44px]" />
-  return (
-    <div className="w-[max-content] flex gap-x-3">
-      <Button
-        aria-pressed={name === 'light'}
-        theme="secondary"
-        onClick={() => {
-          setTheme('light')
-          setFieldValue('useDarkMode', 'off')
-        }}
-        type="button"
-        className="grow text-right"
-      >
-        ☀
-      </Button>
-      ️
-      <Button
-        aria-pressed={name === 'dark'}
-        theme="secondary"
-        onClick={() => {
-          setTheme('dark')
-          setFieldValue('useDarkMode', 'on')
-        }}
-        type="button"
-        className="grow text-left"
-      >
-        🌙
-      </Button>
-    </div>
-  )
-}
-
-const emojis = [`🏞️`, `🎢`, `🛝`]
-
-const Emojis: React.FC<{}> = () => {
-  const mounted = useIsMounted()
-  if (!mounted) return <div className="min-h-[36px]" />
-  return <LargeText>{emojis.join(' ')}</LargeText>
-}
 
 const components: MDXContentProps['components'] = {
   pre: ({ children, ...rest }) => {
