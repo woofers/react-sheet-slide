@@ -5,9 +5,10 @@
   "author": "Jaxson Van Doorn <jaxson.vandoorn@gmail.com>",
   "license": "MIT",
   "scripts": {
+    "clean": "rimraf .next out build react-sheet-slide",
+    "build": "yarn clean && next build && mv build react-sheet-slide && mkdir build && mv react-sheet-slide build",
     "dev": "next dev",
-    "build": "next build",
-    "start": "serve out",
+    "start": "serve build",
     "lint": "next lint",
     "test": "echo 'No tests'",
     "format": "prettier --write \"{tests,src}/**/*.{js,mjs,ts,tsx}\""

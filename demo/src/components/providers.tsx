@@ -1,9 +1,6 @@
+'use client'
 import { ErrorBoundary, type FallbackProps } from 'react-error-boundary'
 import { ThemeProvider } from 'components/theme-provider'
-import Meta from 'components/meta'
-import type { AppProps } from 'next/app'
-import '../styles/index.css'
-import 'react-sheet-slide/style.css'
 
 const noop = () => {}
 
@@ -18,13 +15,10 @@ const ErrorFallback: React.FC<FallbackProps> = ({
   </div>
 )
 
-const MyApp = ({ Component, pageProps }: AppProps) => (
+export const Providers: React.FC<{ children?: React.ReactNode }> = ({
+  children
+}) => (
   <ErrorBoundary FallbackComponent={ErrorFallback} onReset={noop}>
-    <ThemeProvider>
-      <Meta />
-      <Component {...pageProps} />
-    </ThemeProvider>
+    <ThemeProvider>{children}</ThemeProvider>
   </ErrorBoundary>
 )
-
-export default MyApp
