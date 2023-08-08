@@ -19,6 +19,7 @@ export const metadata = {
     initialScale: 1,
     viewportFit: 'cover'
   },
+  themeColor: '#070708',
   icons: {
     icon: [{ url: '/react-sheet-slide/favicon.ico' }],
     shortcut: ['/react-sheet-slide/favicon.ico'],

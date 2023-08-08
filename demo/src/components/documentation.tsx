@@ -22,8 +22,8 @@ import {
   Portal
 } from 'react-sheet-slide'
 import { CloseIcon } from 'icons'
-import { useTheme } from 'components/theme-provider'
 import { SheetContent } from 'components/sheet-content'
+import { useHead } from 'hooks/use-head'
 import type { FormProps } from 'types/global'
 
 const getDetents = (id: string | number) => {
@@ -46,13 +46,9 @@ export const Documentation: React.FC<{ children?: React.ReactNode }> = ({
     setOpen(true)
     setDarkTitle(true)
   }
-  const [useDarkTitle, setDarkTitle] = useState(false)
+  const [darkTitle, setDarkTitle] = useState(false)
   const ref = useRef<HTMLDivElement | null>(null)
-  const { name } = useTheme()
-  const useDarkMode = name === 'dark'
-  const lightMeta = '#f2f2f6'
-  const darkMeta = '#070708'
-  const meta = useDarkMode || useDarkTitle ? darkMeta : lightMeta
+  const useDarkMode = useHead({ darkTitle })
   return (
     <>
       <DocsWrapper>
