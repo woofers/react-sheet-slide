@@ -11,7 +11,7 @@ jobs:
     - name: Use Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '16'
+        node-version: '18'
         registry-url: 'https://registry.npmjs.org'
     - name: Deploy Info
       env:
@@ -41,5 +41,5 @@ jobs:
       uses: JamesIves/github-pages-deploy-action@v4.3.0
       with:
         branch: gh-pages
-        folder: demo/build
+        folder: demo/build/react-sheet-slide
         commit-message: Updates
