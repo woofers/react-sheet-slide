@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { forwardRef, useState, useId } from 'react'
 import {
   DndContext,
   useSensors,
@@ -59,19 +59,22 @@ const button = cva(
   }
 )
 
-const Button: React.FC<BoxProps<'button'> & VariantProps<typeof button>> = ({
-  as = 'button',
-  className,
-  position,
-  ...rest
-}) => (
-  <Box
-    as={as}
-    {...rest}
-    className={clsx(button({ position }), className)}
-    position={position}
-  />
-)
+const Button = forwardRef<
+  HTMLButtonElement,
+  React.HTMLProps<HTMLButtonElement> &
+    VariantProps<typeof button> & { className?: string; as?: string }
+>(({ className, as = 'button', position, ...rest }, ref) => {
+  const Comp = as || 'button'
+  const data = { ref } as any
+  return (
+    <Comp
+      {...rest}
+      {...data}
+      as={as}
+      className={clsx(button({ position }), className)}
+    />
+  )
+})
 
 type Position = 'top' | 'bottom' | 'middle' | 'both'
 
@@ -192,6 +195,7 @@ export const Sortable: React.FC<SortableProps> = ({
   removable,
   axis = 'xy'
 }) => {
+  const id = useId()
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null)
   const [clonedItems, setClonedItems] = useState<Items | null>(null)
   const findContainer = (id: UniqueIdentifier) => {
@@ -224,6 +228,7 @@ export const Sortable: React.FC<SortableProps> = ({
 
   return (
     <DndContext
+      id={id}
       measuring={{
         droppable: {
           strategy: MeasuringStrategy.Always

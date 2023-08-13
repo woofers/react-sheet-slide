@@ -10,7 +10,9 @@ export const useHead = ({ darkTitle }: { darkTitle: boolean }) => {
   const meta = useDarkMode || darkTitle ? darkMeta : lightMeta
   useEffect(() => {
     if (typeof document === 'undefined') return
-    const themeColor = document.querySelector(`meta[name='theme-color']`) as { content?: string }
+    const themeColor = document.querySelector(`meta[name='theme-color']`) as {
+      content?: string
+    }
     const original = themeColor?.content
     if (themeColor) themeColor.content = meta
     return () => {

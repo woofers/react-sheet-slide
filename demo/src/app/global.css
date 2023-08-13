@@ -121,6 +121,12 @@ input, textarea, button, select, a {
 
 .docs-wrapper h2 {
   @apply my-2;
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+ul {
+  padding-inline-start: 40px
 }
 
 .docs-wrapper pre {

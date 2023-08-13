@@ -38,7 +38,7 @@ export const ThemeButtons: React.FC<Nothing> = () => {
   const { setFieldValue } = useFormikContext<FormProps>()
   if (!mounted) return <div className="min-w-[110px] min-h-[44px]" />
   return (
-    <div className="w-[max-content] flex gap-x-3">
+    <div className="w-[max-content] flex gap-x-1">
       <Button
         aria-pressed={name === 'light'}
         theme="secondary"

@@ -42,6 +42,7 @@ export const Radio = forwardRef<HTMLInputElement, Props>(
           {...fields}
           onChange={onChangeWrapper}
           checked={field.value === value}
+          data-checked={field.value === value}
           {...rest}
           id={id ?? name}
           name={name}
@@ -50,7 +51,7 @@ export const Radio = forwardRef<HTMLInputElement, Props>(
           ref={ref}
         />
         <span
-          className="[--padding:3px] flex rounded-md pointer-events-none absolute top-[var(--padding)] left-[var(--padding)] w-[calc(100%_-_var(--padding)_*_2)] h-[calc(100%_-_var(--padding)_*_2)] items-center justify-center font-bold opacity-0 peer-checked:opacity-100 peer-checked:bg-[var(--color-tab-active)]"
+          className="[--padding:3px] flex rounded-md pointer-events-none absolute top-[var(--padding)] left-[var(--padding)] w-[calc(100%_-_var(--padding)_*_2)] h-[calc(100%_-_var(--padding)_*_2)] items-center justify-center font-bold opacity-0 peer-data-[checked='true']:opacity-100 peer-data-[checked='true']:bg-[var(--color-tab-active)]"
           aria-hidden
         >
           {children}
