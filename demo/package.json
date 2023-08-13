@@ -1,7 +1,7 @@
 {
   "name": "react-sheet-slide-demo",
   "homepage": "http://woofers.github.io/react-sheet-slide",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "author": "Jaxson Van Doorn <jaxson.vandoorn@gmail.com>",
   "license": "MIT",
   "scripts": {
@@ -36,7 +36,7 @@
     "react-dom": "^18.2.0",
     "react-error-boundary": "^4.0.10",
     "react-icons": "^4.10.1",
-    "react-sheet-slide": "^1.2.3"
+    "react-sheet-slide": "../."
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^13.4.12",
