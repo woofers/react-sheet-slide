@@ -1,52 +1,20 @@
-import React, { forwardRef } from 'react'
-import { styled } from 'stitches'
+'use client'
+import React, { useCallback, forwardRef } from 'react'
 import { useField } from 'formik'
-import Label from './label'
+import { clsx } from 'cva'
+import { Label } from './label'
+import Box, { type BoxProps } from './box'
 
-const Input = styled('input', {
-  position: 'absolute',
-  width: '100%',
-  height: '100%',
-  appearance: 'none'
-})
-
-const Tab = styled('div', {
-  padding: '4px 28px',
-  [`${Label}`]: {
-    fontWeight: '500'
-  }
-})
-
-const Active = styled('span', {
-  $$padding: '3px',
-  br: '6px',
-  pointerEvents: 'none',
-  position: 'absolute',
-  top: '$$padding',
-  left: '$$padding',
-  width: 'calc(100% - $$padding * 2)',
-  height: 'calc(100% - $$padding * 2)',
-  alignItems: 'center',
-  display: 'flex',
-  justifyContent: 'center',
-  fontWeight: '700',
-  opacity: 0
-})
-
-const Wrapper = styled('span', {
-  position: 'relative',
-  display: 'inline-flex',
-  [`input:checked + ${Active}`]: {
-    background: '$tabActive',
-    opacity: 1
-  }
-})
-
-export const RadioGroup = styled('div', {
-  display: 'inline-flex',
-  background: '$tabBackground',
-  br: '8px'
-})
+export const RadioGroup: React.FC<BoxProps<'div'>> = ({
+  className,
+  ...rest
+}) => (
+  <Box
+    {...rest}
+    as="div"
+    className="inline-flex rounded-lg bg-[var(--color-tab-background)]"
+  />
+)
 
 type InputProps = React.HTMLProps<HTMLInputElement>
 type RadioProps = Omit<InputProps, 'type'>
@@ -60,16 +28,21 @@ export const Radio = forwardRef<HTMLInputElement, Props>(
   ({ id, name, value, children, onChange, ...rest }, ref) => {
     const [field] = useField(name)
     const { onChange: onFieldChange, ...fields } = field
-    const onChangeWrapper = (e: any) => {
-      if (typeof onChange === 'function') onChange(e)
-      onFieldChange(e)
-    }
+    const onChangeWrapper = useCallback(
+      (e: Parameters<Exclude<InputProps['onChange'], undefined>>[0]) => {
+        if (typeof onChange === 'function') onChange(e)
+        onFieldChange(e)
+      },
+      []
+    )
     return (
-      <Wrapper>
-        <Input
+      <span className="relative inline-flex">
+        <input
+          className="peer absolute w-full h-full appearance-none"
           {...fields}
           onChange={onChangeWrapper}
           checked={field.value === value}
+          data-checked={field.value === value}
           {...rest}
           id={id ?? name}
           name={name}
@@ -77,11 +50,18 @@ export const Radio = forwardRef<HTMLInputElement, Props>(
           type="radio"
           ref={ref}
         />
-        <Active aria-hidden>{children}</Active>
-        <Tab as="label" htmlFor={id ?? name}>
-          <Label as="span">{children}</Label>
-        </Tab>
-      </Wrapper>
+        <span
+          className="[--padding:3px] flex rounded-md pointer-events-none absolute top-[var(--padding)] left-[var(--padding)] w-[calc(100%_-_var(--padding)_*_2)] h-[calc(100%_-_var(--padding)_*_2)] items-center justify-center font-bold opacity-0 peer-data-[checked='true']:opacity-100 peer-data-[checked='true']:bg-[var(--color-tab-active)]"
+          aria-hidden
+        >
+          {children}
+        </span>
+        <label htmlFor={id ?? name} className="px-7 py-1">
+          <Label as="span" className="font-medium">
+            {children}
+          </Label>
+        </label>
+      </span>
     )
   }
 )

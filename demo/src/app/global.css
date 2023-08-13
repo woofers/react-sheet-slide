@@ -1,0 +1,215 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html,
+body {
+  height: 100%;
+  overscroll-behavior-y: none;
+}
+
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+
+  font-family: var(--font-title);
+  background: var(--color-background);
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+code {
+  font-family: var(--font-code);
+}
+
+#__next {
+  isolation: isolate;
+}
+
+input, textarea, button, select, a {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+::selection {
+  background: var(--color-selection) !important;
+}
+
+::-moz-selection {
+  background: var(--color-selection) !important;
+}
+
+.box-text > div {
+  font-size: 28px;
+}
+
+.list > li::marker {
+  content: '- ';
+}
+
+.code > code {
+  white-space: var(---wrap);
+}
+
+.code-block .hljs-title.function_ {
+  color: var(--color-code-function);
+}
+
+.code-block .hljs-string {
+  color: var(--color-code-function);
+}
+
+.code-block .hljs-keyword,
+.code-block .hljs-name,
+.code-block .hljs-link {
+  color: var(--color-code-keyword);
+}
+
+.code-block .hljs-keyword {
+  color: var(--color-code-keyword);
+}
+
+.code-block .hljs-attr {
+  color: var(--color-code-function);
+}
+
+.switch input:checked {
+  --background-color: var(--color-switch-active);
+}
+
+.switch input:checked + span {
+  --left: calc(var(--width) / 2 - var(--padding) * 2);
+}
+
+.switch input:checked + span .switch-label {
+  color: var(--color-label-active);
+  font-weight: 700;
+}
+
+.docs-wrapper h2 {
+  @apply my-2;
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+ul {
+  padding-inline-start: 40px
+}
+
+.docs-wrapper pre {
+  @apply mt-3;
+  @apply mb-4;
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+
+    --font-title: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    --font-code: ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace;
+
+    --color-primary: #f92d48;
+    --color-primary-hover: #e02941;
+    --color-secondary: #f7f8f8;
+    --color-button-text: #ffffff;
+    --color-background: #f2f2f6;
+    --color-selection: rgba(0, 40, 255, 0.3);
+    --color-tab-background: #e8e8e8;
+    --color-tab-active: #feffff;
+    --color-container-background: #feffff;
+    --color-container-border: #c6c6c8;
+    --color-text: #000000;
+    --color-code-background: #ebebf4;
+    --color-code-keyword: #ad3da4;
+    --color-code-function: #703daa;
+    --color-switch-active: #65c062;
+    --color-switch-handle: #ffffff;
+    --color-switch-inactive: #ebebf4;
+    --color-label-inactive: #919192;
+    --color-label-active: var(--colors-text);
+    --color-text-hover: #78787a;
+    --color-close: rgba(199, 199, 208, 0.26);
+    --color-close-text: #838388;
+    --color-link: #2878f4;
+  }
+
+  .dark {
+    color-scheme: dark;
+
+    --color-primary: #f92d48;
+    --color-primary-hover: #e02941;
+    --color-secondary: #1c1c1e;
+    --color-button-text:  #ffffff;
+    --color-background: #070708;
+    --color-selection: rgba(47, 76, 232, 0.77);
+    --color-tab-background: #313136;
+    --color-tab-active: #69696f;
+    --color-container-background: #1c1c1e;
+    --color-container-border: #3d3d40;
+    --color-text: #ffffff;
+    --color-code-background: #333336;
+    --color-code-keyword: #ff7ab2;
+    --color-code-function: #dabaff;
+    --color-switch-active: #67c962;
+    --color-switch-handle: #ffffff;
+    --color-switch-inactive: #3a3b3e;
+    --color-label-inactive: #919192;
+    --color-label-active: #feffff;
+    --color-text-hover: #5c5750;
+    --color-close: rgba(93, 93, 96, 0.28);
+    --color-close-text: #9f9fa6;
+    --color-link: #2878f4;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .system {
+      @apply dark
+    }
+  }
+}
+
+@layer utilities {
+  @supports (min-height: 100svh) {
+    .min-h-screen {
+      min-height: 100svh;
+    }
+  }
+  @supports (max-height: 100dvh) {
+    .max-h-screen {
+      max-height: 100dvh;
+    }
+  }
+}

@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { styled } from 'stitches'
+'use client'
+import React, { forwardRef, useState, useId } from 'react'
 import {
   DndContext,
   useSensors,
@@ -24,109 +24,59 @@ import {
 } from '@dnd-kit/modifiers'
 import { CSS } from '@dnd-kit/utilities'
 import type { UniqueIdentifier } from '@dnd-kit/core'
+import Box, { type BoxProps } from './box'
+import { clsx, cva, type VariantProps } from 'cva'
 
-const Flex = styled('div', {
-  width: '354px',
-  display: 'flex',
-  gap: '4px 0',
-  flexDirection: 'column'
-})
-
-const Title = styled('div', {
-  textTransform: 'capitalize',
-  fontSize: '16px',
-  fontWeight: '700'
-})
-
-const Text = styled('div', {
-  background: 'none',
-  border: 0,
-  flex: 1,
-  display: 'flex',
-  alignItems: 'center',
-  ml: '8px',
-  pr: '16px',
-  height: '100%',
-  borderBottom: '0.2px solid $containerBorder'
-})
-
-const Square = styled('div', {
-  py: '8px',
-  br: '8px',
-  width: '30px',
-  height: '30px',
-  background: '#007aff'
-})
-
-const Round = styled('div', {
-  border: 0,
-  padding: 0,
-  br: '$round',
-  width: '20px',
-  height: '20px',
-  background: '#ff453a'
-})
-
-const Button = styled('button', {
-  display: 'flex',
-  gap: '0 8px',
-  alignItems: 'center',
-  padding: '0 0 0 16px',
-  height: '44px',
-  touchAction: 'manipulation',
-  cursor: 'grab',
-  zIndex: 10,
-  border: 0,
-  backgroundColor: '$containerBackground',
-  color: '$text',
-  textAlign: 'left',
-  transition:
-    'background-color 0.4s ease-in-out 0s, border-radius 0.3s ease-in-out 0s',
-  '&[aria-pressed="true"]': {
-    opacity: 0.75,
-    cursor: 'grabbing',
-    zIndex: '20'
-  },
-  variants: {
-    position: {
-      both: {
-        br: '8px',
-        [`${Text}`]: {
-          borderBottom: 0
-        }
-      },
-      top: {
-        borderTopLeftRadius: '8px',
-        borderTopRightRadius: '8px'
-      },
-      bottom: {
-        borderBottomLeftRadius: '8px',
-        borderBottomRightRadius: '8px',
-        [`${Text}`]: {
-          borderBottom: 0
-        }
-      },
-      middle: {}
+const button = cva(
+  [
+    'flex',
+    'gap-x-2',
+    'items-center',
+    'pl-4',
+    'h-11',
+    'touch-manipulation',
+    'cursor-grab',
+    'z-10',
+    'border-none',
+    'bg-[var(--color-container-background)]',
+    'text-[var(--color-text)]',
+    'text-left',
+    '[transition:background-color_0.4s_ease-in-out_0s,border-radius_0.3s_ease-in-out_0s]',
+    'aria-pressed:opacity-75 aria-pressed:cursor-grabbing aria-pressed:z-20'
+  ],
+  {
+    variants: {
+      position: {
+        both: ['rounded-lg', '[--border-bottom:0]'],
+        top: ['rounded-t-lg'],
+        bottom: ['rounded-b-lg', '[--border-bottom:0]'],
+        middle: []
+      }
+    },
+    defaultVariants: {
+      position: 'middle'
     }
-  },
-  defaultVariants: {
-    position: 'middle'
   }
+)
+
+const Button = forwardRef<
+  HTMLButtonElement,
+  React.HTMLProps<HTMLButtonElement> &
+    VariantProps<typeof button> & { className?: string; as?: string }
+>(({ className, as = 'button', position, ...rest }, ref) => {
+  const Comp = as || 'button'
+  const data = { ref } as any
+  return (
+    <Comp
+      {...rest}
+      {...data}
+      as={as}
+      className={clsx(button({ position }), className)}
+    />
+  )
 })
 
 type Position = 'top' | 'bottom' | 'middle' | 'both'
-
-const Wrapper = styled('div', {
-  minHeight: '88px',
-  position: 'relative',
-  display: 'flex',
-  flexDirection: 'column'
-})
-
-const Container = styled('div', {
-  display: 'flex',
-  gap: '16px 16px'
-})
 
 export type ItemProps = {
   id: UniqueIdentifier
@@ -140,7 +90,7 @@ type SortableItemProps = ItemProps & {
   onRemove?: (id: UniqueIdentifier) => void
 }
 
-const buttonType: 'button' = 'button'
+const buttonType = 'button' as const
 
 const SortableItem: React.FC<SortableItemProps> = ({
   id,
@@ -200,8 +150,16 @@ const SortableItem: React.FC<SortableItemProps> = ({
       {...listeners}
       position={position}
     >
-      {onRemove && <Round tabIndex={0} onClick={() => onRemove(id)} as="div" />}
-      <Text>{children}</Text>
+      {onRemove && (
+        <div
+          className="border-none p-0 rounded-full w-5 w-5 background-[#ff453a]"
+          tabIndex={0}
+          onClick={() => onRemove(id)}
+        />
+      )}
+      <div className="bg-none flex grow items-center ml-2 pr-4 h-full border-[var(--color-container-border)] border-solid border-0 [border-bottom-width:var(--border-bottom,0.2px)]">
+        {children}
+      </div>
     </Button>
   )
 }
@@ -237,6 +195,7 @@ export const Sortable: React.FC<SortableProps> = ({
   removable,
   axis = 'xy'
 }) => {
+  const id = useId()
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null)
   const [clonedItems, setClonedItems] = useState<Items | null>(null)
   const findContainer = (id: UniqueIdentifier) => {
@@ -269,6 +228,7 @@ export const Sortable: React.FC<SortableProps> = ({
 
   return (
     <DndContext
+      id={id}
       measuring={{
         droppable: {
           strategy: MeasuringStrategy.Always
@@ -360,7 +320,7 @@ export const Sortable: React.FC<SortableProps> = ({
       }}
       onDragCancel={onDragCancel}
     >
-      <Container>
+      <div className="gap-4 flex">
         <SortableContext
           items={Object.keys(items)}
           strategy={horizontalListSortingStrategy}
@@ -371,8 +331,8 @@ export const Sortable: React.FC<SortableProps> = ({
               key={key}
               strategy={verticalListSortingStrategy}
             >
-              <Flex>
-                <Title>{key}</Title>
+              <div className="w-[354px] flex flex-col gap-y-1">
+                <div className="capitalize text-base font-bold">{key}</div>
                 <SortContainer id={key}>
                   {items[key].map(({ id, children, ...rest }) => (
                     <SortableItem
@@ -385,11 +345,11 @@ export const Sortable: React.FC<SortableProps> = ({
                     </SortableItem>
                   ))}
                 </SortContainer>
-              </Flex>
+              </div>
             </SortableContext>
           ))}
         </SortableContext>
-      </Container>
+      </div>
     </DndContext>
   )
 }
@@ -401,8 +361,13 @@ const SortContainer: React.FC<{ id: string; children?: React.ReactNode }> = ({
 }) => {
   const { listeners, setNodeRef } = useSortable({ id, disabled: true })
   return (
-    <Wrapper ref={setNodeRef} {...rest} {...listeners}>
+    <div
+      ref={setNodeRef}
+      {...rest}
+      {...listeners}
+      className="min-height-[88px] relative flex flex-col"
+    >
       {children}
-    </Wrapper>
+    </div>
   )
 }

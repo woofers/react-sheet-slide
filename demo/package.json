@@ -1,13 +1,14 @@
 {
   "name": "react-sheet-slide-demo",
   "homepage": "http://woofers.github.io/react-sheet-slide",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "author": "Jaxson Van Doorn <jaxson.vandoorn@gmail.com>",
   "license": "MIT",
   "scripts": {
+    "clean": "rimraf .next out build react-sheet-slide",
+    "build": "yarn clean && next build && mv build react-sheet-slide && mkdir build && mv react-sheet-slide build",
     "dev": "next dev",
-    "build": "next build && next export",
-    "start": "serve out",
+    "start": "serve build",
     "lint": "next lint",
     "test": "echo 'No tests'",
     "format": "prettier --write \"{tests,src}/**/*.{js,mjs,ts,tsx}\""
@@ -19,6 +20,9 @@
     "@react-spring/web": "^9.7.3",
     "@stitches/react": "^1.2.8",
     "@use-gesture/react": "^10.2.27",
+    "autoprefixer": "^10.4.14",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.0.0",
     "esbuild": "^0.18.18",
     "formik": "^2.4.3",
     "framer-motion": "^10.15.0",
@@ -32,7 +36,7 @@
     "react-dom": "^18.2.0",
     "react-error-boundary": "^4.0.10",
     "react-icons": "^4.10.1",
-    "react-sheet-slide": "^1.2.3"
+    "react-sheet-slide": "../."
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^13.4.12",
@@ -46,6 +50,7 @@
     "file-loader": "^6.2.0",
     "prettier": "^3.0.1",
     "serve": "^14.2.0",
+    "tailwindcss": "^3.3.3",
     "typescript": "^5.1.6"
   }
 }

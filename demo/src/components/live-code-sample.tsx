@@ -1,3 +1,4 @@
+'use client'
 import { useFormikContext } from 'formik'
 import makeCodeSample from 'utils/code'
 import CodeBlock from './code-block'

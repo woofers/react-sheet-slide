@@ -1,4 +1,4 @@
-import type { Trinary, FormProps } from 'types/global'
+import type { Trinary, FormProps as Props } from 'types/global'
 
 export const trinaryToBool = (tri: Trinary): boolean | undefined => {
   if (tri === 'on') return true
@@ -22,8 +22,6 @@ const addBooleanOption = (key: string, value: boolean | undefined) => {
   if (typeof value === 'undefined') return ''
   return `${key}={${value}}`
 }
-
-type Props = FormProps & {}
 
 const addDetents = (detents: Props['detents']) => {
   const active = detents.selected.map(({ id }) => id)
