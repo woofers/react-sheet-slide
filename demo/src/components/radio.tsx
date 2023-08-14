@@ -44,7 +44,7 @@ export const Radio = forwardRef<HTMLInputElement, Props>(
           checked={field.value === value}
           data-checked={field.value === value}
           {...rest}
-          id={id ?? name}
+          id={id ?? `${name}-${value}`}
           name={name}
           value={value}
           type="radio"
@@ -56,7 +56,7 @@ export const Radio = forwardRef<HTMLInputElement, Props>(
         >
           {children}
         </span>
-        <label htmlFor={id ?? name} className="px-7 py-1">
+        <label htmlFor={id ?? `${name}-${value}`} className="px-7 py-1">
           <Label as="span" className="font-medium">
             {children}
           </Label>
