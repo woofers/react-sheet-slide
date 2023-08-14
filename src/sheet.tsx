@@ -523,7 +523,7 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
                 {headerContent}
               </DragHeader>
               <div
-                className={cx(`${prefix}-scroll`) + `rss-content`}
+                className={cx(`${prefix}-scroll`) + ` rss-content`}
                 {...(scrollingExpands
                   ? bindEvents({ isContentDragging: true })
                   : empty)}
@@ -539,7 +539,7 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
                 </div>
               </div>
               <div
-                className={cx(`${prefix}-footer`) + `rss-footer`}
+                className={cx(`${prefix}-footer`) + ` rss-footer`}
                 {...bindEvents()}
                 ref={footerRef}
               >
