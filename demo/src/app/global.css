@@ -134,6 +134,10 @@ ul {
   @apply mb-4;
 }
 
+#react-sheet-slide > div > div {
+  --width: min(100%, 640px);
+}
+
 @layer base {
   :root {
     color-scheme: light;
