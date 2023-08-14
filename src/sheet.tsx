@@ -139,10 +139,10 @@ const DragHeader = forwardRef<HTMLDivElement, DragHeaderProps>(
     return (
       <div
         {...props}
-        className={cx(
+        className={[cx(
           `${prefix}-header`,
           !hasScrolled && `${prefix}-header-plain`
-        )}
+        ), `rss-header${hasScrolled ? ' rss-header-scrolled' : ''}`].join(' ')}
         ref={ref}
       >
         <Notch className={cx(`${prefix}-handle`)} />
@@ -523,7 +523,7 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
                 {headerContent}
               </DragHeader>
               <div
-                className={cx(`${prefix}-scroll`)}
+                className={cx(`${prefix}-scroll`) + `rss-content`}
                 {...(scrollingExpands
                   ? bindEvents({ isContentDragging: true })
                   : empty)}
@@ -539,7 +539,7 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
                 </div>
               </div>
               <div
-                className={cx(`${prefix}-footer`)}
+                className={cx(`${prefix}-footer`) + `rss-footer`}
                 {...bindEvents()}
                 ref={footerRef}
               >
