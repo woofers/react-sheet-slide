@@ -61,8 +61,8 @@ ${[
   .map(value => spaces(5) + value)
   .join('\n')}
         >
-          <Header>Title</Header>
-          <Content>
+          <Header className="rss-header" scrolledClassName="rss-header-scrolled">Title</Header>
+          <Content className="rss-content">
             <div style={{ padding: '54px 16px 24px' }}>
               <div>Add more storage to keep everything on online</div>
               <div>
@@ -72,7 +72,7 @@ ${[
               <div>Learn More About Online</div>
             </div>
           </Content>
-          <Footer>
+          <Footer className="rss-footer">
             <button type="button" onClick={() => setOpen(false)}>
               Close
             </button>

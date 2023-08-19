@@ -5241,11 +5241,6 @@ react-is@^16.13.1, react-is@^16.7.0:
 react-sheet-slide@../.:
   version "1.2.4"
 
-react-sheet-slide@^1.2.3:
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/react-sheet-slide/-/react-sheet-slide-1.2.3.tgz#ac81e420685ee199042c3bb75cf7b20a336021d6"
-  integrity sha512-UByzJP9XTGtZZ0Brw3/V/arqD5VAdHhfLK4jc/7yhyQfwZ38lNyv2r3q83qTVeMQScg+SYKHvrLuuYCx0Hu0eg==
-
 react@^18.2.0:
   version "18.2.0"
   resolved "https://registry.yarnpkg.com/react/-/react-18.2.0.tgz#555bd98592883255fa00de14f1151a917b5d77d5"

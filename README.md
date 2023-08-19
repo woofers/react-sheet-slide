@@ -95,8 +95,8 @@ const App = () => {
           useModal={false}
           scrollingExpands={true}
         >
-          <Header>Title</Header>
-          <Content>
+          <Header className="rss-header" scrolledClassName="rss-header-scrolled">Title</Header>
+          <Content className="rss-content">
             <div style={{ padding: '54px 16px 24px' }}>
               <div>Add more storage to keep everything on online</div>
               <div>
@@ -106,7 +106,7 @@ const App = () => {
               <div>Learn More About Online</div>
             </div>
           </Content>
-          <Footer>
+          <Footer className="rss-footer">
             <button type="button" onClick={() => setOpen(false)}>
               Close
             </button>
@@ -169,3 +169,15 @@ If you want to keep your `body` background, use `!important`.
 - `ref`
 
   The sheet also supports forwarding a ref that will be added onto the sheet root.
+
+## Styling
+
+You can add `className` props to target the following components.  This can
+be useful if you are using something like Tailwind or CSS modules, or if you just want to
+provide a constant value to target via CSS.
+
+- `rss-backdrop` - Controls the backdrop scale and fade animation
+- `<Header className="" />` - Targets the header of the sheet
+- `<Header scrolledClassName="" />` - Targets the header style after it has been scrolled
+- `<Content className="" />` - Targets the content and scrolling container of the sheet
+- `<Footer className="" />` - Targets the footer of the sheet

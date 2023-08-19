@@ -100,7 +100,7 @@ export const Documentation: React.FC<{ children?: React.ReactNode }> = ({
                     useModal={trinaryToBool(values.useModal)}
                     scrollingExpands={values.scrollingExpands}
                   >
-                    <Header>
+                    <Header className="rss-header" scrolledClassName="rss-header-scrolled">
                       <div className="flex justify-between items-center gap-x-2 text-[var(--color-text)]">
                         <div className="text-lg leading-6 mx-0 tracking-normal grow font-semibold">
                           Sheet
@@ -113,10 +113,10 @@ export const Documentation: React.FC<{ children?: React.ReactNode }> = ({
                         </CloseButton>
                       </div>
                     </Header>
-                    <Content>
+                    <Content className="rss-content">
                       <SheetContent />
                     </Content>
-                    <Footer>
+                    <Footer className="rss-footer">
                       <div className="flex flex-col px-4 gap-y-2">
                         <Button type="button" onClick={() => setOpen(false)}>
                           Close

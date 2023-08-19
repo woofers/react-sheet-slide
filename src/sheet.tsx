@@ -67,6 +67,11 @@ const empty = {}
 
 type WrapperProps = {
   children?: React.ReactNode
+  className?: string
+}
+
+type HeaderWrapperProps = WrapperProps & {
+  scrolledClassName?: string
 }
 
 const makeEmpty = (name?: string) => {
@@ -79,11 +84,15 @@ const makeEmpty = (name?: string) => {
   return val
 }
 
-export const Header = __isDev__ ? makeEmpty('Header') : makeEmpty()
+export const Header = __isDev__
+  ? (makeEmpty('Header') as React.FC<HeaderWrapperProps>)
+  : (makeEmpty() as React.FC<HeaderWrapperProps>)
 export const Content = __isDev__ ? makeEmpty('Content') : makeEmpty()
 export const Footer = __isDev__ ? makeEmpty('Footer') : makeEmpty()
 
 const cx = classes.bind(styles)
+const clsx = (...args: ({} | undefined | null)[]) =>
+  args.filter(Boolean).join(' ')
 
 const _selectedDetent = ({ detents, lastDetent }: SelectedDetentsProps) =>
   lastDetent ?? Math.min(...detents)
@@ -118,31 +127,54 @@ export type SheetProps = Partial<Callbacks> & BaseProps
 const getItem = (
   Component: React.ComponentType<WrapperProps>,
   content: React.ReactNode[]
-) =>
-  content.filter(
+) => {
+  const elm = content.filter(
     child =>
       child &&
       typeof child === 'object' &&
       'type' in child &&
       child.type === Component
   )
+  if (elm.length <= 0) return []
+  const base = elm?.[0] as {
+    props?: { className?: string; scrolledClassName?: string }
+  }
+  return [elm, base?.props?.className, base?.props?.scrolledClassName] as [
+    React.ReactNode,
+    string | undefined,
+    string | undefined
+  ]
+}
 
 type DragHeaderProps = React.HTMLProps<HTMLDivElement> & {
   children: React.ReactNode
   prefix: string
   scrollRef: React.RefObject<Element>
   useModal: boolean
+  scrolledClassName?: string
 }
 const DragHeader = forwardRef<HTMLDivElement, DragHeaderProps>(
-  ({ children, prefix, scrollRef, useModal, ...props }, ref) => {
+  (
+    {
+      children,
+      prefix,
+      scrollRef,
+      useModal,
+      className,
+      scrolledClassName,
+      ...props
+    },
+    ref
+  ) => {
     const hasScrolled = useHasScrolled(scrollRef, useModal)
     return (
       <div
         {...props}
-        className={[cx(
-          `${prefix}-header`,
-          !hasScrolled && `${prefix}-header-plain`
-        ), `rss-header${hasScrolled ? ' rss-header-scrolled' : ''}`].join(' ')}
+        className={clsx(
+          cx(`${prefix}-header`, !hasScrolled && `${prefix}-header-plain`),
+          className,
+          hasScrolled && scrolledClassName
+        )}
         ref={ref}
       >
         <Notch className={cx(`${prefix}-handle`)} />
@@ -186,9 +218,12 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
     const enabled = !useModal
     const prefersReducedMotion = useReducedMotion()
     const content = Children.toArray(children)
-    const headerContent = getItem(Header, content)
-    const scrollContent = getItem(Content, content)
-    const footerContent = getItem(Footer, content)
+    const [headerContent, headerClass, headerScrolledClass] = getItem(
+      Header,
+      content
+    )
+    const [scrollContent, scrollClass] = getItem(Content, content)
+    const [footerContent, footerClass] = getItem(Footer, content)
     const { ready, registerReady } = useReady()
     const scroll = useOverscrollLock({
       enabled: scrollingExpands && enabled,
@@ -519,11 +554,13 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
                 ref={headerRef}
                 scrollRef={scroll}
                 useModal={useModal}
+                className={headerClass}
+                scrolledClassName={headerScrolledClass}
               >
                 {headerContent}
               </DragHeader>
               <div
-                className={cx(`${prefix}-scroll`) + ` rss-content`}
+                className={clsx(cx(`${prefix}-scroll`), scrollClass)}
                 {...(scrollingExpands
                   ? bindEvents({ isContentDragging: true })
                   : empty)}
@@ -539,7 +576,7 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
                 </div>
               </div>
               <div
-                className={cx(`${prefix}-footer`) + ` rss-footer`}
+                className={clsx(cx(`${prefix}-footer`), footerClass)}
                 {...bindEvents()}
                 ref={footerRef}
               >
