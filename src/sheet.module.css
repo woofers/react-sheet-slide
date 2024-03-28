@@ -107,7 +107,7 @@ body[style].sheet-open {
 
 .modal-modal {
   max-height: calc(100% - var(--padding) * 2);
-  max-width: 492px;
+  max-width: var(--modal-width, 492px);
   border-radius: var(--radius);
   display: flex;
   background: var(--background);

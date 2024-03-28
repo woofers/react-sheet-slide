@@ -25,11 +25,11 @@ const useSpringWrapper = () =>
 type AsyncType = { config?: SpringConfig } & Record<string, unknown>
 type SpringSetAsync = (e: AsyncType) => Promise<unknown>
 
-const useSpring = (): [Spring, SpringSet, SpringSetAsync] => {
+const useSpring = ({ velocity: defaultVelocity } = { velocity: 1 }): [Spring, SpringSet, SpringSetAsync] => {
   const [spring, api] = useSpringWrapper()
   const set = useMemo(() => api.start.bind(api), [api])
   const asyncSet = useCallback(
-    ({ config: { velocity = 1, ...rest } = {}, ...opts }: AsyncType) =>
+    ({ config: { velocity = defaultVelocity, ...rest } = {}, ...opts }: AsyncType) =>
       new Promise(resolve =>
         set({
           ...opts,
@@ -51,7 +51,7 @@ const useSpring = (): [Spring, SpringSet, SpringSetAsync] => {
           }
         })
       ),
-    [set]
+    [set, defaultVelocity]
   )
   return [spring, set, asyncSet]
 }

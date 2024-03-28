@@ -118,6 +118,7 @@ type BaseProps = {
   selectedDetent?: SelectedDetent
   useModal?: boolean
   useDarkMode?: boolean
+  velocity?: number
 }
 
 type InteralSheetProps = Callbacks & BaseProps & { close: () => void }
@@ -200,7 +201,8 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
       detents: getDetents = detents.fit,
       selectedDetent: getSelectedDetent = _selectedDetent,
       useModal: useModalInitial,
-      useDarkMode: useDarkModeInitial,
+      useDarkMode: useDarkModeInitial,  
+      velocity = 1,
       ...rest
     },
     ref
@@ -236,7 +238,7 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
     const headerRef = useRef<HTMLDivElement | null>(null)
     const footerRef = useRef<HTMLDivElement | null>(null)
 
-    const [spring, set, asyncSet] = useSpring()
+    const [spring, set, asyncSet] = useSpring({ velocity })
     const { modal, backdrop } = useSpringInterpolations({ spring })
 
     const resizeSourceRef = useRef<ResizeSource>()

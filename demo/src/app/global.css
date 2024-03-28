@@ -136,6 +136,7 @@ ul {
 
 #react-sheet-slide > div > div {
   --width: min(100%, 640px);
+  --modal-width: 492px;
 }
 
 @layer base {
