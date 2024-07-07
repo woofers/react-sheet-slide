@@ -76,6 +76,8 @@ const Button = forwardRef<
   )
 })
 
+Button.displayName = 'Button'
+
 type Position = 'top' | 'bottom' | 'middle' | 'both'
 
 export type ItemProps = {

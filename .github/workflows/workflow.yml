@@ -7,33 +7,31 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Repo
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
     - name: Use Node.js
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
-        node-version: '18'
+        node-version: '22'
         registry-url: 'https://registry.npmjs.org'
+    - name: Use PNPM
+      uses: pnpm/action-setup@v4
+      with:
+        version: 9.4.0
     - name: Deploy Info
       env:
         GITHUB_CONTEXT: ${{ toJson(github) }}
       run: echo "$GITHUB_CONTEXT"
     - name: Install
-      run: yarn install
+      run: pnpm install
     - name: Build
-      run: yarn build
+      run: pnpm build
     - name: Test
-      run: yarn test
-    - name: Install Prod
-      run: yarn install --prod
-    - name: Install Demo
-      run: yarn --cwd demo install
+      run: pnpm test
     - name: Build Demo
-      run: yarn --cwd demo build
-    - name: Test Demo
-      run: yarn --cwd demo test
+      run: pnpm build-site
     - name: Publish
       if: startsWith(github.ref, 'refs/tags/')
-      run: yarn publish --access public
+      run: pnpm package
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
     - name: Publish Demo
@@ -41,5 +39,5 @@ jobs:
       uses: JamesIves/github-pages-deploy-action@v4.3.0
       with:
         branch: gh-pages
-        folder: demo/build/react-sheet-slide
+        folder: packages/website/build/react-sheet-slide
         commit-message: Updates

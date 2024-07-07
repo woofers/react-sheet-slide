@@ -20,3 +20,17 @@ dist
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+lib/*.d.ts
+lib/*.css
+lib/hooks/*.js
+lib/hooks/*.ts
+lib/hooks/*.tsx
+lib/utils/*.ts
+lib/utils/*.tsx
+lib/utils/*.js
+/style.css
+lib/react-sheet-slide.cjs
+lib/react-sheet-slide.dev.cjs
+lib/react-sheet-slide.dev.js
+lib/react-sheet-slide.js

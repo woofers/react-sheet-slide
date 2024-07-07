@@ -1,8 +1,6 @@
 import { clsx } from 'cva'
 import Box, { type BoxProps } from './box'
 
-type LabelProps = React.ComponentProps<typeof Box<'label'>>
-
 export const Label: React.FC<BoxProps<'label'>> = ({
   className,
   as = 'label',

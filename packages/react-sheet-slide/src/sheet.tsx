@@ -119,6 +119,7 @@ type BaseProps = {
   useModal?: boolean
   useDarkMode?: boolean
   velocity?: number
+  backdropClassName?: string
 }
 
 type InteralSheetProps = Callbacks & BaseProps & { close: () => void }
@@ -203,6 +204,7 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
       useModal: useModalInitial,
       useDarkMode: useDarkModeInitial,  
       velocity = 1,
+      backdropClassName,
       ...rest
     },
     ref
@@ -532,7 +534,7 @@ const BaseSheet = forwardRef<HTMLDivElement, InteralSheetProps>(
           }}
         >
           <div
-            className={cx(`${prefix}-backdrop`, `${prefix}-stack`)}
+            className={cx(`${prefix}-backdrop`, `${prefix}-stack`, backdropClassName)}
             {...bindEvents({ closeOnTap: true })}
           ></div>
           <TrapFocus>

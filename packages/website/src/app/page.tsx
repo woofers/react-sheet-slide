@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import Data from './data'
 
 const name = 'Jaxson Van Doorn'
@@ -9,17 +9,18 @@ const author = name
 const description = 'Responsive React draggable sheet and dialog component'
 const alt = ''
 
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+  themeColor: '#070708',
+} satisfies Viewport
+
 export const metadata = {
   title,
   description,
   creator: name,
   publisher: name,
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    viewportFit: 'cover'
-  },
-  themeColor: '#070708',
   icons: {
     icon: [{ url: '/react-sheet-slide/favicon.ico' }],
     shortcut: ['/react-sheet-slide/favicon.ico'],

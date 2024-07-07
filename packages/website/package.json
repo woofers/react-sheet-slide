@@ -1,12 +1,12 @@
 {
   "name": "react-sheet-slide-demo",
   "homepage": "http://woofers.github.io/react-sheet-slide",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "author": "Jaxson Van Doorn <jaxson.vandoorn@gmail.com>",
   "license": "MIT",
   "scripts": {
     "clean": "rimraf .next out build react-sheet-slide",
-    "build": "yarn clean && next build && mv build react-sheet-slide && mkdir build && mv react-sheet-slide build",
+    "build": "pnpm clean && next build && mv build react-sheet-slide && mkdir build && mv react-sheet-slide build",
     "dev": "next dev",
     "start": "serve build",
     "lint": "next lint",
@@ -17,6 +17,7 @@
     "@dnd-kit/core": "^6.0.5",
     "@dnd-kit/modifiers": "^6.0.0",
     "@dnd-kit/sortable": "^7.0.1",
+    "@dnd-kit/utilities": "v3.2.2",
     "@react-spring/web": "^9.7.3",
     "@stitches/react": "^1.2.8",
     "@use-gesture/react": "^10.2.27",
@@ -30,13 +31,13 @@
     "hast-util-to-html": "^8.0.4",
     "lowlight": "^2.9.0",
     "mdx-bundler": "^9.2.1",
-    "next": "^13.4.12",
+    "next": "^14.2.4",
     "next-themes": "^0.2.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-error-boundary": "^4.0.10",
     "react-icons": "^4.10.1",
-    "react-sheet-slide": "../."
+    "react-sheet-slide": "workspace:*"
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^13.4.12",
@@ -49,6 +50,7 @@
     "eslint-webpack-plugin": "^4.0.1",
     "file-loader": "^6.2.0",
     "prettier": "^3.0.1",
+    "rimraf": "^5.0.8",
     "serve": "^14.2.0",
     "tailwindcss": "^3.3.3",
     "typescript": "^5.1.6"
