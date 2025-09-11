@@ -127,7 +127,7 @@ const App = () => {
 As such it is recommended to apply the background to a top level `div` or other container, in addition to the `body`.
 If you want to keep your `body` background, use `!important`.
 
-## Props
+### Props
 
 - `open`
 
@@ -171,7 +171,7 @@ If you want to keep your `body` background, use `!important`.
 
   The sheet also supports forwarding a ref that will be added onto the sheet root.
 
-## Styling
+### Styling
 
 You can add `className` props to target the following components.  This can
 be useful if you are using something like Tailwind or CSS modules, or if you just want to
